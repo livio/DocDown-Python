@@ -8,3 +8,4 @@ coverage==4.1
 Sphinx==1.4.8
 
 Markdown==2.6.6
+unicodecsv==0.14.1
