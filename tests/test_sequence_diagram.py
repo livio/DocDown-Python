@@ -9,6 +9,9 @@ from docdown.sequence import SequenceDiagramBlockPreprocessor
 
 
 class SequenceDiagramExtensionTest(unittest.TestCase):
+    """
+    Primarily integration tests for the SequenceDiagramExtension
+    """
 
     EXTENSION_CONFIGS = {
         'docdown.sequence': {
@@ -120,7 +123,10 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
 
 
 class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
-
+    """
+    Specifically test the preprocessor used by SequenceDiagramExtension.
+    """
+    
     def test_run_method_with_media_path(self):
         """
         When media_path is passed in, urls should be replaced with the media_path url.
