@@ -18,7 +18,7 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
 
     MARKDOWN_EXTENSIONS = ['docdown.sequence']
 
-    def test_sequence_diagram(self):
+    def test_sequence_diagram_with_media_path_and_relative_image_path(self):
         """
         Test a single sequence diagram renders correctly
         """
@@ -48,7 +48,36 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png"></p>')
         self.assertEqual(html, expected_output)
 
-    def test_sequence_diagrams(self):
+    def test_sequence_diagram_default_media_path(self):
+        """
+        Test that the URL gets the default `.` prepended, making it a relative path
+        """
+        text = ("# Sequence Diagrams\n"
+                "|||\n"
+                "Activate App after successful Resumption\n"
+                "![Activate App Successful Resume](/assets/ActivateAppSuccessfulResume.png)\n"
+                "|||")
+
+        html = markdown.markdown(
+            text,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+
+        expected_output = (
+            '<h1>Sequence Diagrams</h1>\n'
+            '<div class="visual-link-wrapper">'
+            '<a href="#" data-src="./assets/ActivateAppSuccessfulResume.png" class="visual-link">'
+            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Sequence Diagram</div>'
+            '<p class="t-default">\n\n'
+            '<p>Activate App after successful Resumption</p>\n'
+            '<p></p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+            '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
+            '</div></a></div>\n'
+            '<img class="visual-print-image" src="./assets/ActivateAppSuccessfulResume.png"></p>')
+        self.assertEqual(html, expected_output)
+
+    def test_multiple_sequence_diagrams(self):
         """
         Test that multiple sequence diagrams in a row render correctly
         """
