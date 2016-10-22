@@ -11,12 +11,15 @@ from docdown.sequence import SequenceDiagramBlockPreprocessor
 
 class IncludeExtensionTest(unittest.TestCase):
     # TODO: This test appears to be relying on behavior from another extension
-    # due to the expected output vs what is really being output... nl2br probably
-    # as well as maybe something to parse ``` and ```
+    # due to the expected output vs what is really being output... nl2br and fenced_code
+    # The extension should probably check for them, or at least document that they are needed,
+    # if they are expected to always be there.
     _root = os.path.dirname(os.path.abspath(__file__))
     ASSET_DIR = os.path.join(_root, 'test_files', 'assets')
 
-    MARKDOWN_EXTENSIONS = ['docdown.include']
+    MARKDOWN_EXTENSIONS = [
+        'markdown.extensions.fenced_code',
+        'docdown.include']
 
     EXTENSION_CONFIGS = {
         'docdown.include': {
@@ -33,8 +36,12 @@ class IncludeExtensionTest(unittest.TestCase):
             extensions=self.MARKDOWN_EXTENSIONS,
             output_format='html5'
         )
-        expected_output = ('<p>Test File:\n<div><pre><span></span>'
-                           '# Test\n\nContent\n</pre>\n</div>')
+
+        # TODO: Expected output with code_block and nl2br and codehilite extensions
+        # Are any of these truly expected to always be used with this extension?
+        # expected_output = ('<p>Test File:</p>\n<div class="codehilite">'
+        #                    '<pre><span></span># Test\n\nContent\n</pre>#</div>')
+        expected_output = '<p>Test File:</p>\n<pre><code># Test\n\nContent\n</code></pre>'
         self.assertEqual(html, expected_output)
 
     def test_text_with_set_asset_dir(self):
@@ -46,8 +53,12 @@ class IncludeExtensionTest(unittest.TestCase):
             extension_configs=self.EXTENSION_CONFIGS,
             output_format='html5'
         )
-        expected_output = ('<p>Test File:</p>\n<div class="codehilite"><pre><span></span>'
-                           '# Test\n\nContent\n</pre>\n</div>')
+
+        # TODO: Expected output with code_block and nl2br and codehilite extensions
+        # Are any of these truly expected to always be used with this extension?
+        # expected_output = ('<p>Test File:</p>\n<div class="codehilite"><pre><span></span>'
+        #                    '# Test\n\nContent\n</pre>\n</div>')
+        expected_output = '<p>Test File:</p>\n<pre><code># Test\n\nContent\n</code></pre>'
         self.assertEqual(html, expected_output)
 
     def test_json(self):
