@@ -49,6 +49,9 @@ class IncludePreprocessor(Preprocessor):
         md_lines = []
         code_type = self.EXTENSION_CODE_MAP.get(file_extension, '')
         included_file = codecs.open(file_path, 'r')
+        # TODO: We are forcing the backticks in here.  Should this extension
+        # ensure that the fenced_code extension is loaded and raise an exception
+        # if it is not?
         md_lines.append('``` %s' % code_type)
         md_lines[-1].strip()
         for included_line in included_file:
