@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-hmi_blocks
+note_blocks
 ----------------------------------
 
-docdown.hmi_blocks Markdown extension module
+docdown.note_blocks Markdown extension module
 """
 
 from __future__ import absolute_import, unicode_literals, print_function
@@ -14,7 +14,7 @@ from markdown.preprocessors import Preprocessor
 import re
 
 
-class HmiListBlockPreprocessor(Preprocessor):
+class NoteBlockPreprocessor(Preprocessor):
 
     RE = re.compile(r'''
 (?P<fence>^(?:!{3,}))\W(?P<type>\w+)\W*\n
@@ -63,16 +63,16 @@ class HmiListBlockPreprocessor(Preprocessor):
         return text.split("\n")
 
 
-class HmiListExtension(Extension):
+class NoteExtension(Extension):
 
     def extendMarkdown(self, md, md_globals):
-        """ Add HmiListBlockPreprocessor to the Markdown instance. """
+        """ Add NoteBlockPreprocessor to the Markdown instance. """
         md.registerExtension(self)
 
-        md.preprocessors.add('hmi_list',
-                             HmiListBlockPreprocessor(md),
+        md.preprocessors.add('note_blocks',
+                             NoteBlockPreprocessor(md),
                              ">normalize_whitespace")
 
 
 def makeExtension(*args, **kwargs):
-    return HmiListExtension(*args, **kwargs)
+    return NoteExtension(*args, **kwargs)

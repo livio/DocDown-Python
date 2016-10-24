@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-test_hmi_blocks_extension
+test_note_blocks_extension
 ----------------------------------
 
-Tests for `docdown.hmi_blocks` module.
+Tests for `docdown.note_blocks` module.
 """
 
 from __future__ import absolute_import, unicode_literals, print_function
@@ -12,11 +12,11 @@ from __future__ import absolute_import, unicode_literals, print_function
 import markdown
 import unittest
 
-class HmiListExtensionTest(unittest.TestCase):
+class NoteBlockExtensionTest(unittest.TestCase):
     """
-    Integration test with markdown for :class:`docdown.hmi_blocks.HmiListExtension`
+    Integration test with markdown for :class:`docdown.note_blocks.NoteBlockExtension`
     """
-    MARKDOWN_EXTENSIONS = ['docdown.hmi_blocks']
+    MARKDOWN_EXTENSIONS = ['docdown.note_blocks']
 
     def test_generic_note(self):
         text = ('!!! MUST\n'
