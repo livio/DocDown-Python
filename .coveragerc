@@ -1,0 +1,20 @@
+# Base coveragerc from documenation examples at https://coverage.readthedocs.io/en/coverage-4.0.3/config.html
+[run]
+branch = True
+source = docdown
+
+[report]
+exclude_lines =
+    pragma: no cover
+
+    # don't complain about missing debug-only code:
+    def __repr__
+    if self\.debug
+
+    # Don't complain if tests don't hit assertion code
+    raise AssertionError
+    raise NotImplementedError
+
+    # Don't complian if non-runnable code isn't run:
+    if 0:
+    if __name__ == .__main__.:
