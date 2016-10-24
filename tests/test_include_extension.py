@@ -7,9 +7,16 @@ import unittest
 
 import os
 
-from docdown.sequence import SequenceDiagramBlockPreprocessor
+from docdown.include import IncludePreprocessor
 
 class IncludeExtensionTest(unittest.TestCase):
+    """
+    Test the IncludeExtension.
+
+    Primarily runs as an integration test by using it with markdown.  This test includes the `fenced_code`
+    extension because the current output from the preprocessor assumes the `fenced_code` extension will
+    be in use.
+    """
     # TODO: This test appears to be relying on behavior from another extension
     # due to the expected output vs what is really being output... nl2br and fenced_code
     # The extension should probably check for them, or at least document that they are needed,
@@ -315,3 +322,54 @@ class IncludeExtensionTest(unittest.TestCase):
             '<tr><td>a</td><td>b</td><td>c</td></tr></table></p>')
 
         self.assertEqual(html, expected_output)
+
+
+class IncludePreprocessorTest(unittest.TestCase):
+    """
+    Test the IncludePreprocessor
+    """
+
+    def test_find_file_path(self):
+        pass
+
+    def test_handle_csv(self):
+        pass
+
+    def test_handle_code_default(self):
+        pass
+
+    def test_handle_code_json(self):
+        # TODO: write one for each language
+        pass
+
+    def test_handle_code_javascript(self):
+        # TODO: write one for each language
+        pass
+
+    def test_handle_code_java(self):
+        # TODO: write one for each language
+        pass
+
+    def test_handle_code_c(self):
+        # TODO: write one for each language
+        pass
+
+    def test_handle_code_html(self):
+        # TODO: write one for each language
+        pass
+
+    def test_handle_code_text(self):
+        # TODO: write one for each language
+        pass
+
+    def test_handle_code_swift(self):
+        # TODO: write one for each language
+        pass
+
+    def test_handle_code_css(self):
+        # TODO: write one for each language
+        pass
+
+    def test_handle_code_cpp(self):
+        # TODO: write one for each language
+        pass
