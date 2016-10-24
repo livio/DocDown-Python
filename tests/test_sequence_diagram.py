@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 
+"""
+test_sequence_diagram_extension
+----------------------------------
+
+Tests for `docdown.sequence` module.
+"""
+
 from __future__ import absolute_import, unicode_literals, print_function
 
 import markdown
@@ -126,7 +133,7 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
     """
     Specifically test the preprocessor used by SequenceDiagramExtension.
     """
-    
+
     def test_run_method_with_media_path(self):
         """
         When media_path is passed in, urls should be replaced with the media_path url.
