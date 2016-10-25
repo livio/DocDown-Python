@@ -17,6 +17,5 @@ class PystacheAdapter(object):
         if context is None:
             context = {}
 
-
         renderer = pystache.Renderer()
-        return renderer.render(template)
+        return renderer.render(template, context)
