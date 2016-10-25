@@ -41,16 +41,11 @@ class SequenceDiagramBlockPreprocessor(TemplateRenderMixin, Preprocessor):
                     'title': title
                 }
 
-                # start_tag = self.markdown.htmlStash.store('<div class="visual-link-wrapper"><a href="#" data-src="%s" class="visual-link"><div class="visual-link__body"><div class="t-h6 visual-link__title">Sequence Diagram</div><p class="t-default">' % (image_url), safe=True)
-                # end_tag = self.markdown.htmlStash.store('</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center"><span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span></div></a></div>', safe=True)
-
                 prefix = renderer.render(template=self.prefix, context=context)
                 postfix = renderer.render(template=self.postfix, context=context)
 
                 start_tag = self.markdown.htmlStash.store(prefix, safe=True)
                 end_tag = self.markdown.htmlStash.store(postfix, safe=True)
-
-                # print_html = """<img class="visual-print-image" src="{}">""".format(image_url)
 
                 text = '%s\n%s\n\n%s\n%s\n%s' % (text[:m.start()], start_tag, content, end_tag, text[m.end():])
             else:
