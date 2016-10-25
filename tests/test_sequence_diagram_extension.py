@@ -161,16 +161,32 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
     Specifically test the preprocessor used by SequenceDiagramExtension.
     """
 
-    def test_run_method_with_media_path(self):
+    PREFIX_TEMPLATE = ('<div class="visual-link-wrapper"><a href="#" data-src="{image_url}" class="visual-link">'
+                       '<div class="visual-link__body"><div class="t-h6 visual-link__title">{title}</div>'
+                       '<p class="t-default">')
+
+    POSTFIX_TEMPLATE = ('</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+                        '<span class="fc-theme">View Diagram</span>'
+                        '<span class="icon">{{% svg "standard/icon-visual" %}}</span></div></a></div>\n'
+                        '<img class="visual-print-image" src="{image_url}">')
+    TEMPLATE_ADAPTER = 'docdown.template_adapters.StringFormatAdapter'
+
+    def test_run_method_with_media_path_prefix_and_postfix_set(self):
         """
         When media_path is passed in, urls should be replaced with the media_path url.
         Placeholders should get properly replaced.  Each line in list of text should be treated as new line.
         """
-        processor = SequenceDiagramBlockPreprocessor(media_path='http://example.com/', markdown_instance=markdown.Markdown())
+        processor = SequenceDiagramBlockPreprocessor(
+            media_path='http://example.com/',
+            prefix=self.PREFIX_TEMPLATE,
+            postfix=self.POSTFIX_TEMPLATE,
+            template_adapter=self.TEMPLATE_ADAPTER,
+            markdown_instance=markdown.Markdown())
+
         text = ("# Sequence Diagrams",
                 "|||",
-                "Activate App after successful Resumption",
-                "![Activate App Successful Resume](./assets/ActivateAppSuccessfulResume.png)",
+                "Activate App",
+                "![Activate App Sequence Diagram](./assets/ActivateAppSuccessfulResume.png)",
                 "|||",)
         processed = processor.run(text)
 
@@ -180,14 +196,14 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
         expected = ['# Sequence Diagrams', '',
                 '\x02wzxhzdk:0\x03',
                 '',
-                'Activate App after successful Resumption', '',
+                'Activate App', '',
                 '\x02wzxhzdk:1\x03',
-                '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">',
                 ''
                 ]
+
         self.assertEqual(processed, expected)
 
-    def test_run_method_without_path_and_relative_sequence_file_path_given(self):
+    def test_run_method_with_default_settings(self):
         """
         If no media_path and a relative file path is given, the leading ./ should be stripped from
         the path to the sequence diagram image.
@@ -196,8 +212,8 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
         processor = SequenceDiagramBlockPreprocessor(markdown_instance=markdown.Markdown())
         text = ("# Sequence Diagrams",
                 "|||",
-                "Activate App after successful Resumption",
-                "![Activate App Successful Resume](./assets/ActivateAppSuccessfulResume.png)",
+                "Activate App",
+                "![Activate App Sequence Diagram](./assets/ActivateAppSuccessfulResume.png)",
                 "|||",)
         processed = processor.run(text)
 
@@ -207,36 +223,8 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
         expected = ['# Sequence Diagrams', '',
                 '\x02wzxhzdk:0\x03',
                 '',
-                'Activate App after successful Resumption', '',
+                'Activate App', '',
                 '\x02wzxhzdk:1\x03',
-                '<img class="visual-print-image" src="assets/ActivateAppSuccessfulResume.png">',
-                ''
-                ]
-        self.assertEqual(processed, expected)
-
-    def test_run_method_without_path_and_absolute_sequence_file_path_given(self):
-        """
-        If no media_path and an absolute file path is given, the leading ./ should be stripped from
-        the path to the sequence diagram image.
-        Placeholders should get properly replaced.  Each line in list of text should be treated as new line.
-        """
-        processor = SequenceDiagramBlockPreprocessor(markdown_instance=markdown.Markdown())
-        text = ("# Sequence Diagrams",
-                "|||",
-                "Activate App after successful Resumption",
-                "![Activate App Successful Resume](/assets/ActivateAppSuccessfulResume.png)",
-                "|||",)
-        processed = processor.run(text)
-
-        # placeholder pipes are replaced with a code
-        # each element in the list is treated as a line and so a newline is inserted
-        # adding an extra empty line between each element
-        expected = ['# Sequence Diagrams', '',
-                '\x02wzxhzdk:0\x03',
-                '',
-                'Activate App after successful Resumption', '',
-                '\x02wzxhzdk:1\x03',
-                '<img class="visual-print-image" src="/assets/ActivateAppSuccessfulResume.png">',
                 ''
                 ]
         self.assertEqual(processed, expected)
