@@ -23,19 +23,30 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
     EXTENSION_CONFIGS = {
         'docdown.sequence': {
             'media_path': 'http://example.com/',
+            'prefix': ('<div class="visual-link-wrapper"><a href="#" data-src="{image_url}" class="visual-link">'
+                       '<div class="visual-link__body"><div class="t-h6 visual-link__title">{title}</div>'
+                       '<p class="t-default">'),
+            'postfix': ('</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+                        '<span class="fc-theme">View Diagram</span>'
+                        '<span class="icon">{{% svg "standard/icon-visual" %}}</span></div></a></div>\n'
+                        '<img class="visual-print-image" src="{image_url}">'),
         }
     }
 
     MARKDOWN_EXTENSIONS = ['docdown.sequence']
 
-    def test_sequence_diagram_with_media_path_and_relative_image_path(self):
+    def test_sequence_diagram_render_stringformatadapter_with_media_path_and_relative_image_path(self):
         """
-        Test a single sequence diagram renders correctly
+        Test a single sequence diagram renders correctly.
+
+        Render a single sequence diagram using the default template_adapter, which is
+        :class:`docdown.template_adapters.StringFormatAdapter` with a media_path specified and a relative
+        path given for the image.
         """
         text = ("# Sequence Diagrams\n"
                 "|||\n"
-                "Activate App after successful Resumption\n"
-                "![Activate App Successful Resume](./assets/ActivateAppSuccessfulResume.png)\n"
+                "Activate App\n"
+                "![Activate App Sequence Diagram](./assets/ActivateAppSuccessfulResume.png)\n"
                 "|||")
 
         html = markdown.markdown(
@@ -49,28 +60,41 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<h1>Sequence Diagrams</h1>\n'
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
-            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Sequence Diagram</div>'
+            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram</div>'
             '<p class="t-default">\n\n'
-            '<p>Activate App after successful Resumption</p>\n'
-            '<p></p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+            '<p>Activate App</p>\n'
+            '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
             '</div></a></div>\n'
-            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png"></p>')
+            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">')
+
         self.assertEqual(html, expected_output)
 
     def test_sequence_diagram_default_media_path(self):
         """
         Test that the URL gets the default `.` prepended, making it a relative path
         """
+        config = {
+            'docdown.sequence': {
+                'prefix': ('<div class="visual-link-wrapper"><a href="#" data-src="{image_url}" class="visual-link">'
+                           '<div class="visual-link__body"><div class="t-h6 visual-link__title">{title}</div>'
+                           '<p class="t-default">'),
+                'postfix': ('</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+                            '<span class="fc-theme">View Diagram</span>'
+                            '<span class="icon">{{% svg "standard/icon-visual" %}}</span></div></a></div>\n'
+                            '<img class="visual-print-image" src="{image_url}">'),
+            }
+        }
         text = ("# Sequence Diagrams\n"
                 "|||\n"
-                "Activate App after successful Resumption\n"
-                "![Activate App Successful Resume](/assets/ActivateAppSuccessfulResume.png)\n"
+                "Activate App\n"
+                "![Activate App Sequence Diagram](/assets/ActivateAppSuccessfulResume.png)\n"
                 "|||")
 
         html = markdown.markdown(
             text,
             extensions=self.MARKDOWN_EXTENSIONS,
+            extension_configs=config,
             output_format='html5'
         )
 
@@ -78,13 +102,14 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<h1>Sequence Diagrams</h1>\n'
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="./assets/ActivateAppSuccessfulResume.png" class="visual-link">'
-            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Sequence Diagram</div>'
+            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram</div>'
             '<p class="t-default">\n\n'
-            '<p>Activate App after successful Resumption</p>\n'
-            '<p></p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+            '<p>Activate App</p>\n'
+            '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
             '</div></a></div>\n'
-            '<img class="visual-print-image" src="./assets/ActivateAppSuccessfulResume.png"></p>')
+            '<img class="visual-print-image" src="./assets/ActivateAppSuccessfulResume.png">')
+
         self.assertEqual(html, expected_output)
 
     def test_multiple_sequence_diagrams(self):
@@ -93,12 +118,12 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
         """
         text = ('# Sequence Diagrams\n'
                '|||\n'
-               'multiple App after successful Resumption\n'
-               '![Activate App Successful Resume](./assets/ActivateAppSuccessfulResume.png)\n'
+               'Activate App 1\n'
+               '![Activate App Sequence Diagram 1](./assets/ActivateAppSuccessfulResume.png)\n'
                '|||\n\n'
                '|||\n'
-               'asdf App after successful Resumption\n'
-               '![Activate App Successful Resume](./assets/ActivateAppSuccessfulResume.png)\n'
+               'Activate App 2\n'
+               '![Activate App Sequence Diagram 2](./assets/ActivateAppSuccessfulResume.png)\n'
                '|||')
 
         html = markdown.markdown(
@@ -109,23 +134,25 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
         )
 
         expected_output = (
-            '<h1>Sequence Diagrams</h1>\n<div class="visual-link-wrapper">'
+            '<h1>Sequence Diagrams</h1>\n'
+            '<div class="visual-link-wrapper">'
             '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
-            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Sequence Diagram</div>'
-            '<p class="t-default">\n\n<p>multiple App after successful Resumption</p>\n<p></p></div>'
+            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram 1</div>'
+            '<p class="t-default">\n\n<p>Activate App 1</p>\n</p></div>'
             '<div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span></div>'
             '</a></div>\n'
-            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png"></p>\n'
+            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">\n\n'
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
             '<div class="visual-link__body">'
-            '<div class="t-h6 visual-link__title">Sequence Diagram</div><p class="t-default">\n\n'
-            '<p>asdf App after successful Resumption</p>\n<p></p></div>'
+            '<div class="t-h6 visual-link__title">Activate App Sequence Diagram 2</div><p class="t-default">\n\n'
+            '<p>Activate App 2</p>\n</p></div>'
             '<div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span>'
             '<span class="icon">{% svg "standard/icon-visual" %}</span></div></a></div>\n'
-            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png"></p>')
+            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">')
+
         self.assertEqual(html, expected_output)
 
 
@@ -134,16 +161,32 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
     Specifically test the preprocessor used by SequenceDiagramExtension.
     """
 
-    def test_run_method_with_media_path(self):
+    PREFIX_TEMPLATE = ('<div class="visual-link-wrapper"><a href="#" data-src="{image_url}" class="visual-link">'
+                       '<div class="visual-link__body"><div class="t-h6 visual-link__title">{title}</div>'
+                       '<p class="t-default">')
+
+    POSTFIX_TEMPLATE = ('</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+                        '<span class="fc-theme">View Diagram</span>'
+                        '<span class="icon">{{% svg "standard/icon-visual" %}}</span></div></a></div>\n'
+                        '<img class="visual-print-image" src="{image_url}">')
+    TEMPLATE_ADAPTER = 'docdown.template_adapters.StringFormatAdapter'
+
+    def test_run_method_with_media_path_prefix_and_postfix_set(self):
         """
         When media_path is passed in, urls should be replaced with the media_path url.
         Placeholders should get properly replaced.  Each line in list of text should be treated as new line.
         """
-        processor = SequenceDiagramBlockPreprocessor(media_path='http://example.com/', markdown_instance=markdown.Markdown())
+        processor = SequenceDiagramBlockPreprocessor(
+            media_path='http://example.com/',
+            prefix=self.PREFIX_TEMPLATE,
+            postfix=self.POSTFIX_TEMPLATE,
+            template_adapter=self.TEMPLATE_ADAPTER,
+            markdown_instance=markdown.Markdown())
+
         text = ("# Sequence Diagrams",
                 "|||",
-                "Activate App after successful Resumption",
-                "![Activate App Successful Resume](./assets/ActivateAppSuccessfulResume.png)",
+                "Activate App",
+                "![Activate App Sequence Diagram](./assets/ActivateAppSuccessfulResume.png)",
                 "|||",)
         processed = processor.run(text)
 
@@ -153,14 +196,14 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
         expected = ['# Sequence Diagrams', '',
                 '\x02wzxhzdk:0\x03',
                 '',
-                'Activate App after successful Resumption', '',
+                'Activate App', '',
                 '\x02wzxhzdk:1\x03',
-                '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">',
                 ''
                 ]
+
         self.assertEqual(processed, expected)
 
-    def test_run_method_without_path_and_relative_sequence_file_path_given(self):
+    def test_run_method_with_default_settings(self):
         """
         If no media_path and a relative file path is given, the leading ./ should be stripped from
         the path to the sequence diagram image.
@@ -169,8 +212,8 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
         processor = SequenceDiagramBlockPreprocessor(markdown_instance=markdown.Markdown())
         text = ("# Sequence Diagrams",
                 "|||",
-                "Activate App after successful Resumption",
-                "![Activate App Successful Resume](./assets/ActivateAppSuccessfulResume.png)",
+                "Activate App",
+                "![Activate App Sequence Diagram](./assets/ActivateAppSuccessfulResume.png)",
                 "|||",)
         processed = processor.run(text)
 
@@ -180,36 +223,8 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
         expected = ['# Sequence Diagrams', '',
                 '\x02wzxhzdk:0\x03',
                 '',
-                'Activate App after successful Resumption', '',
+                'Activate App', '',
                 '\x02wzxhzdk:1\x03',
-                '<img class="visual-print-image" src="assets/ActivateAppSuccessfulResume.png">',
-                ''
-                ]
-        self.assertEqual(processed, expected)
-
-    def test_run_method_without_path_and_absolute_sequence_file_path_given(self):
-        """
-        If no media_path and an absolute file path is given, the leading ./ should be stripped from
-        the path to the sequence diagram image.
-        Placeholders should get properly replaced.  Each line in list of text should be treated as new line.
-        """
-        processor = SequenceDiagramBlockPreprocessor(markdown_instance=markdown.Markdown())
-        text = ("# Sequence Diagrams",
-                "|||",
-                "Activate App after successful Resumption",
-                "![Activate App Successful Resume](/assets/ActivateAppSuccessfulResume.png)",
-                "|||",)
-        processed = processor.run(text)
-
-        # placeholder pipes are replaced with a code
-        # each element in the list is treated as a line and so a newline is inserted
-        # adding an extra empty line between each element
-        expected = ['# Sequence Diagrams', '',
-                '\x02wzxhzdk:0\x03',
-                '',
-                'Activate App after successful Resumption', '',
-                '\x02wzxhzdk:1\x03',
-                '<img class="visual-print-image" src="/assets/ActivateAppSuccessfulResume.png">',
                 ''
                 ]
         self.assertEqual(processed, expected)

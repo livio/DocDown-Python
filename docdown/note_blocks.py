@@ -13,8 +13,9 @@ from markdown.extensions import Extension
 from markdown.preprocessors import Preprocessor
 import re
 
+from .docdown import TemplateRenderMixin
 
-class NoteBlockPreprocessor(Preprocessor):
+class NoteBlockPreprocessor(TemplateRenderMixin, Preprocessor):
 
     RE = re.compile(r'''
 (?P<fence>^(?:!{3,}))\W(?P<type>\w+)\W*\n
@@ -41,9 +42,7 @@ class NoteBlockPreprocessor(Preprocessor):
         self.prefix = prefix
         self.postfix = postfix
         self.tags = tags
-        self.template_adapter = template_adapter
-
-        super(NoteBlockPreprocessor, self).__init__(**kwargs)
+        super(NoteBlockPreprocessor, self).__init__(template_adapter=template_adapter, **kwargs)
 
     def run(self, lines):
         text = "\n".join(lines)
@@ -69,13 +68,6 @@ class NoteBlockPreprocessor(Preprocessor):
                 break
 
         return text.split("\n")
-
-    def get_template_adapter(self):
-        import importlib
-        module_name, class_name = self.template_adapter.rsplit(".", 1)
-        my_module = importlib.import_module(module_name)
-        AdapterClass = getattr(my_module, class_name)
-        return AdapterClass()
 
 
 class NoteExtension(Extension):
