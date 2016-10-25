@@ -23,19 +23,30 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
     EXTENSION_CONFIGS = {
         'docdown.sequence': {
             'media_path': 'http://example.com/',
+            'prefix': ('<div class="visual-link-wrapper"><a href="#" data-src="{image_url}" class="visual-link">'
+                       '<div class="visual-link__body"><div class="t-h6 visual-link__title">{title}</div>'
+                       '<p class="t-default">'),
+            'postfix': ('</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+                        '<span class="fc-theme">View Diagram</span>'
+                        '<span class="icon">{{% svg "standard/icon-visual" %}}</span></div></a></div>\n'
+                        '<img class="visual-print-image" src="{image_url}">'),
         }
     }
 
     MARKDOWN_EXTENSIONS = ['docdown.sequence']
 
-    def test_sequence_diagram_with_media_path_and_relative_image_path(self):
+    def test_sequence_diagram_render_stringformatadapter_with_media_path_and_relative_image_path(self):
         """
-        Test a single sequence diagram renders correctly
+        Test a single sequence diagram renders correctly.
+
+        Render a single sequence diagram using the default template_adapter, which is
+        :class:`docdown.template_adapters.StringFormatAdapter` with a media_path specified and a relative
+        path given for the image.
         """
         text = ("# Sequence Diagrams\n"
                 "|||\n"
-                "Activate App after successful Resumption\n"
-                "![Activate App Successful Resume](./assets/ActivateAppSuccessfulResume.png)\n"
+                "Activate App\n"
+                "![Activate App Sequence Diagram](./assets/ActivateAppSuccessfulResume.png)\n"
                 "|||")
 
         html = markdown.markdown(
@@ -49,28 +60,41 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<h1>Sequence Diagrams</h1>\n'
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
-            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Sequence Diagram</div>'
+            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram</div>'
             '<p class="t-default">\n\n'
-            '<p>Activate App after successful Resumption</p>\n'
-            '<p></p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+            '<p>Activate App</p>\n'
+            '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
             '</div></a></div>\n'
-            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png"></p>')
+            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">')
+
         self.assertEqual(html, expected_output)
 
     def test_sequence_diagram_default_media_path(self):
         """
         Test that the URL gets the default `.` prepended, making it a relative path
         """
+        config = {
+            'docdown.sequence': {
+                'prefix': ('<div class="visual-link-wrapper"><a href="#" data-src="{image_url}" class="visual-link">'
+                           '<div class="visual-link__body"><div class="t-h6 visual-link__title">{title}</div>'
+                           '<p class="t-default">'),
+                'postfix': ('</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+                            '<span class="fc-theme">View Diagram</span>'
+                            '<span class="icon">{{% svg "standard/icon-visual" %}}</span></div></a></div>\n'
+                            '<img class="visual-print-image" src="{image_url}">'),
+            }
+        }
         text = ("# Sequence Diagrams\n"
                 "|||\n"
-                "Activate App after successful Resumption\n"
-                "![Activate App Successful Resume](/assets/ActivateAppSuccessfulResume.png)\n"
+                "Activate App\n"
+                "![Activate App Sequence Diagram](/assets/ActivateAppSuccessfulResume.png)\n"
                 "|||")
 
         html = markdown.markdown(
             text,
             extensions=self.MARKDOWN_EXTENSIONS,
+            extension_configs=config,
             output_format='html5'
         )
 
@@ -78,13 +102,14 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<h1>Sequence Diagrams</h1>\n'
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="./assets/ActivateAppSuccessfulResume.png" class="visual-link">'
-            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Sequence Diagram</div>'
+            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram</div>'
             '<p class="t-default">\n\n'
-            '<p>Activate App after successful Resumption</p>\n'
-            '<p></p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+            '<p>Activate App</p>\n'
+            '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
             '</div></a></div>\n'
-            '<img class="visual-print-image" src="./assets/ActivateAppSuccessfulResume.png"></p>')
+            '<img class="visual-print-image" src="./assets/ActivateAppSuccessfulResume.png">')
+
         self.assertEqual(html, expected_output)
 
     def test_multiple_sequence_diagrams(self):
@@ -93,12 +118,12 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
         """
         text = ('# Sequence Diagrams\n'
                '|||\n'
-               'multiple App after successful Resumption\n'
-               '![Activate App Successful Resume](./assets/ActivateAppSuccessfulResume.png)\n'
+               'Activate App 1\n'
+               '![Activate App Sequence Diagram 1](./assets/ActivateAppSuccessfulResume.png)\n'
                '|||\n\n'
                '|||\n'
-               'asdf App after successful Resumption\n'
-               '![Activate App Successful Resume](./assets/ActivateAppSuccessfulResume.png)\n'
+               'Activate App 2\n'
+               '![Activate App Sequence Diagram 2](./assets/ActivateAppSuccessfulResume.png)\n'
                '|||')
 
         html = markdown.markdown(
@@ -109,23 +134,25 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
         )
 
         expected_output = (
-            '<h1>Sequence Diagrams</h1>\n<div class="visual-link-wrapper">'
+            '<h1>Sequence Diagrams</h1>\n'
+            '<div class="visual-link-wrapper">'
             '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
-            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Sequence Diagram</div>'
-            '<p class="t-default">\n\n<p>multiple App after successful Resumption</p>\n<p></p></div>'
+            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram 1</div>'
+            '<p class="t-default">\n\n<p>Activate App 1</p>\n</p></div>'
             '<div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span></div>'
             '</a></div>\n'
-            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png"></p>\n'
+            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">\n\n'
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
             '<div class="visual-link__body">'
-            '<div class="t-h6 visual-link__title">Sequence Diagram</div><p class="t-default">\n\n'
-            '<p>asdf App after successful Resumption</p>\n<p></p></div>'
+            '<div class="t-h6 visual-link__title">Activate App Sequence Diagram 2</div><p class="t-default">\n\n'
+            '<p>Activate App 2</p>\n</p></div>'
             '<div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span>'
             '<span class="icon">{% svg "standard/icon-visual" %}</span></div></a></div>\n'
-            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png"></p>')
+            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">')
+
         self.assertEqual(html, expected_output)
 
 
