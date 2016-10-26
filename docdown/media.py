@@ -16,15 +16,18 @@ class MediaTreeprocessor(Treeprocessor):
         image_tags = root.findall('.//img')
         if self.media_path is not None:
             for image_tag in image_tags:
-                if not image_tag.get('src').lower().startswith('http'):
-                    # TODO: handle `//` and not just `http[s]?://` ??
-
-                    # TODO: media_path ending with / such as `http://example.org/` and
-                    # absolute path for image tag source?  `/path/to/image.jpg`
-
+                tag_src = image_tag.get('src').lower()
+                if not tag_src.startswith('http') and not tag_src.startswith('//'):
                     # TODO: relative image tag source starting with . like sequence
                     # diagrams?
-                    image_tag.set('src', self.media_path + image_tag.get('src'))
+
+                    # Make sure we don't create a url like http://example.org//something.html
+                    # if media_path ends with / and tag_src starts with /
+                    # example.com/ + /blah.html = example.com/blah.html
+                    # example.com + /blah.html = example.com/blah.html
+                    # example.com/ + blah.html = example.com/blah.html
+                    # example.com + blah.html = example.com/blah.html
+                    image_tag.set('src', self.media_path.rstrip('/') + '/' + image_tag.get('src').lstrip('/'))
 
 
 class MediaExtension(Extension):
