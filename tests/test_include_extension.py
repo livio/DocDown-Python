@@ -39,6 +39,9 @@ class IncludeExtensionTest(unittest.TestCase):
         'docdown.include': {
             'asset_directory': ASSET_DIR,
             'root_directory': ASSET_DIR,
+            'extension_map': {
+                '.m': '.c',
+            }
         }
     }
 
@@ -57,7 +60,7 @@ class IncludeExtensionTest(unittest.TestCase):
         #                    '<pre><span></span># Test\n\nContent\n</pre>#</div>')
         expected_output = (
             '<p>Test File:</p>\n'
-            '<pre><code># Test\n\n'
+            '<pre><code class="md"># Test\n\n'
             'Content\n'
             '</code></pre>')
         self.assertEqual(html, expected_output)
@@ -78,7 +81,7 @@ class IncludeExtensionTest(unittest.TestCase):
         #                    '# Test\n\nContent\n</pre>\n</div>')
         expected_output = (
             '<p>Test File:</p>\n'
-            '<pre><code># Test\n\n'
+            '<pre><code class="md"># Test\n\n'
             'Content\n'
             '</code></pre>')
         self.assertEqual(html, expected_output)
@@ -150,7 +153,7 @@ class IncludeExtensionTest(unittest.TestCase):
 
         expected_output = (
             '<p>Test JS:</p>\n'
-            '''<pre><code class="javascript">alert('test');\n'''
+            '''<pre><code class="js">alert('test');\n'''
             '</code></pre>')
         self.assertEqual(html, expected_output)
 
@@ -177,7 +180,7 @@ class IncludeExtensionTest(unittest.TestCase):
 
         self.assertEqual(html, expected_output)
 
-    def test_obj_c(self):
+    def test_obj_c_with_mapped_extension(self):
         text = ('Test Objective C:\n'
                 '+++ test.m')
 
