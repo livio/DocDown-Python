@@ -155,6 +155,41 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
 
         self.assertEqual(html, expected_output)
 
+    def test_sequence_diagram_with_protocol_relative_path(self):
+        """
+        Test a single sequence diagram renders correctly.
+
+        Render a single sequence diagram using the default template_adapter, which is
+        :class:`docdown.template_adapters.StringFormatAdapter` with a media_path specified and a relative
+        path given for the image.
+        """
+        text = ("# Sequence Diagrams\n"
+                "|||\n"
+                "Activate App\n"
+                "![Activate App Sequence Diagram](//example.org/assets/ActivateAppSuccessfulResume.png)\n"
+                "|||")
+
+        html = markdown.markdown(
+            text,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            extension_configs=self.EXTENSION_CONFIGS,
+            output_format='html5'
+        )
+
+        expected_output = (
+            '<h1>Sequence Diagrams</h1>\n'
+            '<div class="visual-link-wrapper">'
+            '<a href="#" data-src="//example.org/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
+            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram</div>'
+            '<p class="t-default">\n\n'
+            '<p>Activate App</p>\n'
+            '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+            '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
+            '</div></a></div>\n'
+            '<img class="visual-print-image" src="//example.org/assets/ActivateAppSuccessfulResume.png">')
+
+        self.assertEqual(html, expected_output)
+
 
 class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
     """
