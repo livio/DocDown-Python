@@ -22,20 +22,6 @@ class NoteBlockPreprocessor(TemplateRenderMixin, Preprocessor):
 (?P<content>.*?)(?<=\n)
 (?P=fence)[ ]*$''', re.MULTILINE | re.DOTALL | re.VERBOSE)
 
-    SVG_MAP = {
-        'must': 'standard/icon-must',
-        'note': 'standard/icon-note',
-        'may': 'standard/icon-may',
-        'sdl': 'standard/icon-sdl',
-    }
-
-    TITLE_MAP = {
-        'must': 'Must',
-        'note': 'Note',
-        'may': 'May',
-        'sdl': 'SDL',
-    }
-
     def __init__(self, prefix='', postfix='', tags=None, template_adapter='docdown.template_adapters.StringFormatAdapter', **kwargs):
         if tags is None:
             tags = {}
