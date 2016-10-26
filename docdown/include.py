@@ -12,22 +12,10 @@ import unicodecsv
 
 class IncludePreprocessor(Preprocessor):
 
-    EXTENSION_CODE_MAP = {
-        '.json': 'json',
-        '.js': 'javascript',
-        '.java': 'java',
-        '.h': 'c',
-        '.m': 'c',
-        '.html': 'html',
-        '.txt': 'text',
-        '.swift': 'swift',
-        '.css': 'css',
-        '.cpp': 'cpp'
-    }
-
-    def __init__(self, root_directory=None, asset_directory=None, **kwargs):
+    def __init__(self, root_directory=None, asset_directory=None, extension_map=None, **kwargs):
         self.asset_directory = asset_directory
         self.root_directory = root_directory
+        self.extension_map = extension_map or {}
         super(IncludePreprocessor, self).__init__(**kwargs)
 
     def find_file_path(self, file_name):
@@ -47,7 +35,7 @@ class IncludePreprocessor(Preprocessor):
         Parse source code lines
         """
         md_lines = []
-        code_type = self.EXTENSION_CODE_MAP.get(file_extension, '')
+        code_type = self.extension_map.get(file_extension, file_extension)
         included_file = codecs.open(file_path, 'r')
         # TODO: We are forcing the backticks in here.  Should this extension
         # ensure that the fenced_code extension is loaded and raise an exception
@@ -100,6 +88,8 @@ class IncludeExtension(Extension):
         self.config = {
             'asset_directory': ['', 'Directory for the assets to include via this extension'],
             'root_directory': ['', 'Root directory to stop searching for assets'],
+            'extension_map': [{}, ('Optional dictionary mapping one file extension to another'
+                                   ' to override the default assigned by markdown.extensions.fenced_code')]
         }
         super(IncludeExtension, self).__init__(**kwargs)
 
@@ -109,11 +99,13 @@ class IncludeExtension(Extension):
 
         asset_directory = self.getConfig('asset_directory')
         root_directory = self.getConfig('root_directory')
+        extension_map = self.getConfig('extension_map')
 
         md.preprocessors.add(
             'include',
             IncludePreprocessor(root_directory=root_directory,
                                 asset_directory=asset_directory,
+                                extension_map=extension_map,
                                 markdown_instance=md),
             ">normalize_whitespace")
 
