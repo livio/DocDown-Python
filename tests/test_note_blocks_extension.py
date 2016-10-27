@@ -20,8 +20,8 @@ class NoteBlockExtensionTest(unittest.TestCase):
     MARKDOWN_EXTENSIONS = ['docdown.note_blocks']
     EXTENSION_CONFIGS = {
         'docdown.note_blocks': {
-            'prefix': ('<div class="{tag}"><div class="icon">{{% svg "{svg}" %}}'
-                       '<img class="icon--pdf" src="{{% static "{svg_path}" %}}"></div><h5>{title}</h5>'),
+            'prefix': ('<div class="{tag}">\n<div class="icon">\n{{% svg "{svg}" %}}'
+                       '<img class="icon--pdf" src="{{% static "{svg_path}" %}}"></div>\n<h5>{title}</h5>'),
             'postfix': '</div>',
             'tags': {
                 'must': {
@@ -45,9 +45,9 @@ class NoteBlockExtensionTest(unittest.TestCase):
             output_format='html5'
         )
         expected_output = (
-            '<div class="must"><div class="icon">'
+            '<div class="must">\n<div class="icon">\n'
             '{% svg "standard/icon-must" %}<img class="icon--pdf" src="{% static "svg/standard/icon-must.svg" %}">'
-            '</div><h5>Must</h5>\n\n<p>hello world</p>\n</div>')
+            '</div>\n<h5>Must</h5>\n\n<p>hello world</p>\n</div>')
         self.assertEqual(html, expected_output)
 
     def test_render_stringformatadapter_default_pre_and_postfix(self):

@@ -9,13 +9,15 @@ Welcome to DocDown Python's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    readme
    installation
-   usage
+   extensions
+   template_adapters/index
    contributing
-   authorshistory
+   authors
+   history
 
 Indices and tables
 ==================
