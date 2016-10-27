@@ -4,6 +4,7 @@ Media Extension
 
 The media DocDown extension updates all images that do not start with http or // to use the configurable media URL.
 
+======
 Usage
 ======
 
@@ -12,7 +13,7 @@ HTML
 
 .. code-block:: html
 
-  ![Alt Text](http://example.com/static/img/image.png)
+   ![Alt Text](http://example.com/static/img/image.png)
    ![Alt Text](assets/image.png)
    ![Alt Text](./assets/image.png)
 
@@ -37,11 +38,12 @@ Python
         output_format='html5'
     )
 
+========
 Output
--------
+========
 
 .. code-block:: html
 
-  <p><img src="http://example.com/static/img/image.png" alt="Alt Text"></p>
+   <p><img src="http://example.com/static/img/image.png" alt="Alt Text"></p>
    <p><img src="https://example.com/media/assets/image.png" alt="Alt Text"></p>
    <p><img src="https://example.com/media/assets/image.png" alt="Alt Text"></p>

@@ -22,7 +22,7 @@ Python
 
 .. code-block:: python
 
-   _root = os.path.dirname(os.path.abspath(__file__))
+    _root = os.path.dirname(os.path.abspath(__file__))
     asset_dir = os.path.join(_root, 'test_files', 'assets')
 
     config = {
@@ -62,7 +62,7 @@ HTML output will be
 
 .. code-block:: html
 
-    <p>Test JSON:</p>
+     <p>Test JSON:</p>
      <pre><code class="json">
        &quot;test&quot;:
        &quot;content&quot;}

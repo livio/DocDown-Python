@@ -10,10 +10,11 @@ The alt title of this image can be left blank to default to Sequence Diagram, ot
 for the sequence diagram block.
 
 The configuration for the sequence diagrams has a prefix and postfix template strings which can be templated using
-any of the provided template renderers or with a custom renderer.  The default renderer uses standard Python
+any of the provided :doc:`../template_adapters/index` template renderers or with a custom renderer.  The default renderer uses standard Python
 ``str.format()`` substitutions for templating.
 
-The context will include image_url and title which come from the markdown image tag. The markdown image tag is not rendered, only the content within the tag. The image url is also updated to include the media url from the configuration.
+The context will include image_url and title which come from the markdown image tag. The markdown image tag is not rendered,
+only the content within the tag. The image url is also updated to include the media url from the configuration.
 
 =========
 Usage
@@ -24,7 +25,7 @@ HTML
 
 .. code-block:: html
 
-  |||
+   |||
    Activate App
    ![Activate App Sequence Diagram](./assets/ActivateApp.png)
    |||
@@ -68,8 +69,8 @@ Output
 
 .. code-block:: html
 
-  <div class="visual-link-wrapper">
-     <a href="#" data-src="https://example.com/media/assets/ActivateApp.png" class="visual-link">
+    <div class="visual-link-wrapper">
+      <a href="#" data-src="https://example.com/media/assets/ActivateApp.png" class="visual-link">
         <div class="visual-link__body">
             <div class="t-h6 visual-link__title">Activate App Sequence Diagram</div>
             <p class="t-default">
@@ -80,6 +81,6 @@ Output
             <span class="fc-theme">View Diagram</span>
             <span class="icon">{% svg "standard/icon-visual" %}</span>
         </div>
-     </a>
-   </div>
-   <img class="visual-print-image" src="https://smartdevicelink.com/media/assets/ActivateApp.png">
+      </a>
+    </div>
+    <img class="visual-print-image" src="https://smartdevicelink.com/media/assets/ActivateApp.png">

@@ -13,7 +13,7 @@ In documents
 
 .. code-block:: html
 
-  [this is a link](http://mobelux.com/)
+   [this is a link](http://mobelux.com/)
    [this is a link](to/nowhere)
    [this is a link](to/nowhere#testhash)
 
@@ -39,11 +39,12 @@ Python
             extension_configs=config,
             output_format='html5')
 
+=======
 Output
--------
+=======
 
 .. code-block:: html
 
-  <p><a href="http://mobelux.com/">this is a link</a></p>
+   <p><a href="http://mobelux.com/">this is a link</a></p>
    <p><a href="home/localhost">this is a link</a></p>
    <p><a href="home/localhost#testhash">this is a link</a></p>
