@@ -1,5 +1,5 @@
 ##################
-Include Extension
+Includes
 ##################
 
 The include DocDown tag allows for including code samples as well as CSV files into the markdown from separate files

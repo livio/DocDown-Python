@@ -56,7 +56,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'DocDown Python'
-copyright = u"2016, Justin Michalicek"
+copyright = u"2016, Mobelux"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -210,7 +210,7 @@ latex_elements = {
 latex_documents = [
     ('index', 'docdown_python.tex',
      u'DocDown Python Documentation',
-     u'Justin Michalicek', 'manual'),
+     u'Mobelux', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at
@@ -241,7 +241,7 @@ latex_documents = [
 man_pages = [
     ('index', 'docdown_python',
      u'DocDown Python Documentation',
-     [u'Justin Michalicek'], 1)
+     [u'Mobelux'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -256,7 +256,7 @@ man_pages = [
 texinfo_documents = [
     ('index', 'docdown_python',
      u'DocDown Python Documentation',
-     u'Justin Michalicek',
+     u'Mobelux',
      'docdown_python',
      'One line description of project.',
      'Miscellaneous'),

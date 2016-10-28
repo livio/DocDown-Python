@@ -8,6 +8,12 @@ Python DocDown is a suite of extensions for `Python Markdown`_.
      :target: https://pyup.io/repos/github/Mobelux/DocDown-Python/
      :alt: Updates
 
+
+Documentation
+----------------
+
+Run ``make docs`` to build the HTML documentation for DocDown Python
+
 Credits
 ---------
 

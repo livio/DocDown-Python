@@ -1,5 +1,5 @@
 ######################
-Note Blocks Extension
+Note Blocks
 ######################
 
 Note blocks allows for calling out content in note like fashion. The note type context is configurable through the options

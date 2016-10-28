@@ -1,5 +1,5 @@
 ################
-Media Extension
+Media
 ################
 
 The media DocDown extension updates all images that do not start with http or // to use the configurable media URL.
