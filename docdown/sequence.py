@@ -8,12 +8,13 @@ import re
 
 from .docdown import TemplateRenderMixin
 
+
 class SequenceDiagramBlockPreprocessor(TemplateRenderMixin, Preprocessor):
 
     RE = re.compile(r'\|{3,}\s*?\n(?P<content>[\s\S\n]*?)!(\[(?P<title>.*)\])?\((?P<url>\S*)\)\n\|{3,}', re.MULTILINE)
 
-    def __init__(self, media_path=None, prefix='', postfix='', template_adapter='docdown.template_adapters.StringFormatAdapter', **kwargs):
-        self.media_url = media_path
+    def __init__(self, media_url=None, prefix='', postfix='', template_adapter='docdown.template_adapters.StringFormatAdapter', **kwargs):
+        self.media_url = media_url
         self.prefix = prefix
         self.postfix = postfix
         self.template_adapter = template_adapter
@@ -61,10 +62,10 @@ class SequenceDiagramExtension(Extension):
         self.config = {
             'prefix': ['<div>', 'Opening tag(s) which wrap the content'],
             'postfix': ['</div>', 'Closing tag(s) which wrap the content'],
-            'media_path': ['.', 'Path to the media'],
+            'media_url': ['.', 'Path to the media'],
             'template_adapter': ['docdown.template_adapters.StringFormatAdapter',
-                                  ('Adapter for rendering prefix and postfix templates'
-                                   ' using your template language of choice.')],
+                                 ('Adapter for rendering prefix and postfix templates'
+                                  ' using your template language of choice.')],
         }
         super(SequenceDiagramExtension, self).__init__(**kwargs)
 
@@ -72,14 +73,13 @@ class SequenceDiagramExtension(Extension):
         """ Add SequenceDiagramBlockPreprocessor to the Markdown instance. """
         md.registerExtension(self)
 
-        media_path = self.getConfig('media_path')
+        media_url = self.getConfig('media_url')
         prefix = self.getConfig('prefix')
         postfix = self.getConfig('postfix')
-        tags = self.getConfig('tags')
         template_adapter = self.getConfig('template_adapter')
 
         md.preprocessors.add('sequence',
-                             SequenceDiagramBlockPreprocessor(media_path=media_path,
+                             SequenceDiagramBlockPreprocessor(media_url=media_url,
                                                               prefix=prefix,
                                                               postfix=postfix,
                                                               template_adapter=template_adapter,

@@ -18,13 +18,13 @@ class MediaExtensionTest(unittest.TestCase):
 
     EXTENSION_CONFIGS = {
         'docdown.media': {
-            'media_path': 'http://example.com',
+            'media_url': 'http://example.com',
         }
     }
 
     MARKDOWN_EXTENSIONS = ['docdown.media']
 
-    def test_image_tag_set_with_absolute_path_and_media_path(self):
+    def test_image_tag_set_with_absolute_path_and_media_url(self):
         text = '![Alt text](/path/to/img.jpg)'
         html = markdown.markdown(
             text,
@@ -35,7 +35,7 @@ class MediaExtensionTest(unittest.TestCase):
         expected_output = '<p><img alt="Alt text" src="http://example.com/path/to/img.jpg"></p>'
         self.assertEqual(html, expected_output)
 
-    def test_image_tag_set_with_absolute_path_and_default_media_path(self):
+    def test_image_tag_set_with_absolute_path_and_default_media_url(self):
         text = '![Alt text](/path/to/img.jpg)'
         html = markdown.markdown(
             text,
@@ -43,20 +43,20 @@ class MediaExtensionTest(unittest.TestCase):
             #extension_configs=self.EXTENSION_CONFIGS,
             output_format='html5'
         )
-        # media_path on MediaExtension defaults to '.'
+        # media_url on MediaExtension defaults to '.'
         expected_output = '<p><img alt="Alt text" src="./path/to/img.jpg"></p>'
         self.assertEqual(html, expected_output)
 
-    def test_image_tag_set_with_absolute_path_and_no_media_path(self):
+    def test_image_tag_set_with_absolute_path_and_no_media_url(self):
         """
-        Force media_path to `None` since it defaults to `.` to ensure literal
+        Force media_url to `None` since it defaults to `.` to ensure literal
         absolute paths are kept
         """
         text = '![Alt text](/path/to/img.jpg)'
         html = markdown.markdown(
             text,
             extensions=self.MARKDOWN_EXTENSIONS,
-            extension_configs={'docdown.media': {'media_path': None,}},
+            extension_configs={'docdown.media': {'media_url': None,}},
             output_format='html5'
         )
         expected_output = '<p><img alt="Alt text" src="/path/to/img.jpg"></p>'
@@ -87,25 +87,25 @@ class MediaExtensionTest(unittest.TestCase):
         expected_output = '<p><img alt="Alt text" src="//example.org/path/to/img.jpg"></p>'
         self.assertEqual(html, expected_output)
 
-    def test_image_tag_set_with_absolute_path_and_media_path_trailing_slash(self):
+    def test_image_tag_set_with_absolute_path_and_media_url_trailing_slash(self):
         text = '![Alt text](/path/to/img.jpg)'
         html = markdown.markdown(
             text,
             extensions=self.MARKDOWN_EXTENSIONS,
-            extension_configs={'docdown.media': {'media_path': 'http://example.com/',}},
+            extension_configs={'docdown.media': {'media_url': 'http://example.com/', }},
             output_format='html5'
         )
         expected_output = '<p><img alt="Alt text" src="http://example.com/path/to/img.jpg"></p>'
         self.assertEqual(html, expected_output)
 
-    def test_image_tag_set_with_relative_path_and_media_path_trailing_slash(self):
+    def test_image_tag_set_with_relative_path_and_media_url_trailing_slash(self):
         # This test is testing existing functionality, but it is possible that
         # it really should remove the code should remove the ./ from the path
         text = '![Alt text](./path/to/img.jpg)'
         html = markdown.markdown(
             text,
             extensions=self.MARKDOWN_EXTENSIONS,
-            extension_configs={'docdown.media': {'media_path': 'http://example.com/',}},
+            extension_configs={'docdown.media': {'media_url': 'http://example.com/', }},
             output_format='html5'
         )
         expected_output = '<p><img alt="Alt text" src="http://example.com/./path/to/img.jpg"></p>'

@@ -22,7 +22,7 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
 
     EXTENSION_CONFIGS = {
         'docdown.sequence': {
-            'media_path': 'http://example.com/',
+            'media_url': 'http://example.com/',
             'prefix': ('<div class="visual-link-wrapper"><a href="#" data-src="{image_url}" class="visual-link">'
                        '<div class="visual-link__body"><div class="t-h6 visual-link__title">{title}</div>'
                        '<p class="t-default">'),
@@ -35,12 +35,12 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
 
     MARKDOWN_EXTENSIONS = ['docdown.sequence']
 
-    def test_sequence_diagram_render_stringformatadapter_with_media_path_and_relative_image_path(self):
+    def test_sequence_diagram_render_stringformatadapter_with_media_url_and_relative_image_path(self):
         """
         Test a single sequence diagram renders correctly.
 
         Render a single sequence diagram using the default template_adapter, which is
-        :class:`docdown.template_adapters.StringFormatAdapter` with a media_path specified and a relative
+        :class:`docdown.template_adapters.StringFormatAdapter` with a media_url specified and a relative
         path given for the image.
         """
         text = ("# Sequence Diagrams\n"
@@ -70,7 +70,7 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
 
         self.assertEqual(html, expected_output)
 
-    def test_sequence_diagram_default_media_path(self):
+    def test_sequence_diagram_default_media_url(self):
         """
         Test that the URL gets the default `.` prepended, making it a relative path
         """
@@ -160,7 +160,7 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
         Test a single sequence diagram renders correctly.
 
         Render a single sequence diagram using the default template_adapter, which is
-        :class:`docdown.template_adapters.StringFormatAdapter` with a media_path specified and a relative
+        :class:`docdown.template_adapters.StringFormatAdapter` with a media_url specified and a relative
         path given for the image.
         """
         text = ("# Sequence Diagrams\n"
@@ -206,13 +206,13 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
                         '<img class="visual-print-image" src="{image_url}">')
     TEMPLATE_ADAPTER = 'docdown.template_adapters.StringFormatAdapter'
 
-    def test_run_method_with_media_path_prefix_and_postfix_set(self):
+    def test_run_method_with_media_url_prefix_and_postfix_set(self):
         """
-        When media_path is passed in, urls should be replaced with the media_path url.
+        When media_url is passed in, urls should be replaced with the media_url url.
         Placeholders should get properly replaced.  Each line in list of text should be treated as new line.
         """
         processor = SequenceDiagramBlockPreprocessor(
-            media_path='http://example.com/',
+            media_url='http://example.com/',
             prefix=self.PREFIX_TEMPLATE,
             postfix=self.POSTFIX_TEMPLATE,
             template_adapter=self.TEMPLATE_ADAPTER,
@@ -240,7 +240,7 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
 
     def test_run_method_with_default_settings(self):
         """
-        If no media_path and a relative file path is given, the leading ./ should be stripped from
+        If no media_url and a relative file path is given, the leading ./ should be stripped from
         the path to the sequence diagram image.
         Placeholders should get properly replaced.  Each line in list of text should be treated as new line.
         """
