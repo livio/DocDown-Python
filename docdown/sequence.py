@@ -29,7 +29,7 @@ class SequenceDiagramBlockPreprocessor(TemplateRenderMixin, Preprocessor):
             if m:
                 content = m.group('content')
                 image_url = m.group('url')
-                title = m.group('title')
+                title = m.group('title') or 'Sequence Diagram'
 
                 if image_url.startswith('.'):
                     image_url = image_url[2:]  # ./assets/image.png -> assets/image.png

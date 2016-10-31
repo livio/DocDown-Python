@@ -190,6 +190,37 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
 
         self.assertEqual(html, expected_output)
 
+    def test_sequence_diagram_without_title_has_default(self):
+        """
+        Test that if there is no title for the sequence diagram that it defaults to the title `Sequence Diagram`
+        """
+        text = ("# Sequence Diagrams\n"
+                "|||\n"
+                "Activate App\n"
+                "![](./assets/ActivateAppSuccessfulResume.png)\n"
+                "|||")
+
+        html = markdown.markdown(
+            text,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            extension_configs=self.EXTENSION_CONFIGS,
+            output_format='html5'
+        )
+
+        expected_output = (
+            '<h1>Sequence Diagrams</h1>\n'
+            '<div class="visual-link-wrapper">'
+            '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
+            '<div class="visual-link__body"><div class="t-h6 visual-link__title">Sequence Diagram</div>'
+            '<p class="t-default">\n\n'
+            '<p>Activate App</p>\n'
+            '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
+            '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
+            '</div></a></div>\n'
+            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">')
+
+        self.assertEqual(html, expected_output)
+
 
 class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
     """

@@ -10,8 +10,8 @@ The alt title of this image can be left blank to default to Sequence Diagram, ot
 for the sequence diagram block.
 
 The configuration for the sequence diagrams has a prefix and postfix template strings which can be templated using
-any of the provided :doc:`../template_adapters/index` template renderers or with a custom renderer.  The default renderer uses standard Python
-``str.format()`` substitutions for templating.
+any of the provided :doc:`../template_adapters/index` template renderers or with a custom renderer.  The default renderer
+uses standard Python ``str.format()`` substitutions for templating.
 
 The context will include image_url and title which come from the markdown image tag. The markdown image tag is not rendered,
 only the content within the tag. The image url is also updated to include the media url from the configuration.
