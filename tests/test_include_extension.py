@@ -28,8 +28,13 @@ class IncludeExtensionTest(unittest.TestCase):
     # due to the expected output vs what is really being output... nl2br and fenced_code
     # The extension should probably check for them, or at least document that they are needed,
     # if they are expected to always be there.
-    _root = os.path.dirname(os.path.abspath(__file__))
-    ASSET_DIR = os.path.join(_root, 'test_files', 'assets')
+    # ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+    # CURRENT_DIR = os.path.join(ROOT_DIR, 'test_files')
+    ASSET_DIR = 'assets'
+
+    TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.join(TESTS_DIR, 'test_files')
+    CURRENT_DIR = os.path.join(ROOT_DIR, 'deep_assets')
 
     MARKDOWN_EXTENSIONS = [
         'markdown.extensions.fenced_code',
@@ -38,35 +43,19 @@ class IncludeExtensionTest(unittest.TestCase):
     EXTENSION_CONFIGS = {
         'docdown.include': {
             'asset_directory': ASSET_DIR,
-            'root_directory': ASSET_DIR,
+            'current_directory': CURRENT_DIR,
+            'root_directory': ROOT_DIR,
             'extension_map': {
                 '.m': '.c',
             }
         }
     }
 
-    def test_text_with_extension_default_config(self):
-        text = ('Test File:\n' '+++ %s/test.md' % self.ASSET_DIR)
-
-        html = markdown.markdown(
-            text,
-            extensions=self.MARKDOWN_EXTENSIONS,
-            output_format='html5'
-        )
-
-        # TODO: Expected output with code_block and nl2br and codehilite extensions
-        # Are any of these truly expected to always be used with this extension?
-        # expected_output = ('<p>Test File:</p>\n<div class="codehilite">'
-        #                    '<pre><span></span># Test\n\nContent\n</pre>#</div>')
-        expected_output = (
-            '<p>Test File:</p>\n'
-            '<pre><code class="md"># Test\n\n'
-            'Content\n'
-            '</code></pre>')
-        self.assertEqual(html, expected_output)
-
-    def test_text_with_set_asset_dir(self):
-        text = ('Test File:\n' '+++ test.md')
+    def test_missing_file(self):
+        """
+        Test where the specified file does not exist.
+        """
+        text = ('Test File:\n' '+++ not_here.md')
 
         html = markdown.markdown(
             text,
@@ -75,15 +64,7 @@ class IncludeExtensionTest(unittest.TestCase):
             output_format='html5'
         )
 
-        # TODO: Expected output with code_block and nl2br and codehilite extensions
-        # Are any of these truly expected to always be used with this extension?
-        # expected_output = ('<p>Test File:</p>\n<div class="codehilite"><pre><span></span>'
-        #                    '# Test\n\nContent\n</pre>\n</div>')
-        expected_output = (
-            '<p>Test File:</p>\n'
-            '<pre><code class="md"># Test\n\n'
-            'Content\n'
-            '</code></pre>')
+        expected_output = '<p>Test File:</p>'
         self.assertEqual(html, expected_output)
 
     def test_json(self):
@@ -98,14 +79,58 @@ class IncludeExtensionTest(unittest.TestCase):
         )
 
         expected_output = ('<p>Test JSON:</p>\n'
-                           '<pre><code class="json">{&quot;test&quot;: &quot;content&quot;}\n'
+                           '<pre><code class="json">{&quot;test&quot;: &quot;Deep content&quot;}\n'
                            '</code></pre>')
+        self.assertEqual(html, expected_output)
 
-        # output with codehilite, nl2br, and fenced_code
-        # expected_output = (
-        #     '<p>Test JSON:</p>\n<div class="codehilite"><pre><span></span><span class="p">{</span><span class="nt">'
-        #     '&quot;test&quot;</span><span class="p">:</span> '
-        #     '<span class="s2">&quot;content&quot;</span><span class="p">}</span>\n</pre></div>')
+    def test_nested_json(self):
+        """
+        Test JSON where filename is lower in path within the assets dir.
+        """
+        text = ('Test JSON:\n'
+                '+++ subdir/test.json')
+
+        html = markdown.markdown(
+            text,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            extension_configs=self.EXTENSION_CONFIGS,
+            output_format='html5'
+        )
+
+        expected_output = ('<p>Test JSON:</p>\n'
+                           '<pre><code class="json">{&quot;test&quot;: &quot;subdir content&quot;}\n'
+                           '</code></pre>')
+        self.assertEqual(html, expected_output)
+
+    def test_json_directory_rollup(self):
+        """
+        Test JSON where we have rolled up one level in the dir tree looking in `ROOT_DIR/test_files/assets/` after not
+        finding the file in `ROOT_DIR/test_files/deep_assets/assets/`
+        """
+        EXTENSION_CONFIGS = {
+            'docdown.include': {
+                'asset_directory': self.ASSET_DIR,
+                'current_directory': os.path.join(self.ROOT_DIR, 'test_files', 'deep_assets'),
+                'root_directory': self.ROOT_DIR,
+                'extension_map': {
+                    '.m': '.c',
+                }
+            }
+        }
+
+        text = ('Test JSON:\n'
+                '+++ subdir/test.json')
+
+        html = markdown.markdown(
+            text,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            extension_configs=self.EXTENSION_CONFIGS,
+            output_format='html5'
+        )
+
+        expected_output = ('<p>Test JSON:</p>\n'
+                           '<pre><code class="json">{&quot;test&quot;: &quot;subdir content&quot;}\n'
+                           '</code></pre>')
         self.assertEqual(html, expected_output)
 
     def test_html(self):
@@ -118,16 +143,6 @@ class IncludeExtensionTest(unittest.TestCase):
             extension_configs=self.EXTENSION_CONFIGS,
             output_format='html5'
         )
-
-        # output with codehilite, nl2br, and fenced_code
-        # expected_output = (
-        #     '<p>Test HTML:</p>\n<div class="codehilite"><pre><span></span><span class="p">&lt;</span>'
-        #     '<span class="nt">html</span><span class="p">&gt;&lt;</span><span class="nt">head</span>'
-        #     '<span class="p">&gt;&lt;/</span><span class="nt">head</span><span class="p">&gt;&lt;</span>'
-        #     '<span class="nt">body</span><span class="p">&gt;&lt;</span><span class="nt">h1</span>'
-        #     '<span class="p">&gt;</span>Test<span class="p">&lt;/</span><span class="nt">h1</span>'
-        #     '<span class="p">&gt;&lt;/</span><span class="nt">body</span><span class="p">&gt;&lt;/</span>'
-        #     '<span class="nt">html</span><span class="p">&gt;</span>\n</pre></div>')
 
         expected_output = (
             '<p>Test HTML:</p>\n'
@@ -147,9 +162,6 @@ class IncludeExtensionTest(unittest.TestCase):
             extension_configs=self.EXTENSION_CONFIGS,
             output_format='html5'
         )
-        # output with codehilite, nl2br, and fenced_code
-        # expected_output = '''<p>Test JS:</p>\n<div class="codehilite"><pre><span></span><span class="nx">alert</span>\
-# <span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">);</span>\n</pre></div>'''
 
         expected_output = (
             '<p>Test JS:</p>\n'
@@ -167,10 +179,6 @@ class IncludeExtensionTest(unittest.TestCase):
             extension_configs=self.EXTENSION_CONFIGS,
             output_format='html5'
         )
-        # output with codehilite, nl2br, and fenced_code
-#         expected_output = '''<p>Test CSS:</p>\n<div class="codehilite"><pre><span></span><span class="nc">.lime</span>\
-# <span class="p">{</span>\n  <span class="nb">color</span><span class="o">:</span> <span class="m">#75D366</span><span \
-# class="p">;</span>\n<span class="p">}</span>\n</pre></div>'''
 
         expected_output = ('<p>Test CSS:</p>\n'
                            '<pre><code class="css">.lime{\n'
@@ -190,19 +198,6 @@ class IncludeExtensionTest(unittest.TestCase):
             extension_configs=self.EXTENSION_CONFIGS,
             output_format='html5'
         )
-
-        # output with codehilite, nl2br, and fenced_code
-#         expected_output = '''<p>Test Objective C:</p>\n<div class="codehilite"><pre><span></span><span class="cp">\
-# #import &lt;Foundation/Foundation.h&gt;</span>\n\n<span class="kt">int</span> <span class="nf">main</span> <span \
-# class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">\
-# const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])\
-# </span>\n<span class="p">{</span>\n        <span class="n">NSAutoreleasePool</span> <span class="o">*</span><span \
-# class="n">pool</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSAutoreleasePool</span> <span \
-# class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>\n        <span \
-# class="n">NSLog</span> <span class="p">(</span><span class="err">@</span><span class="s">&quot;Test&quot;</span><span \
-# class="p">);</span>\n        <span class="p">[</span><span class="n">pool</span> <span class="n">drain</span><span \
-# class="p">];</span>\n        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>\n<span \
-# class="p">}</span>\n</pre></div>'''
 
         expected_output = (
             '<p>Test Objective C:</p>\n'
@@ -227,11 +222,6 @@ class IncludeExtensionTest(unittest.TestCase):
             output_format='html5'
         )
 
-        # output with codehilite, nl2br, and fenced_code
-        # expected_output = (
-        #     '<p>Test Swift:</p>\n<div class="codehilite"><pre><span></span><span class="bp">print</span>'
-        #     '<span class="p">(</span><span class="s">&quot;Test&quot;</span><span class="p">)</span>\n</pre></div>')
-
         expected_output = (
             '<p>Test Swift:</p>\n'
             '<pre><code class="swift">print(&quot;Test&quot;)\n'
@@ -249,18 +239,6 @@ class IncludeExtensionTest(unittest.TestCase):
             extension_configs=self.EXTENSION_CONFIGS,
             output_format='html5'
         )
-
-        # output with codehilite, nl2br, and fenced_code
-        # expected_output = (
-        #     '<p>Test JAVA:</p>\n<div class="codehilite"><pre><span></span><span class="kd">public</span>'
-        #     ' <span class="kd">class</span> <span class="nc">TestJava</span><span class="o">{</span>\n\n'
-        #     '    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> '
-        #     '<span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span>'
-        #     ' <span class="n">args</span><span class="o">)</span> <span class="o">{</span>\n'
-        #     '        <span class="n">System</span><span class="o">.</span><span class="na">out</span>'
-        #     '<span class="o">.</span><span class="na">println</span><span class="o">'
-        #     '(</span><span class="s">&quot;Test&quot;</span><span class="o">);</span>\n'
-        #     '    <span class="o">}</span>\n\n<span class="o">}</span>\n</pre></div>')
 
         expected_output = (
             '<p>Test JAVA:</p>\n'
@@ -283,20 +261,6 @@ class IncludeExtensionTest(unittest.TestCase):
             extension_configs=self.EXTENSION_CONFIGS,
             output_format='html5'
         )
-
-        # output with codehilite, nl2br, and fenced_code
-        # expected_output = (
-        #     '<p>Test C++:</p>\n'
-        #     '<div class="codehilite"><pre><span></span><span class="cp">#include</span> '
-        #     '<span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>\n\n<span class="k">using</span> '
-        #     '<span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>\n\n'
-        #     '<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>\n'
-        #     '<span class="p">{</span>\n\t<span class="n">cout</span> <span class="o">&lt;&lt;</span> '
-        #     '<span class="s">&quot;Test&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span>'
-        #     '<span class="p">;</span>\n'
-        #     '\t<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>\n'
-        #     '<span class="p">}</span>\n'
-        #     '</pre></div>')
 
         expected_output = (
             '<p>Test C++:</p>\n'
@@ -321,11 +285,6 @@ class IncludeExtensionTest(unittest.TestCase):
             output_format='html5'
         )
 
-        # output with codehilite, nl2br, and fenced_code
-        # expected_output = (
-        #     '<p>Test CSV:<br>\n'
-        #     '<table><tr><th>Test 1</th><th>Test 2</th><th>Test 3</th></tr>'
-        #     '<tr><td>a</td><td>b</td><td>c</td></tr></table></p>')
         expected_output = (
             '<p>Test CSV:\n'
             '<table><tr><th>Test 1</th><th>Test 2</th><th>Test 3</th></tr>'
@@ -338,48 +297,97 @@ class IncludePreprocessorTest(unittest.TestCase):
     """
     Test the IncludePreprocessor
     """
+    TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.join(TESTS_DIR, 'test_files')
+    CURRENT_DIR = os.path.join(ROOT_DIR, 'deep_assets')
+    ASSET_DIR = 'assets'
 
-    def test_find_file_path(self):
-        pass
+    def setUp(self):
+        md = markdown.Markdown()
+        self.preprocessor = IncludePreprocessor(root_directory=self.ROOT_DIR,
+                                                current_directory=self.CURRENT_DIR,
+                                                asset_directory=self.ASSET_DIR,
+                                                extension_map={},
+                                                markdown_instance=md)
+
+    def test_find_file_path_with_rollup(self):
+        """
+        Test that if file is not found in current_dir that we roll up a directory and find there, if it exists.
+        """
+        self.assertEqual(
+            os.path.join(self.TESTS_DIR, 'test_files', 'assets', 'test.cpp'),
+            self.preprocessor.find_file_path('test.cpp')
+        )
+
+    def test_find_file_path_with_subdirectory(self):
+        """
+        Test that if filename contains directories, we look there and find the correct file.
+        """
+        self.assertEqual(
+            os.path.join(self.TESTS_DIR, 'test_files', 'assets', 'subdir', 'test.json'),
+            self.preprocessor.find_file_path('subdir/test.json')
+        )
+
+    def test_find_file_path_in_current_dir(self):
+        """
+        Test that if file exists in current_dir, we find that one
+        """
+        self.assertEqual(
+            os.path.join(self.TESTS_DIR, 'test_files', 'deep_assets', 'assets', 'test.json'),
+            self.preprocessor.find_file_path('test.json')
+        )
+
+    def test_build_csv_table(self):
+        output = self.preprocessor.build_csv_table(os.path.join(self.ROOT_DIR, self.ASSET_DIR, 'test.csv'))
+        expected_output = [
+            '<table>',
+            '<tr>',
+            '<th>', 'Test 1', '</th>',
+            '<th>', 'Test 2', '</th>',
+            '<th>', 'Test 3', '</th>',
+            '</tr>',
+            '<tr>',
+            '<td>', 'a', '</td>',
+            '<td>', 'b', '</td>',
+            '<td>', 'c', '</td>',
+            '</tr>',
+            '</table>'
+        ]
+        self.assertEqual(expected_output, output)
 
     def test_handle_csv(self):
-        pass
-
-    def test_handle_code_default(self):
-        pass
+        output = self.preprocessor.handle_csv(os.path.join(self.ROOT_DIR, self.ASSET_DIR, 'test.csv'))
+        # handle_csv takes output from build_csv_table() and turns it into a symbol for markdown
+        expected_output = u'\x02wzxhzdk:0\x03'
+        self.assertEqual(expected_output, output)
 
     def test_handle_code_json(self):
-        # TODO: write one for each language
-        pass
+        """
+        Test a json file
+        """
+        output = self.preprocessor.handle_code(os.path.join(self.ROOT_DIR, self.ASSET_DIR, 'test.json'), '.json')
+        self.assertEqual(output, [u'``` .json', '{"test": "content"}', u'```'])
 
     def test_handle_code_javascript(self):
-        # TODO: write one for each language
-        pass
+        """
+        Test a single line source code file
+        """
+        output = self.preprocessor.handle_code(os.path.join(self.ROOT_DIR, self.ASSET_DIR, 'test.js'), '.js')
+        self.assertEqual(output, [u'``` .js', '''alert('test');''', u'```'])
 
-    def test_handle_code_java(self):
-        # TODO: write one for each language
-        pass
-
-    def test_handle_code_c(self):
-        # TODO: write one for each language
-        pass
-
-    def test_handle_code_html(self):
-        # TODO: write one for each language
-        pass
-
-    def test_handle_code_text(self):
-        # TODO: write one for each language
-        pass
-
-    def test_handle_code_swift(self):
-        # TODO: write one for each language
-        pass
-
-    def test_handle_code_css(self):
-        # TODO: write one for each language
-        pass
-
-    def test_handle_code_cpp(self):
-        # TODO: write one for each language
-        pass
+    def test_handle_code_java_multiline(self):
+        """
+        Test a source file with multiple lines.
+        """
+        output = self.preprocessor.handle_code(os.path.join(self.ROOT_DIR, self.ASSET_DIR, 'test.java'), '.java')
+        expected_output = [
+            u'``` .java',
+            u'public class TestJava{',
+            u'',
+            u'    public static void main(String[] args) {',
+            u'        System.out.println("Test");',
+            u'    }',
+            u'',
+            u'}',
+            u'```']
+        self.assertEqual(output, expected_output)
