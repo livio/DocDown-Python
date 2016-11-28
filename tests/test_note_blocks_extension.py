@@ -104,7 +104,7 @@ class NoteBlockExtensionTest(unittest.TestCase):
     def test_render_pystacheadapter_with_prefix_and_postfix(self):
         config = {
             'docdown.note_blocks': {
-                'template_adapter': 'docdown.template_adapters.PystacheAdapter',
+                'template_adapter': 'docdown.template_adapters.pystache.PystacheAdapter',
                 'prefix': ('<div class="{{ tag }}"><div class="icon">{% svg "{{ svg }}" %}'
                            '<img class="icon--pdf" src="{% static "{{ svg_path }}" %}"></div><h5>{{ title }}</h5>'),
                 'postfix': '</div>',
