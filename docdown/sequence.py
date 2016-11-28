@@ -9,11 +9,14 @@ import re
 from .docdown import TemplateRenderMixin
 
 
+DEFAULT_ADAPTER = 'docdown.template_adapters.StringFormatAdapter'
+
+
 class SequenceDiagramBlockPreprocessor(TemplateRenderMixin, Preprocessor):
 
     RE = re.compile(r'\|{3,}\s*?\n(?P<content>[\s\S\n]*?)!(\[(?P<title>.*)\])?\((?P<url>\S*)\)\n\|{3,}', re.MULTILINE)
 
-    def __init__(self, media_url=None, prefix='', postfix='', template_adapter='docdown.template_adapters.StringFormatAdapter', **kwargs):
+    def __init__(self, media_url=None, prefix='', postfix='', template_adapter=DEFAULT_ADAPTER, **kwargs):
         self.media_url = media_url
         self.prefix = prefix
         self.postfix = postfix

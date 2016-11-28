@@ -8,6 +8,7 @@ from __future__ import absolute_import, unicode_literals, print_function
 
 import pystache
 
+
 class PystacheAdapter(object):
     """
     Adapter for NoteBlockPreprocessor to render mustache templates using pystache

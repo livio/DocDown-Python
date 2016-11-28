@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals, print_function
 
 import importlib
 
+
 class TemplateRenderMixin(object):
     """
     Mixin for extensions which render templates as part of their output

@@ -15,6 +15,10 @@ import re
 
 from .docdown import TemplateRenderMixin
 
+
+DEFAULT_ADAPTER = 'docdown.template_adapters.StringFormatAdapter'
+
+
 class NoteBlockPreprocessor(TemplateRenderMixin, Preprocessor):
 
     RE = re.compile(r'''
@@ -22,7 +26,7 @@ class NoteBlockPreprocessor(TemplateRenderMixin, Preprocessor):
 (?P<content>.*?)(?<=\n)
 (?P=fence)[ ]*$''', re.MULTILINE | re.DOTALL | re.VERBOSE)
 
-    def __init__(self, prefix='', postfix='', tags=None, template_adapter='docdown.template_adapters.StringFormatAdapter', **kwargs):
+    def __init__(self, prefix='', postfix='', tags=None, template_adapter=DEFAULT_ADAPTER, **kwargs):
         if tags is None:
             tags = {}
         self.prefix = prefix
@@ -88,8 +92,8 @@ class NoteExtension(Extension):
             'postfix': ['</div>', 'Closing tag(s) which wrap the content'],
             'tags': [{}, 'Template context passed into template rendering'],
             'template_adapter': ['docdown.template_adapters.StringFormatAdapter',
-                                  ('Adapter for rendering prefix and postfix templates'
-                                   ' using your template language of choice.')],
+                                 ('Adapter for rendering prefix and postfix templates'
+                                  ' using your template language of choice.')],
         }
         super(NoteExtension, self).__init__(**kwargs)
 

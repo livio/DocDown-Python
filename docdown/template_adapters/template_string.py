@@ -7,6 +7,7 @@ from __future__ import absolute_import, unicode_literals, print_function
 
 from string import Template
 
+
 class TemplateStringAdapter(object):
 
     def render(self, template='', context=None, *args, **kwargs):
