@@ -32,3 +32,17 @@ class StringFormatAdapterTest(unittest.TestCase):
 
         expected = 'Hi, my name is Justin'
         self.assertEqual(expected, result)
+
+    def test_render_missing_placeholders(self):
+        """
+        Test that rendering where a placeholder is in the string but not in the context
+        renders an empty string for that string.
+        """
+
+        template = 'Hi, my name is {name}'
+        context = {}
+        adapter = string_format.StringFormatAdapter()
+        result = adapter.render(template, context)
+
+        expected = 'Hi, my name is '
+        self.assertEqual(expected, result)
