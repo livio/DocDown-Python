@@ -47,10 +47,12 @@ class NoteBlockPreprocessor(TemplateRenderMixin, Preprocessor):
                 try:
                     context = self.tags[css_class]
                 except KeyError:
-                    css_class = self.default_tag
-                    context = self.tags[css_class]
+                    if self.default_tag is not None:
+                        css_class = self.default_tag
+                        context = self.tags[css_class]
+                    else:
+                        context = {}
                     
-                context = self.tags.get(css_class, {})
                 context.update({'tag': css_class})
 
                 prefix = renderer.render(template=self.prefix, context=context)
