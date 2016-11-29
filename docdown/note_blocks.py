@@ -102,7 +102,7 @@ class NoteExtension(Extension):
             'template_adapter': ['docdown.template_adapters.StringFormatAdapter',
                                  ('Adapter for rendering prefix and postfix templates'
                                   ' using your template language of choice.')],
-            'default_tag': [None, 'Default tag to use if the specified tag is not in the tags dict'],
+            'default_tag': ['', 'Default tag to use if the specified tag is not in the tags dict'],
         }
         super(NoteExtension, self).__init__(**kwargs)
 
