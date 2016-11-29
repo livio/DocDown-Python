@@ -26,12 +26,13 @@ class NoteBlockPreprocessor(TemplateRenderMixin, Preprocessor):
 (?P<content>.*?)(?<=\n)
 (?P=fence)[ ]*$''', re.MULTILINE | re.DOTALL | re.VERBOSE)
 
-    def __init__(self, prefix='', postfix='', tags=None, template_adapter=DEFAULT_ADAPTER, **kwargs):
+    def __init__(self, prefix='', postfix='', tags=None, template_adapter=DEFAULT_ADAPTER, default_tag='', **kwargs):
         if tags is None:
             tags = {}
         self.prefix = prefix
         self.postfix = postfix
         self.tags = tags
+        self.default_tag = default_tag
         super(NoteBlockPreprocessor, self).__init__(template_adapter=template_adapter, **kwargs)
 
     def run(self, lines):
@@ -47,11 +48,8 @@ class NoteBlockPreprocessor(TemplateRenderMixin, Preprocessor):
                 try:
                     context = self.tags[css_class]
                 except KeyError:
-                    if self.default_tag is not None:
                         css_class = self.default_tag
-                        context = self.tags[css_class]
-                    else:
-                        context = {}
+                        context = self.tags.get(css_class, {})
                     
                 context.update({'tag': css_class})
 
