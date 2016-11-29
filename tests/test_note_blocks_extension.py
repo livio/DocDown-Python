@@ -23,11 +23,31 @@ class NoteBlockExtensionTest(unittest.TestCase):
             'prefix': ('<div class="{tag}">\n<div class="icon">\n{{% svg "{svg}" %}}'
                        '<img class="icon--pdf" src="{{% static "{svg_path}" %}}"></div>\n<h5>{title}</h5>'),
             'postfix': '</div>',
+            'default_tag': 'note',
             'tags': {
                 'must': {
                     'svg': 'standard/icon-must',
                     'svg_path': 'svg/standard/icon-must.svg',
                     'title': 'Must'
+                },
+                'note': {
+                    'svg': 'standard/icon-note',
+                    'svg_path': 'svg/standard/icon-note.svg',
+                    'title': 'Note'
+                },
+                'prefixed': {
+                    'svg': 'standard/icon-note',
+                    'svg_path': 'svg/standard/icon-note.svg',
+                    'title': 'Prefixed',
+                    'prefix': ('<div class="{tag}">\n<div class="icon">\n{{% svg "{svg}" %}}'
+                               '<img class="icon--pdf" src="{{% static "{svg_path}" %}}"></div>\n'
+                               '<h5>Prefix {title}</h5>')
+                },
+                'postfixed': {
+                    'svg': 'standard/icon-note',
+                    'svg_path': 'svg/standard/icon-note.svg',
+                    'title': 'Postfixed',
+                    'postfix': '<p>Postfix</p></div>',
                 },
             },
         }
@@ -132,4 +152,67 @@ class NoteBlockExtensionTest(unittest.TestCase):
             '<div class="must"><div class="icon">'
             '{% svg "standard/icon-must" %}<img class="icon--pdf" src="{% static "svg/standard/icon-must.svg" %}">'
             '</div><h5>Must</h5>\n\n<p>hello world</p>\n</div>')
+        self.assertEqual(html, expected_output)
+
+    def test_default_tag_setting(self):
+        """
+        Pass a tag that doesn't exist and verify that the default tag values get used
+        """
+
+        text = ('!!! DOESNOTEXIST\n'
+                'hello world\n'
+                '!!!')
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.EXTENSION_CONFIGS,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = (
+            '<div class="note">\n<div class="icon">\n'
+            '{% svg "standard/icon-note" %}<img class="icon--pdf" src="{% static "svg/standard/icon-note.svg" %}">'
+            '</div>\n<h5>Note</h5>\n\n<p>hello world</p>\n</div>')
+        self.assertEqual(html, expected_output)
+
+    def test_tag_level_prefix(self):
+        """
+        Pass a tag that doesn't exist and verify that the default tag values get used
+        """
+
+        text = ('!!! PREFIXED\n'
+                'hello world\n'
+                '!!!')
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.EXTENSION_CONFIGS,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = (
+            '<div class="prefixed">\n<div class="icon">\n'
+            '{% svg "standard/icon-note" %}<img class="icon--pdf" src="{% static "svg/standard/icon-note.svg" %}">'
+            '</div>\n<h5>Prefix Prefixed</h5>\n\n<p>hello world</p>\n</div>')
+        self.assertEqual(html, expected_output)
+
+    def test_tag_level_postfix(self):
+        """
+        Pass a tag that doesn't exist and verify that the default tag values get used
+        """
+
+        text = ('!!! POSTFIXED\n'
+                'hello world\n'
+                '!!!')
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.EXTENSION_CONFIGS,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = (
+            '<div class="postfixed">\n<div class="icon">\n'
+            '{% svg "standard/icon-note" %}<img class="icon--pdf" src="{% static "svg/standard/icon-note.svg" %}">'
+            '</div>\n<h5>Postfixed</h5>\n\n<p>hello world</p>\n<p>Postfix</p></div>')
         self.assertEqual(html, expected_output)

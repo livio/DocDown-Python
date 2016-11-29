@@ -50,11 +50,13 @@ class NoteBlockPreprocessor(TemplateRenderMixin, Preprocessor):
                 except KeyError:
                         css_class = self.default_tag
                         context = self.tags.get(css_class, {})
-                    
+
                 context.update({'tag': css_class})
 
-                prefix = renderer.render(template=self.prefix, context=context)
-                postfix = renderer.render(template=self.postfix, context=context)
+                prefix_template = context.get('prefix', self.prefix)
+                postfix_template = context.get('postfix', self.postfix)
+                prefix = renderer.render(template=prefix_template, context=context)
+                postfix = renderer.render(template=postfix_template, context=context)
 
                 start_tag = self.markdown.htmlStash.store(prefix, safe=True)
                 end_tag = self.markdown.htmlStash.store(postfix, safe=True)
