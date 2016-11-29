@@ -13,6 +13,7 @@ import copy
 import markdown
 import unittest
 
+
 class NoteBlockExtensionTest(unittest.TestCase):
     """
     Integration test with markdown for :class:`docdown.note_blocks.NoteBlockExtension`
