@@ -44,6 +44,12 @@ class NoteBlockPreprocessor(TemplateRenderMixin, Preprocessor):
                 css_class = fence_type.lower()
                 content = m.group('content')
 
+                try:
+                    context = self.tags[css_class]
+                except KeyError:
+                    css_class = self.default_tag
+                    context = self.tags[css_class]
+                    
                 context = self.tags.get(css_class, {})
                 context.update({'tag': css_class})
 
@@ -94,6 +100,7 @@ class NoteExtension(Extension):
             'template_adapter': ['docdown.template_adapters.StringFormatAdapter',
                                  ('Adapter for rendering prefix and postfix templates'
                                   ' using your template language of choice.')],
+            'default_tag': [None, 'Default tag to use if the specified tag is not in the tags dict'],
         }
         super(NoteExtension, self).__init__(**kwargs)
 
@@ -105,12 +112,14 @@ class NoteExtension(Extension):
         postfix = self.getConfig('postfix')
         tags = self.getConfig('tags')
         template_adapter = self.getConfig('template_adapter')
+        default_tag = self.getConfig('default_tag')
 
         md.preprocessors.add('note_blocks',
                              NoteBlockPreprocessor(prefix=prefix,
                                                    postfix=postfix,
                                                    tags=tags,
                                                    template_adapter=template_adapter,
+                                                   default_tag=default_tag,
                                                    markdown_instance=md),
                              ">normalize_whitespace")
 
