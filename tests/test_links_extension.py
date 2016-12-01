@@ -65,3 +65,20 @@ class LinksExtensionTest(unittest.TestCase):
 
         expected_output = ('<p><a href="home/localhost#fragment">this is a link</a></p>')
         self.assertEqual(html, expected_output)
+
+    def test_link_with_fragment_not_in_link_map_keeps_fragment(self):
+        """
+        Regression test ensuring the url fragment (a hash and then an identifier)
+        is not stripped away when a link which is not found in the link map is processed.
+        """
+        text = '[this is a link](http://example.com#a_fragment)'
+
+        html = markdown.markdown(
+            text,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            extension_configs=self.EXTENSION_CONFIGS,
+            output_format='html5'
+        )
+
+        expected_output = ('<p><a href="http://example.com#a_fragment">this is a link</a></p>')
+        self.assertEqual(html, expected_output)
