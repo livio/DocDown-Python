@@ -1,4 +1,4 @@
-* DocDown Python version:
+* Python DocDown version:
 * Python version:
 * Operating System:
 

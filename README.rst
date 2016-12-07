@@ -1,5 +1,5 @@
 ===============================
-DocDown Python
+Python DocDown
 ===============================
 
 Python DocDown is a suite of extensions for `Python Markdown`_.
@@ -12,7 +12,7 @@ Python DocDown is a suite of extensions for `Python Markdown`_.
 Documentation
 ----------------
 
-Run ``make docs`` to build the HTML documentation for DocDown Python
+Run ``make docs`` to build the HTML documentation for Python DocDown
 
 Credits
 ---------
