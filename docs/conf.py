@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# docdown_python documentation build configuration file, created by
+# python_docdown documentation build configuration file, created by
 # sphinx-quickstart on Tue Jul  9 22:26:36 2013.
 #
 # This file is execfile()d with the current directory set to its
@@ -55,7 +55,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'DocDown Python'
+project = u'Python DocDown'
 copyright = u"2016, Mobelux"
 
 # The version info for the project you're documenting, acts as replacement
@@ -188,7 +188,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'docdown_pythondoc'
+htmlhelp_basename = 'python_docdowndoc'
 
 
 # -- Options for LaTeX output ------------------------------------------
@@ -208,8 +208,8 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass
 # [howto/manual]).
 latex_documents = [
-    ('index', 'docdown_python.tex',
-     u'DocDown Python Documentation',
+    ('index', 'python_docdowntex',
+     u'Python DocDown Documentation',
      u'Mobelux', 'manual'),
 ]
 
@@ -239,8 +239,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'docdown_python',
-     u'DocDown Python Documentation',
+    ('index', 'python_docdown',
+     u'Python DocDown Documentation',
      [u'Mobelux'], 1)
 ]
 
@@ -254,10 +254,10 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'docdown_python',
-     u'DocDown Python Documentation',
+    ('index', 'python_docdown',
+     u'Python DocDown Documentation',
      u'Mobelux',
-     'docdown_python',
+     'python_docdown',
      'One line description of project.',
      'Miscellaneous'),
 ]

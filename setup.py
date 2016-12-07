@@ -19,7 +19,7 @@ test_requirements = [
 ]
 
 setup(
-    name='docdown_python',
+    name='docdown',
     version='0.1.0',
     description="DocDown is a Markdown extension for source code documentation.",
     long_description=readme + '\n\n' + history,
@@ -34,7 +34,7 @@ setup(
     include_package_data=True,
     install_requires=requirements,
     zip_safe=False,
-    keywords=['docdown', 'docdown_python', 'markdown', 'documentation'],
+    keywords=['docdown', 'markdown', 'documentation'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',

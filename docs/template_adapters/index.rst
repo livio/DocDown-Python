@@ -2,12 +2,12 @@
 Template Adapters
 ###################
 
-Some DocDown extensions make use of blocks of HTML which the user may configure via templates.  DocDown Python
+Some DocDown extensions make use of blocks of HTML which the user may configure via templates.  Python DocDown
 uses template adapter classes which provide a ``render(template, context)`` method to allow for a configurable
 templating language to be used.  The templatable extensions have a `template_adapter` configuration paramters which
 takes the module and class to use, such as ``docdown.template_adapters.StringFormatAdapter``.
 
-The following template adapters are provided by the DocDown Python package.
+The following template adapters are provided by the Python DocDown package.
 
 * ``docdown.template_adapters.StringFormatAdapters``
     This is the default adapter.  It uses standard Python `string formatting`_ for the templates.

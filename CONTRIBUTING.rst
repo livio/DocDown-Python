@@ -38,8 +38,8 @@ and "help wanted" is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-DocDown Python could always use more documentation, whether as part of the
-official DocDown Python docs, in docstrings, or even on the web in blog posts,
+Python DocDown could always use more documentation, whether as part of the
+official Python DocDown docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
@@ -57,9 +57,9 @@ If you are proposing a feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `docdown_python` for local development.
+Ready to contribute? Here's how to set up `docdown` for local development.
 
-1. Fork the `docdown_python` repo on GitHub.
+1. Fork the `docdown` repo on GitHub.
 2. Clone your fork locally::
 
     $ git clone git@github.com:your_name_here/DocDown-Python.git docdown_python
