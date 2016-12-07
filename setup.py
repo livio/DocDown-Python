@@ -23,8 +23,8 @@ setup(
     version='0.1.0',
     description="DocDown is a Markdown extension for source code documentation.",
     long_description=readme + '\n\n' + history,
-    author="Justin Michalicek",
-    author_email='justin@mobelux.com',
+    author="Jason Emerick, Justin Michalicek",
+    author_email='jason@mobelux.com, justin@mobelux.com',
     url='https://github.com/Mobelux/DocDown-Python',
     packages=[
         'docdown',
