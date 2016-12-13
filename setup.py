@@ -25,7 +25,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Jason Emerick, Justin Michalicek",
     author_email='jason@mobelux.com, justin@mobelux.com',
-    url='https://github.com/Mobelux/DocDown-Python',
+    url='https://github.com/livio/DocDown-Python',
     packages=[
         'docdown',
     ],
@@ -42,7 +42,6 @@ setup(
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',

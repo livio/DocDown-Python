@@ -4,9 +4,8 @@ Python DocDown
 
 Python DocDown is a suite of extensions for `Python Markdown`_.
 
-.. image:: https://pyup.io/repos/github/Mobelux/DocDown-Python/shield.svg
-     :target: https://pyup.io/repos/github/Mobelux/DocDown-Python/
-     :alt: Updates
+.. image:: https://travis-ci.org/livio/DocDown-Python.svg?branch=master
+    :target: https://travis-ci.org/livio/DocDown-Python
 
 
 Documentation
