@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/Mobelux/DocDown-Python/issues.
+Report bugs at https://github.com/livio/DocDown-Python/issues.
 
 If you are reporting a bug, please include:
 
@@ -45,7 +45,7 @@ articles, and such.
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/Mobelux/DocDown-Python/issues.
+The best way to send feedback is to file an issue at https://github.com/livio/DocDown-Python/issues.
 
 If you are proposing a feature:
 
@@ -102,7 +102,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
 3. The pull request should work for Python 2.7, 3.2, 3.3, 3.4 and 3.5, and for PyPy. Check
-   https://travis-ci.org/Mobelux/DocDown-Python/pull_requests
+   https://travis-ci.org/livio/DocDown-Python/pull_requests
    and make sure that the tests pass for all supported Python versions.
 
 Tips
