@@ -28,9 +28,9 @@ setup(
     url='https://github.com/livio/DocDown-Python',
     packages=[
         'docdown',
+        'docdown.template_adapters'
     ],
-    package_dir={'docdown':
-                 'docdown'},
+    package_dir={'docdown': 'docdown'},
     include_package_data=True,
     install_requires=requirements,
     zip_safe=False,
