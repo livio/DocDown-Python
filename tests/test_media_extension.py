@@ -99,8 +99,6 @@ class MediaExtensionTest(unittest.TestCase):
         self.assertEqual(html, expected_output)
 
     def test_image_tag_set_with_relative_path_and_media_url_trailing_slash(self):
-        # This test is testing existing functionality, but it is possible that
-        # it really should remove the code should remove the ./ from the path
         text = '![Alt text](./path/to/img.jpg)'
         html = markdown.markdown(
             text,
@@ -108,5 +106,5 @@ class MediaExtensionTest(unittest.TestCase):
             extension_configs={'docdown.media': {'media_url': 'http://example.com/', }},
             output_format='html5'
         )
-        expected_output = '<p><img alt="Alt text" src="http://example.com/./path/to/img.jpg"></p>'
+        expected_output = '<p><img alt="Alt text" src="http://example.com/path/to/img.jpg"></p>'
         self.assertEqual(html, expected_output)

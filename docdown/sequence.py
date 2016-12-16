@@ -34,7 +34,7 @@ class SequenceDiagramBlockPreprocessor(TemplateRenderMixin, Preprocessor):
                 image_url = m.group('url')
                 title = m.group('title') or 'Sequence Diagram'
 
-                if image_url.startswith('.'):
+                if image_url.startswith('./'):
                     image_url = image_url[2:]  # ./assets/image.png -> assets/image.png
 
                 if self.media_url is not None:
