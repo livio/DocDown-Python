@@ -16,8 +16,10 @@ class MediaTreeprocessor(Treeprocessor):
         image_tags = root.findall('.//img')
         if self.media_url is not None:
             for image_tag in image_tags:
-                tag_src = image_tag.get('src').lower()
-                if not tag_src.startswith('http') and not tag_src.startswith('//'):
+                tag_src = image_tag.get('src')
+                if not tag_src.lower().startswith('http') and not tag_src.startswith('//'):
+                    if tag_src.startswith('./'):
+                        tag_src = tag_src[2:]
                     # TODO: relative image tag source starting with . like sequence
                     # diagrams?
 
@@ -27,7 +29,8 @@ class MediaTreeprocessor(Treeprocessor):
                     # example.com + /blah.html = example.com/blah.html
                     # example.com/ + blah.html = example.com/blah.html
                     # example.com + blah.html = example.com/blah.html
-                    image_tag.set('src', self.media_url.rstrip('/') + '/' + image_tag.get('src').lstrip('/'))
+                    # example.com + ./blah.html = example.com/blah.html
+                    image_tag.set('src', self.media_url.rstrip('/') + '/' + tag_src.lstrip('/'))
 
 
 class MediaExtension(Extension):
