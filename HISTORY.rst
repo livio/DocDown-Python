@@ -2,7 +2,7 @@
 History
 =======
 
-Current
+0.1.1 (2016-12-16)
 __________
 
 * Strip leading ./ from media urls when concatenating with a set media_url
