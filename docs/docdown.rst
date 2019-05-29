@@ -51,6 +51,14 @@ docdown.note_blocks module
     :undoc-members:
     :show-inheritance:
 
+docdown.platform_section module
+-------------------------------
+
+.. automodule:: docdown.platform_section
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 docdown.sequence module
 -----------------------
 
