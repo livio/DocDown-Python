@@ -1,9 +1,9 @@
 # Config file for automatic testing at travis-ci.org
 # This file will be regenerated if you run travis_pypi_setup.py
 # test to trigger commit
-
+dist: xenial   # required for Python >= 3.7
 language: python
-python: 3.5
+python: 3.7
 
 env:
   - TOXENV=py35
