@@ -3,18 +3,14 @@
 # test to trigger commit
 dist: xenial   # required for Python >= 3.7
 language: python
-python: 3.7
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
 
-env:
-  - TOXENV=py35
-  - TOXENV=py34
-  - TOXENV=py36
-  - TOXENV=py37
-  - TOXENV=py27
-  - TOXENV=coverage
+install: pip install -r requirements_dev.txt
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -U tox
-
-# command to run tests, e.g. python setup.py test
-script: tox -e ${TOXENV}
+script: python setup.py test
