@@ -20,7 +20,7 @@ test_requirements = [
 
 setup(
     name='docdown',
-    version='0.2.0',
+    version='0.2.1',
     description="DocDown is a Markdown extension for source code documentation.",
     long_description=readme + '\n\n' + history,
     author="Jason Emerick, Justin Michalicek",

@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.1 (2019-05-31)
+------------------
+
+* Fix Platform Section Markdown Extension bug with code blocks
+
 0.2.0 (2019-05-29)
 ------------------
 
