@@ -115,6 +115,23 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         expected_output = '<p>some content\nshown</p>'
         self.assertEqual(expected_output, html)
 
+    def test_section_with_code_snippet(self):
+        text = ('@![Android]\n'
+                'some Android content shown\n\n'
+                '``` java\n'
+                'String java = "asdf";\n'
+                '```\n'
+                '!@\n')
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('Android'),
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code></p>'
+        self.assertEqual(expected_output, html)
+
     def test_multiple_sections_with_code_snippet(self):
         text = ('@![iOS]\n'
                 'some iOS content not shown\n\n'
@@ -133,5 +150,5 @@ class PlatformSectionExtensionTest(unittest.TestCase):
             extensions=self.MARKDOWN_EXTENSIONS,
             output_format='html5'
         )
-        expected_output = '<p>some Android content shown</p>\n<p>``` java\nString java = "asdf";</p>'
+        expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code></p>'
         self.assertEqual(expected_output, html)

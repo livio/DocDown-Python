@@ -20,7 +20,7 @@ class PlatformSectionPreprocessor(Preprocessor):
     RE = re.compile(r'''
 ^@!\[(?P<sections>[\w,]+)\]\W*\n
 (?P<content>.*?)(?<=\n)
-\W*!@\W*$''', re.MULTILINE | re.DOTALL | re.VERBOSE)
+!@\W*$''', re.MULTILINE | re.DOTALL | re.VERBOSE)
 
     def __init__(self, platform_section, **kwargs):
         self.platform_section = platform_section.lower().strip()
