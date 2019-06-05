@@ -18,7 +18,7 @@ from markdown.preprocessors import Preprocessor
 class PlatformSectionPreprocessor(Preprocessor):
 
     RE = re.compile(r'''
-^@!\[(?P<sections>[\w,]+)\]\W*\n
+^@!\[(?P<sections>[\w, ]+)\]\W*\n
 (?P<content>.*?)(?<=\n)
 !@\W*$''', re.MULTILINE | re.DOTALL | re.VERBOSE)
 

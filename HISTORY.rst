@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.2 (2019-06-05)
+------------------
+
+* Fix Platform Section Markdown Extension bug with spaces in platform section names
+
 0.2.1 (2019-05-31)
 ------------------
 

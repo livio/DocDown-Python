@@ -97,6 +97,37 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         expected_output = '<p>some content\nshown</p>'
         self.assertEqual(expected_output, html)
 
+    def test_platform_sections_with_spaces(self):
+        text = ('@![asdf, qwerty]\n'
+                'some content\nshown\n\n'
+                '!@\n')
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('qwerty'),
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = '<p>some content\nshown</p>'
+        self.assertEqual(expected_output, html)
+
+    def test_platform_section_with_space(self):
+        text = ('@![asdf, qwerty, another platform]\n'
+                'some content\nshown\n\n'
+                '!@\n'
+                '@![another platform]\n'
+                'some extra content\nshown\n\n'
+                '!@\n')
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('another platform'),
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = '<p>some content\nshown</p>\n<p>some extra content\nshown</p>'
+        self.assertEqual(expected_output, html)
+
     def test_multiple_sections(self):
         text = ('@![asdf,QwErTy]\n'
                 'some content\nnot shown\n\n'
