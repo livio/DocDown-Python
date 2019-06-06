@@ -183,3 +183,34 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         )
         expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code></p>'
         self.assertEqual(expected_output, html)
+
+    def test_inline_platform_section(self):
+        text = ('### 1. Creating an App Service Manifest\n'
+                'The first step to publishing is to create an @![iOS]`SDLAppServiceManifest`!@ @![Android, JavaSE, JavaEE]`AppServiceManifest`!@ object.\n')
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('Android'),
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = '<h3>1. Creating an App Service Manifest</h3>\n<p>The first step to publishing is to create an  <code>AppServiceManifest</code> object.</p>'
+        self.assertEqual(expected_output, html)
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('JavaEE'),
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = '<h3>1. Creating an App Service Manifest</h3>\n<p>The first step to publishing is to create an  <code>AppServiceManifest</code> object.</p>'
+        self.assertEqual(expected_output, html)
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('iOS'),
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = '<h3>1. Creating an App Service Manifest</h3>\n<p>The first step to publishing is to create an <code>SDLAppServiceManifest</code>  object.</p>'
+        self.assertEqual(expected_output, html)

@@ -37,6 +37,13 @@ In documents
    This section will be displayed for Java SE and EE builds.
    !@
 
+Inline platform section tags are also supported:
+
+.. code-block:: html5
+
+   ### 1. Creating an App Service Manifest
+   The first step to publishing is to create an @![iOS]`SDLAppServiceManifest`!@ @![Android, JavaSE, JavaEE]`AppServiceManifest`!@ object.
+
 Python
 --------------
 

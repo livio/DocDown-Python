@@ -17,10 +17,12 @@ from markdown.preprocessors import Preprocessor
 
 class PlatformSectionPreprocessor(Preprocessor):
 
-    RE = re.compile(r'''
+    BLOCK_RE = re.compile(r'''
 ^@!\[(?P<sections>[\w, ]+)\]\W*\n
 (?P<content>.*?)(?<=\n)
 !@\W*$''', re.MULTILINE | re.DOTALL | re.VERBOSE)
+
+    INLINE_RE = re.compile(r'''@!\[(?P<sections>[\w, ]+)\](?P<content>.*?)!@''', re.DOTALL | re.VERBOSE)
 
     def __init__(self, platform_section, **kwargs):
         self.platform_section = platform_section.lower().strip()
@@ -28,21 +30,42 @@ class PlatformSectionPreprocessor(Preprocessor):
 
     def run(self, lines):
         text = "\n".join(lines)
-        while 1:
-            m = self.RE.search(text)
-            if m:
-                sections = [section.lower().strip() for section in m.group('sections').split(',')]
+        text = self.process_inline(text)
+        text = self.process_block(text)
+        return text.split("\n")
 
-                content = m.group('content')
+    def split_sections(self, sections_group):
+        return [section.lower().strip() for section in sections_group.split(',')]
+
+    def process_inline(self, text):
+        while 1:
+            m = self.INLINE_RE.search(text)
+            if m:
+                sections = self.split_sections(m.group('sections'))
 
                 if self.platform_section in sections:
+                    content = m.group('content')
+                    text = '%s%s%s' % (text[:m.start()], content, text[m.end():])
+                else:
+                    text = '%s%s' % (text[:m.start()], text[m.end():])
+            else:
+                break
+        return text
+
+    def process_block(self, text):
+        while 1:
+            m = self.BLOCK_RE.search(text)
+            if m:
+                sections = self.split_sections(m.group('sections'))
+
+                if self.platform_section in sections:
+                    content = m.group('content')
                     text = '%s\n%s\n%s' % (text[:m.start()], content, text[m.end():])
                 else:
                     text = '%s\n%s' % (text[:m.start()], text[m.end():])
             else:
                 break
-
-        return text.split("\n")
+        return text
 
 
 class PlatformSectionExtension(Extension):
