@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.3 (2019-06-06)
+------------------
+
+* Add support for inline platform section tags
+
 0.2.2 (2019-06-05)
 ------------------
 
