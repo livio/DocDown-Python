@@ -215,6 +215,26 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         expected_output = '<h3>1. Creating an App Service Manifest</h3>\n<p>The first step to publishing is to create an <code>SDLAppServiceManifest</code> object.</p>'
         self.assertEqual(expected_output, html)
 
+        text = 'This is just some inline text for the @![ios]iOS!@ @![android]Android!@ platform.'
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('iOS'),
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = '<p>This is just some inline text for the iOS platform.</p>'
+        self.assertEqual(expected_output, html)
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('Android'),
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = '<p>This is just some inline text for the Android platform.</p>'
+        print(html)
+        self.assertEqual(expected_output, html)
+
     def test_table_row_platform_section(self):
         text = ('### Header\n'
                 '| Parameters  |  Description | Notes |\n'
