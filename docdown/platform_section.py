@@ -47,7 +47,7 @@ class PlatformSectionPreprocessor(Preprocessor):
                     content = m.group('content')
                     text = '%s%s%s' % (text[:m.start()], content, text[m.end():])
                 else:
-                    text = '%s%s' % (text[:m.start()], text[m.end():])
+                    text = '%s%s' % (text[:m.start()], text[m.end():].lstrip())
             else:
                 break
         return text
