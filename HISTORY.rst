@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.4 (2019-06-11)
+------------------
+
+* Fix whitespace issues with inline platform tags breaking markdown table formatting
+
 0.2.3 (2019-06-06)
 ------------------
 
