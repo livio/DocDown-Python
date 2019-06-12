@@ -17,12 +17,8 @@ from markdown.preprocessors import Preprocessor
 
 class PlatformSectionPreprocessor(Preprocessor):
 
-    BLOCK_RE = re.compile(r'''
-^@!\[(?P<sections>[\w, ]+)\]\W*\n
-(?P<content>.*?)(?<=\n)
-!@\W*$''', re.MULTILINE | re.DOTALL | re.VERBOSE)
+    PLATFORM_SECTION_RE = re.compile(r'''@!\[(?P<sections>[\w, ]+)\](?P<content>.*?)!@''', re.DOTALL | re.VERBOSE)
 
-    INLINE_RE = re.compile(r'''@!\[(?P<sections>[\w, ]+)\](?P<content>.*?)!@''', re.DOTALL | re.VERBOSE)
     STARTSWITH_WHITESPACE_RE = re.compile(r'^\W+(@!\[|\n)')
 
     def __init__(self, platform_section, **kwargs):
@@ -31,33 +27,18 @@ class PlatformSectionPreprocessor(Preprocessor):
 
     def run(self, lines):
         text = "\n".join(lines)
-        text = self.process_inline(text)
-        text = self.process_block(text)
+        text = self.process_platform_sections(text)
         return text.split("\n")
 
     def split_sections(self, sections_group):
         return [section.lower().strip() for section in sections_group.split(',')]
 
-    def process_inline(self, text):
+    def process_platform_sections(self, text):
         while 1:
-            m = self.INLINE_RE.search(text)
+            m = self.PLATFORM_SECTION_RE.search(text)
             if m:
                 sections = self.split_sections(m.group('sections'))
 
-                if self.platform_section in sections:
-                    content = m.group('content')
-                    text = '%s%s%s' % (text[:m.start()], content, text[m.end():])
-                else:
-                    text = '%s%s' % (text[:m.start()], text[m.end():].lstrip())
-            else:
-                break
-        return text
-
-    def process_block(self, text):
-        while 1:
-            m = self.BLOCK_RE.search(text)
-            if m:
-                sections = self.split_sections(m.group('sections'))
                 start = text[:m.start()]
                 end = text[m.end():]
                 if self.STARTSWITH_WHITESPACE_RE.match(end):
