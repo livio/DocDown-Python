@@ -160,7 +160,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
             extensions=self.MARKDOWN_EXTENSIONS,
             output_format='html5'
         )
-        expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code></p>'
+        expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code>\n</p>'
         self.assertEqual(expected_output, html)
 
     def test_multiple_sections_with_code_snippet(self):
@@ -181,7 +181,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
             extensions=self.MARKDOWN_EXTENSIONS,
             output_format='html5'
         )
-        expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code></p>'
+        expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code>\n</p>'
         self.assertEqual(expected_output, html)
 
     def test_inline_platform_section(self):
@@ -232,7 +232,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
             output_format='html5'
         )
         expected_output = '<p>This is just some inline text for the Android platform.</p>'
-        print(html)
+
         self.assertEqual(expected_output, html)
 
     def test_table_row_platform_section(self):
@@ -286,4 +286,24 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         )
 
         self.assertEqual(expected_output, html)
-        print(html)
+
+    def test_back_to_back_platform_section_tags(self):
+        text = 'Back to back @![ios]iOS!@@![android]Android!@ tags!'
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('iOS'),
+            extensions=['markdown.extensions.tables'] + self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+
+        expected_output = '<p>Back to back iOS tags!</p>'
+        self.assertEqual(expected_output, html)
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('Android'),
+            extensions=['markdown.extensions.tables'] + self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = '<p>Back to back Android tags!</p>'
+        self.assertEqual(expected_output, html)
