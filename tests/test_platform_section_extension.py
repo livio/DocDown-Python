@@ -160,7 +160,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
             extensions=self.MARKDOWN_EXTENSIONS,
             output_format='html5'
         )
-        expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code>\n</p>'
+        expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code></p>'
         self.assertEqual(expected_output, html)
 
     def test_multiple_sections_with_code_snippet(self):
@@ -181,7 +181,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
             extensions=self.MARKDOWN_EXTENSIONS,
             output_format='html5'
         )
-        expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code>\n</p>'
+        expected_output = '<p>some Android content shown</p>\n<p><code>java\nString java = "asdf";</code></p>'
         self.assertEqual(expected_output, html)
 
     def test_inline_platform_section(self):
@@ -306,4 +306,26 @@ class PlatformSectionExtensionTest(unittest.TestCase):
             output_format='html5'
         )
         expected_output = '<p>Back to back Android tags!</p>'
+        self.assertEqual(expected_output, html)
+
+    def test_tag_end_paragraph_start_header(self):
+        text = 'You need to implement this. @![ios]In iOS, also this.!@\n\n## Next Header\nThe header above should be rendered.\n'
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('iOS'),
+            extensions=['markdown.extensions.tables'] + self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+
+        expected_output = '<p>You need to implement this. In iOS, also this.</p>\n<h2>Next Header</h2>\n<p>The header above should be rendered.</p>'
+        self.assertEqual(expected_output, html)
+
+        html = markdown.markdown(
+            text,
+            extension_configs=self.build_config_for_platform_section('Android'),
+            extensions=['markdown.extensions.tables'] + self.MARKDOWN_EXTENSIONS,
+            output_format='html5'
+        )
+        expected_output = '<p>You need to implement this. </p>\n<h2>Next Header</h2>\n<p>The header above should be rendered.</p>'
         self.assertEqual(expected_output, html)
