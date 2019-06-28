@@ -20,6 +20,7 @@ class PlatformSectionPreprocessor(Preprocessor):
     PLATFORM_SECTION_RE = re.compile(r'''@!\[(?P<sections>[\w, ]+)\](?P<content>.*?)!@''', re.DOTALL | re.VERBOSE)
 
     STARTSWITH_WHITESPACE_RE = re.compile(r'^\W+(@!\[|\n)')
+    MULTI_NEWLINE_RE = re.compile(r'^(\n){2,}')
 
     def __init__(self, platform_section, **kwargs):
         self.platform_section = platform_section.lower().strip()
@@ -42,7 +43,10 @@ class PlatformSectionPreprocessor(Preprocessor):
                 start = text[:m.start()]
                 end = text[m.end():]
                 if self.STARTSWITH_WHITESPACE_RE.match(end):
-                    end = end.lstrip()
+                    if self.MULTI_NEWLINE_RE.match(end):
+                        end = '\n' + end.lstrip()
+                    else:
+                        end = end.lstrip()
 
                 if self.platform_section in sections:
                     content = m.group('content')

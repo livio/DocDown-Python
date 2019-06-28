@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.6 (2019-06-12)
+------------------
+
+* Fix block paragraph rendering with title
+
 0.2.5 (2019-06-12)
 ------------------
 
