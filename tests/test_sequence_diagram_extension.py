@@ -155,6 +155,42 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
 
         self.assertEqual(html, expected_output)
 
+    def test_table_not_sequence_diagram(self):
+        """
+        Test that sequences of `'|||'` in table structures do not start a sequence diagram.
+        """
+        self.maxDiff = None
+        text = ('|id|name|phone|email|address|\n'
+                '|:---|:---|:--------|:---------|:----------|\n'
+                '|0|bob|911|bob@gmail.com||\n'
+                '|1|alice|248|||\n'
+                '\n'
+                '|||\n'
+                'User Registration Diagram\n'
+                '![UserRegistration](../assets/img/user_registration.diagram)\n'
+                '|||\n')
+
+        html = markdown.markdown(
+            text,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            extension_configs=self.EXTENSION_CONFIGS,
+            output_format='html5'
+        )
+
+        expected_output = (
+            '''<p>|id|name|phone|email|address|
+|:---|:---|:--------|:---------|:----------|
+|0|bob|911|bob@gmail.com||
+|1|alice|248|||</p>
+<div class="visual-link-wrapper"><a href="#" data-src="http://example.com/../assets/img/user_registration.diagram" class="visual-link"><div class="visual-link__body"><div class="t-h6 visual-link__title">UserRegistration</div><p class="t-default">
+
+<p>User Registration Diagram</p>
+</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center"><span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span></div></a></div>
+<img class="visual-print-image" src="http://example.com/../assets/img/user_registration.diagram">'''
+        )
+
+        self.assertEqual(html, expected_output)
+
     def test_sequence_diagram_with_protocol_relative_path(self):
         """
         Test a single sequence diagram renders correctly.
