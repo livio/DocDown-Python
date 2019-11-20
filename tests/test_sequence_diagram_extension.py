@@ -9,8 +9,10 @@ Tests for `docdown.sequence` module.
 
 from __future__ import absolute_import, unicode_literals, print_function
 
-import markdown
 import unittest
+
+# pylint apparently confused because pip name is 'Markdown'
+import markdown  # pylint: disable=import-error
 
 from docdown.sequence import SequenceDiagramBlockPreprocessor
 
@@ -117,14 +119,14 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
         Test that multiple sequence diagrams in a row render correctly
         """
         text = ('# Sequence Diagrams\n'
-               '|||\n'
-               'Activate App 1\n'
-               '![Activate App Sequence Diagram 1](./assets/ActivateAppSuccessfulResume.png)\n'
-               '|||\n\n'
-               '|||\n'
-               'Activate App 2\n'
-               '![Activate App Sequence Diagram 2](./assets/ActivateAppSuccessfulResume.png)\n'
-               '|||')
+                '|||\n'
+                'Activate App 1\n'
+                '![Activate App Sequence Diagram 1](./assets/ActivateAppSuccessfulResume.png)\n'
+                '|||\n\n'
+                '|||\n'
+                'Activate App 2\n'
+                '![Activate App Sequence Diagram 2](./assets/ActivateAppSuccessfulResume.png)\n'
+                '|||')
 
         html = markdown.markdown(
             text,
@@ -152,6 +154,45 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<span class="fc-theme">View Diagram</span>'
             '<span class="icon">{% svg "standard/icon-visual" %}</span></div></a></div>\n'
             '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">')
+
+        self.assertEqual(html, expected_output)
+
+    def test_table_not_sequence_diagram(self):
+        """
+        Test that sequences of `'|||'` in table structures do not start a sequence diagram.
+        """
+        text = ('|id|name|phone|email|address|\n'
+                '|:---|:---|:--------|:---------|:----------|\n'
+                '|0|bob|911|bob@gmail.com||\n'
+                '|1|alice|248|||\n'
+                '\n'
+                '|||\n'
+                'User Registration Diagram\n'
+                '![UserRegistration](../assets/img/user_registration.diagram)\n'
+                '|||\n')
+
+        html = markdown.markdown(
+            text,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            extension_configs=self.EXTENSION_CONFIGS,
+            output_format='html5'
+        )
+
+        expected_output = (
+            '<p>|id|name|phone|email|address|\n'
+            '|:---|:---|:--------|:---------|:----------|\n'
+            '|0|bob|911|bob@gmail.com||\n'
+            '|1|alice|248|||</p>\n'
+            # note long line wrapped
+            '<div class="visual-link-wrapper"><a href="#" data-src="http://example.com/../assets/img/user_registration.diagram"'
+            ' class="visual-link"><div class="visual-link__body"><div class="t-h6 visual-link__title">UserRegistration</div>'
+            '<p class="t-default">\n'
+            '\n'
+            '<p>User Registration Diagram</p>\n'
+            '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center"><span class="fc-theme">'
+            'View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span></div></a></div>\n'
+            '<img class="visual-print-image" src="http://example.com/../assets/img/user_registration.diagram">'
+        )
 
         self.assertEqual(html, expected_output)
 
@@ -260,12 +301,12 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
         # each element in the list is treated as a line and so a newline is inserted
         # adding an extra empty line between each element
         expected = ['# Sequence Diagrams', '',
-                '\x02wzxhzdk:0\x03',
-                '',
-                'Activate App', '',
-                '\x02wzxhzdk:1\x03',
-                ''
-                ]
+                    '\x02wzxhzdk:0\x03',
+                    '',
+                    'Activate App', '',
+                    '\x02wzxhzdk:1\x03',
+                    ''
+                    ]
 
         self.assertEqual(processed, expected)
 
@@ -287,10 +328,10 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
         # each element in the list is treated as a line and so a newline is inserted
         # adding an extra empty line between each element
         expected = ['# Sequence Diagrams', '',
-                '\x02wzxhzdk:0\x03',
-                '',
-                'Activate App', '',
-                '\x02wzxhzdk:1\x03',
-                ''
-                ]
+                    '\x02wzxhzdk:0\x03',
+                    '',
+                    'Activate App', '',
+                    '\x02wzxhzdk:1\x03',
+                    ''
+                    ]
         self.assertEqual(processed, expected)
