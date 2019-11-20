@@ -3,7 +3,7 @@ History
 =======
 
 0.2.7 (2019-11-20)
------------------
+------------------
 
 * Fix case where '|||' in a table started a sequence diagram.
 
