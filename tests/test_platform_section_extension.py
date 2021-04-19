@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-test_note_blocks_extension
+test_platform_section_extension
 ----------------------------------
 
-Tests for `docdown.note_blocks` module.
+Tests for `docdown.platform_section` module.
 """
 
 from __future__ import absolute_import, print_function, unicode_literals
