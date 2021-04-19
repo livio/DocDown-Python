@@ -12,3 +12,4 @@ Contributors
 
 * Dave MacNamara <dave@mobelux.com>
 * Justin Michalicek <justin@mobelux.com>
+* Erin Kirby <erin@mobelux.com>
