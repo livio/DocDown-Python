@@ -59,6 +59,14 @@ docdown.platform_section module
     :undoc-members:
     :show-inheritance:
 
+docdown.scoped_code_tabs module
+-------------------------------
+
+.. automodule:: docdown.scoped_code_tabs
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 docdown.sequence module
 -----------------------
 

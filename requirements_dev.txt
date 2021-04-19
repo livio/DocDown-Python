@@ -8,7 +8,8 @@ coverage==4.1
 Sphinx==1.4.8
 twine==1.13.0
 
-Markdown==2.6.6
+Markdown==2.6.9
+markdown-fenced-code-tabs==1.0.5
 unicodecsv==0.14.1
 
 # note_block templating
