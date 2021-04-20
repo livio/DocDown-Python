@@ -88,7 +88,6 @@ class ScopedCodeTabExtension(CodeTabsExtension):
                              ScopedCodeTabsPreprocessor(md,
                                                         code_tabs_preprocessor=md.preprocessors['fenced_code_block']),
                              ">normalize_whitespace")
-        del md.preprocessors['fenced_code_block']
 
 
 def makeExtension(*args, **kwargs):
