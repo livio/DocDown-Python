@@ -11,7 +11,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     # TODO: put package requirements here
-    'Markdown >= 2.6.6',
+    'Markdown < 3.0.0',
     'unicodecsv >= 0.14.1',
     'markdown-fenced-code-tabs >= 1.0.5',
 ]
