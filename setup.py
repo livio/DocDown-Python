@@ -11,7 +11,9 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     # TODO: put package requirements here
+    'Markdown < 3.0.0',
     'unicodecsv >= 0.14.1',
+    'markdown-fenced-code-tabs >= 1.0.5',
 ]
 
 test_requirements = [
@@ -20,7 +22,7 @@ test_requirements = [
 
 setup(
     name='docdown',
-    version='0.2.7',
+    version='0.3.1',
     description="DocDown is a Markdown extension for source code documentation.",
     long_description=readme + '\n\n' + history,
     author="Jason Emerick, Justin Michalicek",
@@ -42,9 +44,10 @@ setup(
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     test_suite='tests',
     tests_require=test_requirements

@@ -2,6 +2,16 @@
 History
 =======
 
+0.3.1 (2021-04-20)
+------------------
+
+* Place a hard cap below 3.0 on Markdown to address compatibility issues
+
+0.3.0 (2021-04-19)
+------------------
+
+* Add Scoped Code Tabs Markdown Extension
+
 0.2.7 (2019-11-20)
 ------------------
 
