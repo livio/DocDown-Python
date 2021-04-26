@@ -12,7 +12,8 @@ class ScopedCodeTabsExtensionTest(unittest.TestCase):
 
     def test_mixed_code_blocks(self):
         """
-        Tests mixed code blocks to ensure extension is only run on those with |~ ... ~| fences
+        Tests tabbed and non-tabbed code blocks to ensure extension is only run on those with |~ ... ~| fences
+            and that the indexing on tabbed HTML classes works correctly
         """
         text = """\
 ### A set of code tabs in Python and Java
@@ -22,31 +23,23 @@ class ScopedCodeTabsExtensionTest(unittest.TestCase):
 def main():
     print("This would be passed through markdown_fenced_code_tabs")
 ```
-
 ```java
 public static void main(String[] args) {
     System.out.println("This would be passed through markdown_fenced_code_tabs");
 }
 ```
 ~|
-
-### A regular, non-tabbed code block in Bash
-[comment]: # (This should render as two, non-tabbed code blocks)
 ```bash
 codeblockinfo() {
     echo("This would NOT be passed through markdown_fenced_code_tabs");
 }
 ```
-
 ```clojure
 (defn code-block-info []
    (println "This should also render as a normal code block"))
 (hello-world)
 ```
-
-#### (White-space fences are OK)
-[comment]: # (This should render as two more fenced code tabs even with whitespace around the fences)
-  |~
+|~
 ```html
 <html>
 <head></head>
@@ -55,13 +48,12 @@ codeblockinfo() {
 </body>
 </html>
 ```
-
 ```python
 def hello_world(name: str = None):
     greeting = name or 'World'
     return f'Hello {greeting}!'
 ```
- ~|
+~|
 """
         expected_output = """\
 <h3>A set of code tabs in Python and Java</h3>
@@ -72,23 +64,21 @@ def hello_world(name: str = None):
 }
 </code></pre></div></div>
 
-<h3>A regular, non-tabbed code block in Bash</h3>
-<div class=md-fenced-code-tabs id=tab-tab-group-0><input name=tab-group-0 type=radio id=tab-group-0-0_bash checked=checked class=code-tab data-lang=bash aria-controls=tab-group-0-0_bash-panel role=tab><label for=tab-group-0-0_bash class=code-tab-label data-lang=bash id=tab-group-0-0_bash-label>Bash</label><div class=code-tabpanel role=tabpanel data-lang=bash id=tab-group-0-0_bash-panel aria-labelledby=tab-group-0-0_bash-label><pre><code class=bash>codeblockinfo() {
-    echo(&quot;This would NOT be passed through markdown_fenced_code_tabs&quot;);
-}
-</code></pre></div><input name=tab-group-0 type=radio id=tab-group-0-1_clojure class=code-tab data-lang=clojure aria-controls=tab-group-0-1_clojure-panel role=tab><label for=tab-group-0-1_clojure class=code-tab-label data-lang=clojure id=tab-group-0-1_clojure-label>Clojure</label><div class=code-tabpanel role=tabpanel data-lang=clojure id=tab-group-0-1_clojure-panel aria-labelledby=tab-group-0-1_clojure-label><pre><code class=clojure>(defn code-block-info []
-   (println &quot;This should also render as a normal code block&quot;))
-(hello-world)
-</code></pre></div></div>
-
-<h4>(White-space fences are OK)</h4>
-<div class=md-fenced-code-tabs id=tab-tab-group-0><input name=tab-group-0 type=radio id=tab-group-0-0_html checked=checked class=code-tab data-lang=html aria-controls=tab-group-0-0_html-panel role=tab><label for=tab-group-0-0_html class=code-tab-label data-lang=html id=tab-group-0-0_html-label>Html</label><div class=code-tabpanel role=tabpanel data-lang=html id=tab-group-0-0_html-panel aria-labelledby=tab-group-0-0_html-label><pre><code class=html>&lt;html&gt;
+<p><code>bash
+codeblockinfo() {
+    echo("This would NOT be passed through markdown_fenced_code_tabs");
+}</code>
+<code>clojure
+(defn code-block-info []
+   (println "This should also render as a normal code block"))
+(hello-world)</code></p>
+<div class=md-fenced-code-tabs id=tab-tab-group-1><input name=tab-group-1 type=radio id=tab-group-1-0_html checked=checked class=code-tab data-lang=html aria-controls=tab-group-1-0_html-panel role=tab><label for=tab-group-1-0_html class=code-tab-label data-lang=html id=tab-group-1-0_html-label>Html</label><div class=code-tabpanel role=tabpanel data-lang=html id=tab-group-1-0_html-panel aria-labelledby=tab-group-1-0_html-label><pre><code class=html>&lt;html&gt;
 &lt;head&gt;&lt;/head&gt;
 &lt;body&gt;
     &lt;p&gt;Hello {{ greeting|default:&quot;World&quot; }}!&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</code></pre></div><input name=tab-group-0 type=radio id=tab-group-0-1_python class=code-tab data-lang=python aria-controls=tab-group-0-1_python-panel role=tab><label for=tab-group-0-1_python class=code-tab-label data-lang=python id=tab-group-0-1_python-label>Python</label><div class=code-tabpanel role=tabpanel data-lang=python id=tab-group-0-1_python-panel aria-labelledby=tab-group-0-1_python-label><pre><code class=python>def hello_world(name: str = None):
+</code></pre></div><input name=tab-group-1 type=radio id=tab-group-1-1_python class=code-tab data-lang=python aria-controls=tab-group-1-1_python-panel role=tab><label for=tab-group-1-1_python class=code-tab-label data-lang=python id=tab-group-1-1_python-label>Python</label><div class=code-tabpanel role=tabpanel data-lang=python id=tab-group-1-1_python-panel aria-labelledby=tab-group-1-1_python-label><pre><code class=python>def hello_world(name: str = None):
     greeting = name or 'World'
     return f'Hello {greeting}!'
 </code></pre></div></div>"""
@@ -132,7 +122,11 @@ def hello_world(greeting: str = 'World'):
         self.maxDiff = len(html) * 2
         self.assertEqual(html, expected_output)
 
-    def test_fenced_code_mixed_hilite(self):
+    def test_fenced_code_mixed_hilite_and_fenced_code(self):
+        """
+        Tests that the base fenced_code_block preprocessor is not replaced by code tabs
+            and that the hilite library is properly loaded when used
+        """
         text = """\
 |~
 ```objc
@@ -146,14 +140,22 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 ```
-
 ```swift
 // Hello, World! Program
 import Swift
 print("Hello, World!")
 ```
 ~|
-
+```xml
+<interface name="string" version="string" minVersion="string" date="string">
+  <!--Zero or more repetitions:-->
+  <enum/>
+  <!--Zero or more repetitions:-->
+  <struct/>
+  <!--Zero or more repetitions:-->
+  <function/>
+</interface>
+```
 ```xml
 <interface name="string" version="string" minVersion="string" date="string">
   <!--Zero or more repetitions:-->
@@ -190,15 +192,26 @@ print("Hello, World!")
 <span class=bp>print</span><span class=p>(</span><span class=s>&quot;Hello, World!&quot;</span><span class=p>)</span>
 </pre></div></div></div>
 
-<p> <div class=codehilite><pre><span></span><span class=nt>&lt;interface</span> <span class=na>name=</span><span class=s>&quot;string&quot;</span> <span class=na>version=</span><span class=s>&quot;string&quot;</span> <span class=na>minVersion=</span><span class=s>&quot;string&quot;</span> <span class=na>date=</span><span class=s>&quot;string&quot;</span><span class=nt>&gt;</span>
-  <span class=c>&lt;!--Zero or more repetitions:--&gt;</span>
-  <span class=nt>&lt;enum/&gt;</span>
-  <span class=c>&lt;!--Zero or more repetitions:--&gt;</span>
-  <span class=nt>&lt;struct/&gt;</span>
-  <span class=c>&lt;!--Zero or more repetitions:--&gt;</span>
-  <span class=nt>&lt;function/&gt;</span>
-<span class=nt>&lt;/interface&gt;</span>
-</pre></div></p>"""
+<div class="codehilite"><pre><span></span><span class="nt">&lt;interface</span> <span class="na">name=</span><span class="s">&quot;string&quot;</span> <span class="na">version=</span><span class="s">&quot;string&quot;</span> <span class="na">minVersion=</span><span class="s">&quot;string&quot;</span> <span class="na">date=</span><span class="s">&quot;string&quot;</span><span class="nt">&gt;</span>
+  <span class="c">&lt;!--Zero or more repetitions:--&gt;</span>
+  <span class="nt">&lt;enum/&gt;</span>
+  <span class="c">&lt;!--Zero or more repetitions:--&gt;</span>
+  <span class="nt">&lt;struct/&gt;</span>
+  <span class="c">&lt;!--Zero or more repetitions:--&gt;</span>
+  <span class="nt">&lt;function/&gt;</span>
+<span class="nt">&lt;/interface&gt;</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="nt">&lt;interface</span> <span class="na">name=</span><span class="s">&quot;string&quot;</span> <span class="na">version=</span><span class="s">&quot;string&quot;</span> <span class="na">minVersion=</span><span class="s">&quot;string&quot;</span> <span class="na">date=</span><span class="s">&quot;string&quot;</span><span class="nt">&gt;</span>
+  <span class="c">&lt;!--Zero or more repetitions:--&gt;</span>
+  <span class="nt">&lt;enum/&gt;</span>
+  <span class="c">&lt;!--Zero or more repetitions:--&gt;</span>
+  <span class="nt">&lt;struct/&gt;</span>
+  <span class="c">&lt;!--Zero or more repetitions:--&gt;</span>
+  <span class="nt">&lt;function/&gt;</span>
+<span class="nt">&lt;/interface&gt;</span>
+</pre></div>"""
 
         self.maxDiff = len(html) * 2
         self.assertEqual(html, expected_output)
