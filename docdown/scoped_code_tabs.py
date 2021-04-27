@@ -32,6 +32,7 @@ class ScopedCodeTabsPreprocessor(Preprocessor):
     def run(self, lines):
         new_lines = []
         fenced_code_tab = []
+        tab_break_line = "<!-- SCOPED_TAB_BREAK-->"
         starting_line = None
         in_tab = False
 
@@ -42,6 +43,8 @@ class ScopedCodeTabsPreprocessor(Preprocessor):
                 starting_line = line
             elif re.search(self.RE_FENCE_END, line):
                 # End of code block, run through fenced code tabs pre-processor and reset code tab list
+                # Add <!-- SCOPED_TAB_BREAK--> content break to separate potentially subsequent tab groups
+                new_lines.append(tab_break_line)
                 new_lines.append(self.pre_run_code_tab_preprocessor(fenced_code_tab))
                 fenced_code_tab = []
                 in_tab = False
@@ -57,7 +60,8 @@ class ScopedCodeTabsPreprocessor(Preprocessor):
             new_lines += [starting_line] + fenced_code_tab
 
         # Finally, run the whole thing through the code tabs rendering function
-        return self.code_tabs_preprocessor._render_code_tabs('\n'.join(new_lines)).split('\n')
+        return [line for line in self.code_tabs_preprocessor._render_code_tabs('\n'.join(new_lines)).split('\n') if
+                line != tab_break_line]
 
 
 class ScopedCodeTabExtension(CodeTabsExtension):
