@@ -216,3 +216,55 @@ print("Hello, World!")
         self.maxDiff = len(html) * 2
         self.assertEqual(html, expected_output)
 
+    def test_subsequent_scoped_code_tabs(self):
+        """
+        Two scoped code tab groups in direct succession with nothing in-between should still result in
+            two distinct tab groups
+        """
+        text = """\
+|~
+```objc
+- (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
+}
+```
+```swift
+fileprivate var firstHMILevel: SDLHMILevel = .none
+func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
+}
+```
+~|
+|~
+```objc
+- (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
+}
+```
+```swift
+fileprivate var firstHMILevel: SDLHMILevel = .none
+func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
+}
+```
+~|
+"""
+        expected_output = """\
+<div class=md-fenced-code-tabs id=tab-tab-group-0><input name=tab-group-0 type=radio id=tab-group-0-0_objc checked=checked class=code-tab data-lang=objc aria-controls=tab-group-0-0_objc-panel role=tab><label for=tab-group-0-0_objc class=code-tab-label data-lang=objc id=tab-group-0-0_objc-label>Objc</label><div class=code-tabpanel role=tabpanel data-lang=objc id=tab-group-0-0_objc-panel aria-labelledby=tab-group-0-0_objc-label><pre><code class=objc>- (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
+}
+</code></pre></div><input name=tab-group-0 type=radio id=tab-group-0-1_swift class=code-tab data-lang=swift aria-controls=tab-group-0-1_swift-panel role=tab><label for=tab-group-0-1_swift class=code-tab-label data-lang=swift id=tab-group-0-1_swift-label>Swift</label><div class=code-tabpanel role=tabpanel data-lang=swift id=tab-group-0-1_swift-panel aria-labelledby=tab-group-0-1_swift-label><pre><code class=swift>fileprivate var firstHMILevel: SDLHMILevel = .none
+func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
+}
+</code></pre></div></div>
+
+<div class=md-fenced-code-tabs id=tab-tab-group-1><input name=tab-group-1 type=radio id=tab-group-1-0_objc checked=checked class=code-tab data-lang=objc aria-controls=tab-group-1-0_objc-panel role=tab><label for=tab-group-1-0_objc class=code-tab-label data-lang=objc id=tab-group-1-0_objc-label>Objc</label><div class=code-tabpanel role=tabpanel data-lang=objc id=tab-group-1-0_objc-panel aria-labelledby=tab-group-1-0_objc-label><pre><code class=objc>- (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
+}
+</code></pre></div><input name=tab-group-1 type=radio id=tab-group-1-1_swift class=code-tab data-lang=swift aria-controls=tab-group-1-1_swift-panel role=tab><label for=tab-group-1-1_swift class=code-tab-label data-lang=swift id=tab-group-1-1_swift-label>Swift</label><div class=code-tabpanel role=tabpanel data-lang=swift id=tab-group-1-1_swift-panel aria-labelledby=tab-group-1-1_swift-label><pre><code class=swift>fileprivate var firstHMILevel: SDLHMILevel = .none
+func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
+}
+</code></pre></div></div>"""
+
+        html = markdown.markdown(
+            text,
+            extensions=self.MARKDOWN_EXTENSIONS,
+            output_format='html5')
+
+        self.maxDiff = len(html) * 2
+        self.assertEqual(html, expected_output)
+
