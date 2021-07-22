@@ -43,6 +43,14 @@ docdown.media module
     :undoc-members:
     :show-inheritance:
 
+docdown.media_carousels module
+------------------------------
+
+.. automodule:: docdown.media_carousels
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 docdown.note_blocks module
 --------------------------
 
