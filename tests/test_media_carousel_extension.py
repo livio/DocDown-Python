@@ -61,7 +61,7 @@ class MediaCarouselExtensionTest(unittest.TestCase):
             output_format='html5'
         )
 
-        expected_output = BEFORE_CAROUSEL_HTML + AFTER_CAROUSEL_HTML
+        expected_output = BEFORE_CAROUSEL_HTML.format(0) + AFTER_CAROUSEL_HTML
         self.assertEqual(expected_output, html)
 
     def test_full_match(self):
@@ -79,7 +79,7 @@ class MediaCarouselExtensionTest(unittest.TestCase):
         )
 
         image_html = f'<img class="small-preview" alt="{img_alt}" src="{img_path}" title="{img_title}">'
-        expected_output = BEFORE_CAROUSEL_HTML + image_html + AFTER_CAROUSEL_HTML
+        expected_output = BEFORE_CAROUSEL_HTML.format(0) + image_html + AFTER_CAROUSEL_HTML
         self.assertEqual(expected_output, html)
 
     def test_full_match_with_existing_class(self):
@@ -102,7 +102,7 @@ class MediaCarouselExtensionTest(unittest.TestCase):
 
         image_html = f'<img class="small-preview" alt="{img_alt}" src="{img_path}" title="{img_title}">' \
                      f'<img alt="{img_alt}" class="small-preview {class_name}" src="{img_path}" title="{img_title}">'
-        expected_output = BEFORE_CAROUSEL_HTML + image_html + AFTER_CAROUSEL_HTML
+        expected_output = BEFORE_CAROUSEL_HTML.format(0) + image_html + AFTER_CAROUSEL_HTML
         self.assertEqual(expected_output, html)
 
     def test_multiple_subsequent_matches(self):
@@ -123,7 +123,7 @@ class MediaCarouselExtensionTest(unittest.TestCase):
         image_html = f'<img class="small-preview" alt="{img_alt}" src="{img_path}" title="{img_title}">'
         expected_output = BEFORE_CAROUSEL_HTML + image_html + AFTER_CAROUSEL_HTML
         expected_output += expected_output
-        self.assertEqual(expected_output, html)
+        self.assertEqual(expected_output.format(0, 1), html)
 
     def test_multiple_matches_dispersed(self):
         """Multiple matches separated by other markdown"""
@@ -145,7 +145,7 @@ class MediaCarouselExtensionTest(unittest.TestCase):
         image_html = f'<img class="small-preview" alt="{img_alt}" src="{img_path}" title="{img_title}">'
         expected_output = BEFORE_CAROUSEL_HTML + image_html + AFTER_CAROUSEL_HTML
         expected_output += f"<em>{italic_text}</em>" + expected_output
-        self.assertEqual(expected_output, html)
+        self.assertEqual(expected_output.format(0, 1), html)
 
     def test_no_closing_tag(self):
         """If the [!carousel] tag is missing, don't process the rest, keep wrapping paragraph tag"""

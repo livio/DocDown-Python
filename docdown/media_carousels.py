@@ -12,7 +12,7 @@ from markdown.extensions import Extension
 from markdown.postprocessors import Postprocessor
 
 BEFORE_CAROUSEL_HTML = """<div class="carousel-container">
-<div class="vanilla-zoom" id="docs-gallery">
+<div class="vanilla-zoom" id="docs-gallery-{}">
 <div class="carousel-sidebar">"""
 
 AFTER_CAROUSEL_HTML = """</div>
@@ -41,7 +41,7 @@ class MediaCarouselPostprocessor(Postprocessor):
         =======
         What we need is
         <div class="carousel-container">
-            <div class="vanilla-zoom" id="docs-gallery">
+            <div class="vanilla-zoom" id="docs-gallery-0">
                 <div class="carousel-sidebar">
                     <img class="small-preview" src="...">
                     <img class="small-preview" src="...">
@@ -60,7 +60,7 @@ class MediaCarouselPostprocessor(Postprocessor):
 
         result_text = ''
 
-
+        counter = 0
         while len(split_text) == 2:
             before_carousel, carousel_start = split_text
 
@@ -77,7 +77,8 @@ class MediaCarouselPostprocessor(Postprocessor):
                 carousel = split_carousel[0]
 
                 # Add opening divs
-                result_text += BEFORE_CAROUSEL_HTML
+                result_text += BEFORE_CAROUSEL_HTML.format(counter)
+                counter += 1
 
                 # Find all img tags
                 images = carousel.split('<img ')
