@@ -6,7 +6,6 @@ Tests for `docdown.media_carousels` module.
 """
 
 
-import copy
 import markdown
 import unittest
 from docdown.media_carousels import BEFORE_CAROUSEL_HTML, AFTER_CAROUSEL_HTML

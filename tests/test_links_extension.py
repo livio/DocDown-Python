@@ -9,7 +9,6 @@ Tests for `docdown.links` module.
 import markdown
 import unittest
 
-import os
 
 
 class LinksExtensionTest(unittest.TestCase):

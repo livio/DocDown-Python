@@ -9,7 +9,6 @@ Tests for `docdown.media` module.
 import markdown
 import unittest
 
-from docdown.media import MediaTreeprocessor
 
 class MediaExtensionTest(unittest.TestCase):
 
