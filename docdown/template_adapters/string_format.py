@@ -2,7 +2,6 @@
 Adapter to use Python str.format() to render a template
 """
 
-
 from string import Formatter
 
 # handle py2 and py3 strings without relying on six lib since we don't use it for anything else.
@@ -21,7 +20,8 @@ class DefaultValueFormatter(Formatter):
 
     The default value for the default is the empty string `''`
     """
-    def __init__(self, default=''):
+
+    def __init__(self, default=""):
         Formatter.__init__(self)
         self.default = default
 
@@ -39,7 +39,8 @@ class StringFormatAdapter:
     Adapter for NoteBlockPreprocessor to render templates using standard python string substitution
     using named arguments.
     """
-    def render(self, template='', context=None, *args, **kwargs):
+
+    def render(self, template="", context=None, *args, **kwargs):
         if context is None:
             context = {}
         formatter = DefaultValueFormatter()

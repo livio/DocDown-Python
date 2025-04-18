@@ -6,7 +6,7 @@ class TemplateRenderMixin:
     Mixin for extensions which render templates as part of their output
     """
 
-    def __init__(self, template_adapter='', *args, **kwargs):
+    def __init__(self, template_adapter="", *args, **kwargs):
         self.template_adapter = template_adapter
         super().__init__(*args, **kwargs)
 

@@ -2,17 +2,17 @@
 
 from setuptools import setup
 
-with open('README.rst') as readme_file:
+with open("README.rst") as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
+with open("HISTORY.rst") as history_file:
     history = history_file.read()
 
 requirements = [
     # TODO: put package requirements here
-    'Markdown < 3.0.0',
-    'unicodecsv >= 0.14.1',
-    'markdown-fenced-code-tabs >= 1.0.5',
+    "Markdown < 3.0.0",
+    "unicodecsv >= 0.14.1",
+    "markdown-fenced-code-tabs >= 1.0.5",
 ]
 
 test_requirements = [
@@ -20,34 +20,31 @@ test_requirements = [
 ]
 
 setup(
-    name='docdown',
-    version='0.4.0',
+    name="docdown",
+    version="0.4.0",
     description="DocDown is a Markdown extension for source code documentation.",
-    long_description=readme + '\n\n' + history,
+    long_description=readme + "\n\n" + history,
     author="Jason Emerick, Justin Michalicek",
-    author_email='jason@mobelux.com, justin@mobelux.com',
-    url='https://github.com/livio/DocDown-Python',
-    packages=[
-        'docdown',
-        'docdown.template_adapters'
-    ],
-    package_dir={'docdown': 'docdown'},
+    author_email="jason@mobelux.com, justin@mobelux.com",
+    url="https://github.com/livio/DocDown-Python",
+    packages=["docdown", "docdown.template_adapters"],
+    package_dir={"docdown": "docdown"},
     include_package_data=True,
     install_requires=requirements,
     zip_safe=False,
-    keywords=['docdown', 'markdown', 'documentation'],
+    keywords=["docdown", "markdown", "documentation"],
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
-        'Intended Audience :: Developers',
-        'Natural Language :: English',
+        "Development Status :: 2 - Pre-Alpha",
+        "Intended Audience :: Developers",
+        "Natural Language :: English",
         "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
     ],
-    test_suite='tests',
-    tests_require=test_requirements
+    test_suite="tests",
+    tests_require=test_requirements,
 )

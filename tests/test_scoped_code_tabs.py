@@ -8,7 +8,8 @@ class ScopedCodeTabsExtensionTest(unittest.TestCase):
     """
     Integration test with markdown for :class:`docdown.scoped_code_tabs.ScopedCodeTabsExtension`
     """
-    MARKDOWN_EXTENSIONS = ['docdown.scoped_code_tabs']
+
+    MARKDOWN_EXTENSIONS = ["docdown.scoped_code_tabs"]
 
     def test_mixed_code_blocks(self):
         """
@@ -83,21 +84,13 @@ codeblockinfo() {
     return f'Hello {greeting}!'
 </code></pre></div></div>"""
 
-        html = markdown.markdown(
-            text,
-            extensions=['docdown.scoped_code_tabs'],
-            output_format='html5')
+        html = markdown.markdown(text, extensions=["docdown.scoped_code_tabs"], output_format="html5")
 
         self.maxDiff = len(html) * 2
         self.assertEqual(html, expected_output)
 
     def test_custom_config_values(self):
-        config = {
-            'docdown.scoped_code_tabs': {
-                'single_block_as_tab': True,
-                'template': 'bootstrap4'
-            }
-        }
+        config = {"docdown.scoped_code_tabs": {"single_block_as_tab": True, "template": "bootstrap4"}}
 
         text = """\
 |~
@@ -114,10 +107,8 @@ def hello_world(greeting: str = 'World'):
 </code></pre></div></div></div></p>"""
 
         html = markdown.markdown(
-            text,
-            extensions=['docdown.scoped_code_tabs'],
-            extension_configs=config,
-            output_format='html5')
+            text, extensions=["docdown.scoped_code_tabs"], extension_configs=config, output_format="html5"
+        )
 
         self.maxDiff = len(html) * 2
         self.assertEqual(html, expected_output)
@@ -171,11 +162,12 @@ print("Hello, World!")
         html = markdown.markdown(
             text,
             extensions=[
-                'markdown.extensions.fenced_code',
-                'markdown.extensions.codehilite',
-                'docdown.scoped_code_tabs',
+                "markdown.extensions.fenced_code",
+                "markdown.extensions.codehilite",
+                "docdown.scoped_code_tabs",
             ],
-            output_format='html5')
+            output_format="html5",
+        )
 
         expected_output = """\
 <div class=md-fenced-code-tabs id=tab-tab-group-0><input name=tab-group-0 type=radio id=tab-group-0-0_objc checked=checked class=code-tab data-lang=objc aria-controls=tab-group-0-0_objc-panel role=tab><label for=tab-group-0-0_objc class=code-tab-label data-lang=objc id=tab-group-0-0_objc-label>Objc</label><div class=code-tabpanel role=tabpanel data-lang=objc id=tab-group-0-0_objc-panel aria-labelledby=tab-group-0-0_objc-label><div class=codehilite><pre><span></span><span class=cp>#import &lt;Foundation/Foundation.h&gt;</span>
@@ -260,11 +252,7 @@ func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
 }
 </code></pre></div></div>"""
 
-        html = markdown.markdown(
-            text,
-            extensions=self.MARKDOWN_EXTENSIONS,
-            output_format='html5')
+        html = markdown.markdown(text, extensions=self.MARKDOWN_EXTENSIONS, output_format="html5")
 
         self.maxDiff = len(html) * 2
         self.assertEqual(html, expected_output)
-
