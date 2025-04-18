@@ -96,17 +96,6 @@ class IncludeExtensionTest(unittest.TestCase):
         Test JSON where we have rolled up one level in the dir tree looking in `ROOT_DIR/test_files/assets/` after not
         finding the file in `ROOT_DIR/test_files/deep_assets/assets/`
         """
-        EXTENSION_CONFIGS = {
-            "docdown.include": {
-                "asset_directory": self.ASSET_DIR,
-                "current_directory": os.path.join(self.ROOT_DIR, "test_files", "deep_assets"),
-                "root_directory": self.ROOT_DIR,
-                "extension_map": {
-                    ".m": ".c",
-                },
-            }
-        }
-
         text = "Test JSON:\n" "+++ subdir/test.json"
 
         html = markdown.markdown(
