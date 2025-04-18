@@ -48,7 +48,7 @@ class SequenceDiagramBlockPreprocessor(TemplateRenderMixin, Preprocessor):
                 start_tag = self.markdown.htmlStash.store(prefix, safe=True)
                 end_tag = self.markdown.htmlStash.store(postfix, safe=True)
 
-                text = '%s\n%s\n\n%s\n%s\n%s' % (text[:m.start()], start_tag, content, end_tag, text[m.end():])
+                text = '{}\n{}\n\n{}\n{}\n{}'.format(text[:m.start()], start_tag, content, end_tag, text[m.end():])
             else:
                 break
 

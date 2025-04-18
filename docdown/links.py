@@ -19,7 +19,7 @@ class DocDownLinkPattern(LinkPattern):
             uri = self.link_map.get(uri)
 
         if uri_hash:
-            uri = u'%s#%s' % (uri, uri_hash)
+            uri = '{}#{}'.format(uri, uri_hash)
         return super().sanitize_url(uri)
 
 

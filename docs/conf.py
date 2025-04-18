@@ -54,8 +54,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Python DocDown'
-copyright = u"2016, Livio"
+project = 'Python DocDown'
+copyright = "2016, Livio"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -208,8 +208,8 @@ latex_elements = {
 # [howto/manual]).
 latex_documents = [
     ('index', 'python_docdowntex',
-     u'Python DocDown Documentation',
-     u'Livio', 'manual'),
+     'Python DocDown Documentation',
+     'Livio', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at
@@ -239,8 +239,8 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'python_docdown',
-     u'Python DocDown Documentation',
-     [u'Livio'], 1)
+     'Python DocDown Documentation',
+     ['Livio'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -254,8 +254,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'python_docdown',
-     u'Python DocDown Documentation',
-     u'Livio',
+     'Python DocDown Documentation',
+     'Livio',
      'python_docdown',
      'One line description of project.',
      'Miscellaneous'),

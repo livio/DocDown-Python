@@ -355,7 +355,7 @@ class IncludePreprocessorTest(unittest.TestCase):
     def test_handle_csv(self):
         output = self.preprocessor.handle_csv(os.path.join(self.ROOT_DIR, self.ASSET_DIR, 'test.csv'))
         # handle_csv takes output from build_csv_table() and turns it into a symbol for markdown
-        expected_output = u'\x02wzxhzdk:0\x03'
+        expected_output = '\x02wzxhzdk:0\x03'
         self.assertEqual(expected_output, output)
 
     def test_handle_code_json(self):
@@ -363,14 +363,14 @@ class IncludePreprocessorTest(unittest.TestCase):
         Test a json file
         """
         output = self.preprocessor.handle_code(os.path.join(self.ROOT_DIR, self.ASSET_DIR, 'test.json'), '.json')
-        self.assertEqual(output, [u'``` .json', '{"test": "content"}', u'```'])
+        self.assertEqual(output, ['``` .json', '{"test": "content"}', '```'])
 
     def test_handle_code_javascript(self):
         """
         Test a single line source code file
         """
         output = self.preprocessor.handle_code(os.path.join(self.ROOT_DIR, self.ASSET_DIR, 'test.js'), '.js')
-        self.assertEqual(output, [u'``` .js', '''alert('test');''', u'```'])
+        self.assertEqual(output, ['``` .js', '''alert('test');''', '```'])
 
     def test_handle_code_java_multiline(self):
         """
@@ -378,13 +378,13 @@ class IncludePreprocessorTest(unittest.TestCase):
         """
         output = self.preprocessor.handle_code(os.path.join(self.ROOT_DIR, self.ASSET_DIR, 'test.java'), '.java')
         expected_output = [
-            u'``` .java',
-            u'public class TestJava{',
-            u'',
-            u'    public static void main(String[] args) {',
-            u'        System.out.println("Test");',
-            u'    }',
-            u'',
-            u'}',
-            u'```']
+            '``` .java',
+            'public class TestJava{',
+            '',
+            '    public static void main(String[] args) {',
+            '        System.out.println("Test");',
+            '    }',
+            '',
+            '}',
+            '```']
         self.assertEqual(output, expected_output)

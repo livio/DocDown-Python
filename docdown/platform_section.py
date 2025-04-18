@@ -47,9 +47,9 @@ class PlatformSectionPreprocessor(Preprocessor):
 
                 if self.platform_section in sections:
                     content = m.group('content')
-                    text = '%s%s%s' % (start, content, end)
+                    text = '{}{}{}'.format(start, content, end)
                 else:
-                    text = '%s%s' % (start, end)
+                    text = '{}{}'.format(start, end)
             else:
                 break
         return text
