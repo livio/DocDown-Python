@@ -1,9 +1,9 @@
-from markdown.preprocessors import Preprocessor
-from markdown.extensions import Extension
-
-import os
 import codecs
-import unicodecsv
+import csv
+import os
+
+from markdown.extensions import Extension
+from markdown.preprocessors import Preprocessor
 
 
 class IncludePreprocessor(Preprocessor):
@@ -58,7 +58,7 @@ class IncludePreprocessor(Preprocessor):
     def build_csv_table(self, file_path):
         table_html = ["<table>"]
         with open(file_path, "rb") as csvfile:
-            reader = unicodecsv.reader(csvfile)
+            reader = csv.reader(csvfile)
             for index, row in enumerate(reader):
                 table_html.append("<tr>")
                 for column in row:
