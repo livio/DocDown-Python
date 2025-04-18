@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 test_note_blocks_extension
 ----------------------------------
@@ -7,7 +5,6 @@ test_note_blocks_extension
 Tests for `docdown.note_blocks` module.
 """
 
-from __future__ import absolute_import, unicode_literals, print_function
 
 import copy
 import markdown

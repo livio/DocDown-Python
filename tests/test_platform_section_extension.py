@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 test_platform_section_extension
 ----------------------------------
@@ -7,7 +5,6 @@ test_platform_section_extension
 Tests for `docdown.platform_section` module.
 """
 
-from __future__ import absolute_import, print_function, unicode_literals
 
 import unittest
 

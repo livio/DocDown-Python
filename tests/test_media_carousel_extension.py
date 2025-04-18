@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 test_media_carousels_extension
 ----------------------------------
@@ -7,7 +5,6 @@ test_media_carousels_extension
 Tests for `docdown.media_carousels` module.
 """
 
-from __future__ import absolute_import, unicode_literals, print_function
 
 import copy
 import markdown

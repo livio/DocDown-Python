@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
-
 """
 Adapter to use pystache to render a mustache template
 """
 
-from __future__ import absolute_import, unicode_literals, print_function
 
 import pystache
 

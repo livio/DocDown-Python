@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 test_include_extension
 ----------------------------------
@@ -7,7 +5,6 @@ test_include_extension
 Tests for `docdown.include` module.
 """
 
-from __future__ import absolute_import, unicode_literals, print_function
 
 import markdown
 import unittest

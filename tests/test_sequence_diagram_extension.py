@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 test_sequence_diagram_extension
 ----------------------------------
@@ -7,7 +5,6 @@ test_sequence_diagram_extension
 Tests for `docdown.sequence` module.
 """
 
-from __future__ import absolute_import, unicode_literals, print_function
 
 import unittest
 

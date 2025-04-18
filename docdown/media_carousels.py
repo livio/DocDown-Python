@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
-
 """
 media_carousels
 ----------------------------------
 
 docdown.media_carousels Markdown extension module
 """
-from __future__ import absolute_import, unicode_literals, print_function
 
 from markdown.extensions import Extension
 from markdown.postprocessors import Postprocessor

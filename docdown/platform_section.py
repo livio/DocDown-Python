@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 platform_section
 ----------------------------------
@@ -7,7 +5,6 @@ platform_section
 docdown.platform_section Markdown extension module
 """
 
-from __future__ import absolute_import, print_function, unicode_literals
 
 import re
 
