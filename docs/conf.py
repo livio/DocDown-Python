@@ -30,7 +30,7 @@ project_root = os.path.dirname(cwd)
 # version is used.
 sys.path.insert(0, project_root)
 
-import docdown
+import docdown  # noqa: E402
 
 # -- General configuration ---------------------------------------------
 
