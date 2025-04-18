@@ -57,7 +57,7 @@ class IncludePreprocessor(Preprocessor):
 
     def build_csv_table(self, file_path):
         table_html = ["<table>"]
-        with open(file_path, "rb") as csvfile:
+        with open(file_path, "r") as csvfile:
             reader = csv.reader(csvfile)
             for index, row in enumerate(reader):
                 table_html.append("<tr>")
