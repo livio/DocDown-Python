@@ -106,7 +106,7 @@ class MediaCarouselPostprocessor(Postprocessor):
 
 
 class MediaCarouselExtension(Extension):
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         """Add MediaCarouselPostprocessor to the Markdown instance."""
         md.registerExtension(self)
         md.postprocessors.add("media_carousels", MediaCarouselPostprocessor(md), ">amp_substitute")

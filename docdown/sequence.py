@@ -1,9 +1,9 @@
-from markdown.extensions import Extension
-from markdown.preprocessors import Preprocessor
 import re
 
-from .docdown import TemplateRenderMixin
+from markdown.extensions import Extension
+from markdown.preprocessors import Preprocessor
 
+from .docdown import TemplateRenderMixin
 
 DEFAULT_ADAPTER = "docdown.template_adapters.StringFormatAdapter"
 
@@ -61,12 +61,12 @@ class SequenceDiagramExtension(Extension):
             "media_url": [".", "Path to the media"],
             "template_adapter": [
                 "docdown.template_adapters.StringFormatAdapter",
-                ("Adapter for rendering prefix and postfix templates" " using your template language of choice."),
+                ("Adapter for rendering prefix and postfix templates using your template language of choice."),
             ],
         }
         super().__init__(**kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         """Add SequenceDiagramBlockPreprocessor to the Markdown instance."""
         md.registerExtension(self)
 

@@ -115,7 +115,7 @@ class IncludeExtension(Extension):
         }
         super().__init__(**kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         """Add IncludePreprocessor to the Markdown instance."""
         md.registerExtension(self)
 

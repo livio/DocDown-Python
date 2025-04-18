@@ -1,5 +1,5 @@
-from markdown.treeprocessors import Treeprocessor
 from markdown.extensions import Extension
+from markdown.treeprocessors import Treeprocessor
 
 
 class MediaTreeprocessor(Treeprocessor):
@@ -35,7 +35,7 @@ class MediaExtension(Extension):
         }
         super().__init__(**kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         """Add MediaTreeprocessor to the Markdown instance."""
         md.registerExtension(self)
 

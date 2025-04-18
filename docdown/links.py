@@ -1,5 +1,5 @@
-from markdown.inlinepatterns import LinkPattern, LINK_RE
 from markdown.extensions import Extension
+from markdown.inlinepatterns import LINK_RE, LinkPattern
 
 
 class DocDownLinkPattern(LinkPattern):
@@ -29,7 +29,7 @@ class LinksExtension(Extension):
         }
         super().__init__(**kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         link_map = self.getConfig("link_map")
         md.inlinePatterns["link"] = DocDownLinkPattern(link_map=link_map, pattern=LINK_RE, markdown_instance=md)
 

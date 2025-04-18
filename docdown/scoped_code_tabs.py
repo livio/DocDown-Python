@@ -96,18 +96,18 @@ class ScopedCodeTabExtension(CodeTabsExtension):
         """
         super().__init__(**kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         # The parent class will replace the fenced_code_block preprocessor in its extendMarkdown.
         #   In order for this to be truly a scoped extension, we need to replace it back with the base
         #   if one exists, or remove it entirely.
         if "fenced_code_block" in md.preprocessors:
             base_fenced_code_preprocessor = md.preprocessors.get("fenced_code_block")
-            super().extendMarkdown(md, md_globals)
+            super().extendMarkdown(md)
 
             code_tabs_preprocessor = md.preprocessors["fenced_code_block"]
             md.preprocessors["fenced_code_block"] = base_fenced_code_preprocessor
         else:
-            super().extendMarkdown(md, md_globals)
+            super().extendMarkdown(md)
             code_tabs_preprocessor = md.preprocessors["fenced_code_block"]
             del md.preprocessors["fenced_code_block"]
 

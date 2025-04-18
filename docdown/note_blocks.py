@@ -5,12 +5,12 @@ note_blocks
 docdown.note_blocks Markdown extension module
 """
 
-from markdown.extensions import Extension
-from markdown.preprocessors import Preprocessor
 import re
 
-from .docdown import TemplateRenderMixin
+from markdown.extensions import Extension
+from markdown.preprocessors import Preprocessor
 
+from .docdown import TemplateRenderMixin
 
 DEFAULT_ADAPTER = "docdown.template_adapters.StringFormatAdapter"
 
@@ -99,13 +99,13 @@ class NoteExtension(Extension):
             "tags": [{}, "Template context passed into template rendering"],
             "template_adapter": [
                 "docdown.template_adapters.StringFormatAdapter",
-                ("Adapter for rendering prefix and postfix templates" " using your template language of choice."),
+                ("Adapter for rendering prefix and postfix templates using your template language of choice."),
             ],
             "default_tag": ["", "Default tag to use if the specified tag is not in the tags dict"],
         }
         super().__init__(**kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         """Add NoteBlockPreprocessor to the Markdown instance."""
         md.registerExtension(self)
 
