@@ -6,7 +6,7 @@ Adapter to use pystache to render a mustache template
 import pystache
 
 
-class PystacheAdapter(object):
+class PystacheAdapter:
     """
     Adapter for NoteBlockPreprocessor to render mustache templates using pystache
     """

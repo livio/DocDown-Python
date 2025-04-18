@@ -6,7 +6,7 @@ class DocDownLinkPattern(LinkPattern):
 
     def __init__(self, link_map=None, **kwargs):
         self.link_map = link_map or {}
-        super(DocDownLinkPattern, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def sanitize_url(self, url):
         if '#' in url:
@@ -20,7 +20,7 @@ class DocDownLinkPattern(LinkPattern):
 
         if uri_hash:
             uri = u'%s#%s' % (uri, uri_hash)
-        return super(DocDownLinkPattern, self).sanitize_url(uri)
+        return super().sanitize_url(uri)
 
 
 class LinksExtension(Extension):
@@ -29,7 +29,7 @@ class LinksExtension(Extension):
         self.config = {
             'link_map': [{}, 'Dict mapping source urls to target urls.'],
         }
-        super(LinksExtension, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def extendMarkdown(self, md, md_globals):
         link_map = self.getConfig('link_map')

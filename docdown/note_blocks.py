@@ -30,7 +30,7 @@ class NoteBlockPreprocessor(TemplateRenderMixin, Preprocessor):
         self.postfix = postfix
         self.tags = tags
         self.default_tag = default_tag
-        super(NoteBlockPreprocessor, self).__init__(template_adapter=template_adapter, **kwargs)
+        super().__init__(template_adapter=template_adapter, **kwargs)
 
     def run(self, lines):
         text = "\n".join(lines)
@@ -101,7 +101,7 @@ class NoteExtension(Extension):
                                   ' using your template language of choice.')],
             'default_tag': ['', 'Default tag to use if the specified tag is not in the tags dict'],
         }
-        super(NoteExtension, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def extendMarkdown(self, md, md_globals):
         """ Add NoteBlockPreprocessor to the Markdown instance. """

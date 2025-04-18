@@ -1,14 +1,14 @@
 import importlib
 
 
-class TemplateRenderMixin(object):
+class TemplateRenderMixin:
     """
     Mixin for extensions which render templates as part of their output
     """
 
     def __init__(self, template_adapter='', *args, **kwargs):
         self.template_adapter = template_adapter
-        super(TemplateRenderMixin, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def get_template_adapter(self):
         module_name, class_name = self.template_adapter.rsplit(".", 1)

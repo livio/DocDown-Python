@@ -17,7 +17,7 @@ class SequenceDiagramBlockPreprocessor(TemplateRenderMixin, Preprocessor):
         self.prefix = prefix
         self.postfix = postfix
         self.template_adapter = template_adapter
-        super(SequenceDiagramBlockPreprocessor, self).__init__(template_adapter=template_adapter, **kwargs)
+        super().__init__(template_adapter=template_adapter, **kwargs)
 
     def run(self, lines):
         text = "\n".join(lines)
@@ -66,7 +66,7 @@ class SequenceDiagramExtension(Extension):
                                  ('Adapter for rendering prefix and postfix templates'
                                   ' using your template language of choice.')],
         }
-        super(SequenceDiagramExtension, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def extendMarkdown(self, md, md_globals):
         """ Add SequenceDiagramBlockPreprocessor to the Markdown instance. """

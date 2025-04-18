@@ -16,7 +16,7 @@ class ScopedCodeTabsPreprocessor(Preprocessor):
 
     def __init__(self, md, code_tabs_preprocessor):
         self.code_tabs_preprocessor = code_tabs_preprocessor
-        super(ScopedCodeTabsPreprocessor, self).__init__(md)
+        super().__init__(md)
 
     def pre_run_code_tab_preprocessor(self, lines):
         """
@@ -91,7 +91,7 @@ class ScopedCodeTabExtension(CodeTabsExtension):
     }
     ```
         """
-        super(ScopedCodeTabExtension, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def extendMarkdown(self, md, md_globals):
         # The parent class will replace the fenced_code_block preprocessor in its extendMarkdown.
@@ -99,12 +99,12 @@ class ScopedCodeTabExtension(CodeTabsExtension):
         #   if one exists, or remove it entirely.
         if 'fenced_code_block' in md.preprocessors:
             base_fenced_code_preprocessor = md.preprocessors.get('fenced_code_block')
-            super(ScopedCodeTabExtension, self).extendMarkdown(md, md_globals)
+            super().extendMarkdown(md, md_globals)
 
             code_tabs_preprocessor = md.preprocessors['fenced_code_block']
             md.preprocessors['fenced_code_block'] = base_fenced_code_preprocessor
         else:
-            super(ScopedCodeTabExtension, self).extendMarkdown(md, md_globals)
+            super().extendMarkdown(md, md_globals)
             code_tabs_preprocessor = md.preprocessors['fenced_code_block']
             del md.preprocessors['fenced_code_block']
 

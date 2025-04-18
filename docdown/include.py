@@ -13,7 +13,7 @@ class IncludePreprocessor(Preprocessor):
         self.current_directory = current_directory
         self.root_directory = root_directory
         self.extension_map = extension_map or {}
-        super(IncludePreprocessor, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def find_file_path(self, file_name):
         """
@@ -105,7 +105,7 @@ class IncludeExtension(Extension):
             'extension_map': [{}, ('Optional dictionary mapping one file extension to another'
                                    ' to override the default assigned by markdown.extensions.fenced_code')]
         }
-        super(IncludeExtension, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def extendMarkdown(self, md, md_globals):
         """ Add IncludePreprocessor to the Markdown instance. """

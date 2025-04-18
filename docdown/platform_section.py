@@ -21,7 +21,7 @@ class PlatformSectionPreprocessor(Preprocessor):
 
     def __init__(self, platform_section, **kwargs):
         self.platform_section = platform_section.lower().strip()
-        super(PlatformSectionPreprocessor, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def run(self, lines):
         text = "\n".join(lines)
@@ -70,7 +70,7 @@ class PlatformSectionExtension(Extension):
         self.config = {
             'platform_section': ['', 'The platform section that should be rendered.'],
         }
-        super(PlatformSectionExtension, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def extendMarkdown(self, md, md_globals):
         """ Add NoteBlockPreprocessor to the Markdown instance. """

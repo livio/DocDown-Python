@@ -34,7 +34,7 @@ class DefaultValueFormatter(Formatter):
         Formatter.get_value(key, args, kwds)
 
 
-class StringFormatAdapter(object):
+class StringFormatAdapter:
     """
     Adapter for NoteBlockPreprocessor to render templates using standard python string substitution
     using named arguments.

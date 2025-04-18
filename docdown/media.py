@@ -6,7 +6,7 @@ class MediaTreeprocessor(Treeprocessor):
 
     def __init__(self, media_url=None, **kwargs):
         self.media_url = media_url
-        super(MediaTreeprocessor, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def run(self, root):
         image_tags = root.findall('.//img')
@@ -35,7 +35,7 @@ class MediaExtension(Extension):
         self.config = {
             'media_url': ['.', 'Path or URL base for the media'],
         }
-        super(MediaExtension, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def extendMarkdown(self, md, md_globals):
         """ Add MediaTreeprocessor to the Markdown instance. """
