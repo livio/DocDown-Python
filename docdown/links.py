@@ -1,8 +1,8 @@
 from markdown.extensions import Extension
-from markdown.inlinepatterns import LINK_RE, LinkPattern
+from markdown.inlinepatterns import LINK_RE, LinkInlineProcessor
 
 
-class DocDownLinkPattern(LinkPattern):
+class DocDownLinkInlineProcessor(LinkInlineProcessor):
     def __init__(self, link_map=None, **kwargs):
         self.link_map = link_map or {}
         super().__init__(**kwargs)
@@ -31,7 +31,10 @@ class LinksExtension(Extension):
 
     def extendMarkdown(self, md):
         link_map = self.getConfig("link_map")
-        md.inlinePatterns["link"] = DocDownLinkPattern(link_map=link_map, pattern=LINK_RE, markdown_instance=md)
+        # unregister the default links inline processor
+        md.inlinePatterns.deregister("links", strict=False)
+        # register the DocDown links inline processor
+        md.inlinePatterns.register(DocDownLinkInlineProcessor(link_map=link_map, pattern=LINK_RE, md=md), "links", 160)
 
 
 def makeExtension(*args, **kwargs):
