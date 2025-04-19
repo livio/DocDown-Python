@@ -43,8 +43,8 @@ class SequenceDiagramBlockPreprocessor(TemplateRenderMixin, Preprocessor):
                 prefix = renderer.render(template=self.prefix, context=context)
                 postfix = renderer.render(template=self.postfix, context=context)
 
-                start_tag = self.markdown.htmlStash.store(prefix, safe=True)
-                end_tag = self.markdown.htmlStash.store(postfix, safe=True)
+                start_tag = self.md.htmlStash.store(prefix)
+                end_tag = self.md.htmlStash.store(postfix)
 
                 text = "{}\n{}\n\n{}\n{}\n{}".format(text[: m.start()], start_tag, content, end_tag, text[m.end() :])
             else:

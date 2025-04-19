@@ -73,7 +73,7 @@ class IncludePreprocessor(Preprocessor):
         """
         Parse csv file and return as an html table
         """
-        return self.markdown.htmlStash.store("".join(self.build_csv_table(file_path)), safe=True)
+        return self.markdown.htmlStash.store("".join(self.build_csv_table(file_path)))
 
     def run(self, lines):
         md_lines = []
