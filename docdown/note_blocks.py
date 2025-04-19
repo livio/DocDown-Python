@@ -115,17 +115,17 @@ class NoteExtension(Extension):
         template_adapter = self.getConfig("template_adapter")
         default_tag = self.getConfig("default_tag")
 
-        md.preprocessors.add(
-            "note_blocks",
+        md.preprocessors.register(
             NoteBlockPreprocessor(
                 prefix=prefix,
                 postfix=postfix,
                 tags=tags,
                 template_adapter=template_adapter,
                 default_tag=default_tag,
-                markdown_instance=md,
+                md=md,
             ),
-            ">normalize_whitespace",
+            "note_blocks",
+            31,  # after normalize_whitespace
         )
 
 

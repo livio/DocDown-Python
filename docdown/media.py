@@ -40,7 +40,11 @@ class MediaExtension(Extension):
         md.registerExtension(self)
 
         media_url = self.getConfig("media_url")
-        md.treeprocessors.add("media", MediaTreeprocessor(media_url=media_url, markdown_instance=md), ">inline")
+        md.treeprocessors.register(
+            MediaTreeprocessor(media_url=media_url, md=md),
+            "media",
+            21,  # after inline tree preprocessor
+        )
 
 
 def makeExtension(*args, **kwargs):

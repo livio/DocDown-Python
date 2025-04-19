@@ -5,10 +5,10 @@ test_include_extension
 Tests for `docdown.include` module.
 """
 
-import markdown
+import os
 import unittest
 
-import os
+import markdown
 
 from docdown.include import IncludePreprocessor
 
@@ -51,7 +51,7 @@ class IncludeExtensionTest(unittest.TestCase):
         """
         Test where the specified file does not exist.
         """
-        text = "Test File:\n" "+++ not_here.md"
+        text = "Test File:\n+++ not_here.md"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
@@ -61,16 +61,14 @@ class IncludeExtensionTest(unittest.TestCase):
         self.assertEqual(html, expected_output)
 
     def test_json(self):
-        text = "Test JSON:\n" "+++ test.json"
+        text = "Test JSON:\n+++ test.json"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
         expected_output = (
-            "<p>Test JSON:</p>\n"
-            '<pre><code class="json">{&quot;test&quot;: &quot;Deep content&quot;}\n'
-            "</code></pre>"
+            '<p>Test JSON:</p>\n<pre><code class="json">{&quot;test&quot;: &quot;Deep content&quot;}\n</code></pre>'
         )
         self.assertEqual(html, expected_output)
 
@@ -78,16 +76,14 @@ class IncludeExtensionTest(unittest.TestCase):
         """
         Test JSON where filename is lower in path within the assets dir.
         """
-        text = "Test JSON:\n" "+++ subdir/test.json"
+        text = "Test JSON:\n+++ subdir/test.json"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
         expected_output = (
-            "<p>Test JSON:</p>\n"
-            '<pre><code class="json">{&quot;test&quot;: &quot;subdir content&quot;}\n'
-            "</code></pre>"
+            '<p>Test JSON:</p>\n<pre><code class="json">{&quot;test&quot;: &quot;subdir content&quot;}\n</code></pre>'
         )
         self.assertEqual(html, expected_output)
 
@@ -96,21 +92,19 @@ class IncludeExtensionTest(unittest.TestCase):
         Test JSON where we have rolled up one level in the dir tree looking in `ROOT_DIR/test_files/assets/` after not
         finding the file in `ROOT_DIR/test_files/deep_assets/assets/`
         """
-        text = "Test JSON:\n" "+++ subdir/test.json"
+        text = "Test JSON:\n+++ subdir/test.json"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
         expected_output = (
-            "<p>Test JSON:</p>\n"
-            '<pre><code class="json">{&quot;test&quot;: &quot;subdir content&quot;}\n'
-            "</code></pre>"
+            '<p>Test JSON:</p>\n<pre><code class="json">{&quot;test&quot;: &quot;subdir content&quot;}\n</code></pre>'
         )
         self.assertEqual(html, expected_output)
 
     def test_html(self):
-        text = "Test HTML:\n" "+++ test.html"
+        text = "Test HTML:\n+++ test.html"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
@@ -126,7 +120,7 @@ class IncludeExtensionTest(unittest.TestCase):
         self.assertEqual(html, expected_output)
 
     def test_js(self):
-        text = "Test JS:\n" "+++ test.js"
+        text = "Test JS:\n+++ test.js"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
@@ -136,20 +130,18 @@ class IncludeExtensionTest(unittest.TestCase):
         self.assertEqual(html, expected_output)
 
     def test_css(self):
-        text = "Test CSS:\n" "+++ test.css"
+        text = "Test CSS:\n+++ test.css"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
-        expected_output = (
-            "<p>Test CSS:</p>\n" '<pre><code class="css">.lime{\n' "  color: #75D366;\n" "}\n" "</code></pre>"
-        )
+        expected_output = '<p>Test CSS:</p>\n<pre><code class="css">.lime{\n  color: #75D366;\n}\n</code></pre>'
 
         self.assertEqual(html, expected_output)
 
     def test_obj_c_with_mapped_extension(self):
-        text = "Test Objective C:\n" "+++ test.m"
+        text = "Test Objective C:\n+++ test.m"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
@@ -169,18 +161,18 @@ class IncludeExtensionTest(unittest.TestCase):
         self.assertEqual(html, expected_output)
 
     def test_swift(self):
-        text = "Test Swift:\n" "+++ test.swift"
+        text = "Test Swift:\n+++ test.swift"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
-        expected_output = "<p>Test Swift:</p>\n" '<pre><code class="swift">print(&quot;Test&quot;)\n' "</code></pre>"
+        expected_output = '<p>Test Swift:</p>\n<pre><code class="swift">print(&quot;Test&quot;)\n</code></pre>'
 
         self.assertEqual(html, expected_output)
 
     def test_java(self):
-        text = "Test JAVA:\n" "+++ test.java"
+        text = "Test JAVA:\n+++ test.java"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
@@ -199,7 +191,7 @@ class IncludeExtensionTest(unittest.TestCase):
         self.assertEqual(html, expected_output)
 
     def test_cpp(self):
-        text = "Test C++:\n" "+++ test.cpp"
+        text = "Test C++:\n+++ test.cpp"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
@@ -219,7 +211,7 @@ class IncludeExtensionTest(unittest.TestCase):
         self.assertEqual(html, expected_output)
 
     def test_csv(self):
-        text = "Test CSV:\n" "+++ test.csv"
+        text = "Test CSV:\n+++ test.csv"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
@@ -251,7 +243,7 @@ class IncludePreprocessorTest(unittest.TestCase):
             current_directory=self.CURRENT_DIR,
             asset_directory=self.ASSET_DIR,
             extension_map={},
-            markdown_instance=md,
+            md=md,
         )
 
     def test_find_file_path_with_rollup(self):

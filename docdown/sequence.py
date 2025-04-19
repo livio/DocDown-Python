@@ -75,16 +75,16 @@ class SequenceDiagramExtension(Extension):
         postfix = self.getConfig("postfix")
         template_adapter = self.getConfig("template_adapter")
 
-        md.preprocessors.add(
-            "sequence",
+        md.preprocessors.register(
             SequenceDiagramBlockPreprocessor(
                 media_url=media_url,
                 prefix=prefix,
                 postfix=postfix,
                 template_adapter=template_adapter,
-                markdown_instance=md,
+                md=md,
             ),
-            ">normalize_whitespace",
+            "sequence",
+            31,  # after normalize_whitespace
         )
 
 

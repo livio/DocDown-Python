@@ -113,10 +113,10 @@ class ScopedCodeTabExtension(CodeTabsExtension):
 
         md.registerExtension(self)
 
-        md.preprocessors.add(
+        md.preprocessors.register(
+            ScopedCodeTabsPreprocessor(md=md, code_tabs_preprocessor=code_tabs_preprocessor),
             "scoped_code_tabs",
-            ScopedCodeTabsPreprocessor(md, code_tabs_preprocessor=code_tabs_preprocessor),
-            ">normalize_whitespace",
+            31,  # after normalize_whitespace
         )
 
 

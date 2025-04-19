@@ -124,16 +124,16 @@ class IncludeExtension(Extension):
         current_directory = self.getConfig("current_directory")
         extension_map = self.getConfig("extension_map")
 
-        md.preprocessors.add(
-            "include",
+        md.preprocessors.register(
             IncludePreprocessor(
                 root_directory=root_directory,
                 current_directory=current_directory,
                 asset_directory=asset_directory,
                 extension_map=extension_map,
-                markdown_instance=md,
+                md=md,
             ),
-            ">normalize_whitespace",
+            "include",
+            31,  # after normalize_whitespace
         )
 
 

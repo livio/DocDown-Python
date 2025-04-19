@@ -76,10 +76,10 @@ class PlatformSectionExtension(Extension):
 
         platform_section = self.getConfig("platform_section")
 
-        md.preprocessors.add(
+        md.preprocessors.register(
+            PlatformSectionPreprocessor(platform_section=platform_section, md=md),
             "platform_sections",
-            PlatformSectionPreprocessor(platform_section=platform_section, markdown_instance=md),
-            ">normalize_whitespace",
+            31,  # after normalize_whitespace
         )
 
 

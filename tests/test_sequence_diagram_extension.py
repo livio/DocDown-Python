@@ -238,7 +238,7 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
         """
         Test that if there is no title for the sequence diagram that it defaults to the title `Sequence Diagram`
         """
-        text = "# Sequence Diagrams\n" "|||\n" "Activate App\n" "![](./assets/ActivateAppSuccessfulResume.png)\n" "|||"
+        text = "# Sequence Diagrams\n|||\nActivate App\n![](./assets/ActivateAppSuccessfulResume.png)\n|||"
 
         html = markdown.markdown(
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
@@ -284,12 +284,14 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
         When media_url is passed in, urls should be replaced with the media_url url.
         Placeholders should get properly replaced.  Each line in list of text should be treated as new line.
         """
+        md = markdown.Markdown()
+
         processor = SequenceDiagramBlockPreprocessor(
             media_url="http://example.com/",
             prefix=self.PREFIX_TEMPLATE,
             postfix=self.POSTFIX_TEMPLATE,
             template_adapter=self.TEMPLATE_ADAPTER,
-            markdown_instance=markdown.Markdown(),
+            md=md,
         )
 
         text = (
@@ -314,7 +316,8 @@ class SequenceDiagramBlockPreprocessorTest(unittest.TestCase):
         the path to the sequence diagram image.
         Placeholders should get properly replaced.  Each line in list of text should be treated as new line.
         """
-        processor = SequenceDiagramBlockPreprocessor(markdown_instance=markdown.Markdown())
+        md = markdown.Markdown()
+        processor = SequenceDiagramBlockPreprocessor(md=md)
         text = (
             "# Sequence Diagrams",
             "|||",
