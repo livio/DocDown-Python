@@ -67,9 +67,7 @@ class IncludeExtensionTest(unittest.TestCase):
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
-        expected_output = (
-            '<p>Test JSON:</p>\n<pre><code class="json">{&quot;test&quot;: &quot;Deep content&quot;}\n</code></pre>'
-        )
+        expected_output = '<p>Test JSON:</p>\n<pre><code class="language-json">{&quot;test&quot;: &quot;Deep content&quot;}\n</code></pre>'
         self.assertEqual(html, expected_output)
 
     def test_nested_json(self):
@@ -82,9 +80,7 @@ class IncludeExtensionTest(unittest.TestCase):
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
-        expected_output = (
-            '<p>Test JSON:</p>\n<pre><code class="json">{&quot;test&quot;: &quot;subdir content&quot;}\n</code></pre>'
-        )
+        expected_output = '<p>Test JSON:</p>\n<pre><code class="language-json">{&quot;test&quot;: &quot;subdir content&quot;}\n</code></pre>'
         self.assertEqual(html, expected_output)
 
     def test_json_directory_rollup(self):
@@ -98,9 +94,7 @@ class IncludeExtensionTest(unittest.TestCase):
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
-        expected_output = (
-            '<p>Test JSON:</p>\n<pre><code class="json">{&quot;test&quot;: &quot;subdir content&quot;}\n</code></pre>'
-        )
+        expected_output = '<p>Test JSON:</p>\n<pre><code class="language-json">{&quot;test&quot;: &quot;subdir content&quot;}\n</code></pre>'
         self.assertEqual(html, expected_output)
 
     def test_html(self):
@@ -112,7 +106,7 @@ class IncludeExtensionTest(unittest.TestCase):
 
         expected_output = (
             "<p>Test HTML:</p>\n"
-            '<pre><code class="html">&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;'
+            '<pre><code class="language-html">&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;'
             "body&gt;&lt;h1&gt;Test&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;\n"
             "</code></pre>"
         )
@@ -126,7 +120,7 @@ class IncludeExtensionTest(unittest.TestCase):
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
-        expected_output = "<p>Test JS:</p>\n" """<pre><code class="js">alert('test');\n""" "</code></pre>"
+        expected_output = "<p>Test JS:</p>\n" """<pre><code class="language-js">alert('test');\n""" "</code></pre>"
         self.assertEqual(html, expected_output)
 
     def test_css(self):
@@ -136,7 +130,9 @@ class IncludeExtensionTest(unittest.TestCase):
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
-        expected_output = '<p>Test CSS:</p>\n<pre><code class="css">.lime{\n  color: #75D366;\n}\n</code></pre>'
+        expected_output = (
+            '<p>Test CSS:</p>\n<pre><code class="language-css">.lime{\n  color: #75D366;\n}\n</code></pre>'
+        )
 
         self.assertEqual(html, expected_output)
 
@@ -149,7 +145,7 @@ class IncludeExtensionTest(unittest.TestCase):
 
         expected_output = (
             "<p>Test Objective C:</p>\n"
-            '<pre><code class="c">#import &lt;Foundation/Foundation.h&gt;'
+            '<pre><code class="language-c">#import &lt;Foundation/Foundation.h&gt;'
             "\n\nint main (int argc, const char * argv[])\n{\n"
             "        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];\n"
             "        NSLog (@&quot;Test&quot;);\n"
@@ -167,7 +163,7 @@ class IncludeExtensionTest(unittest.TestCase):
             text, extensions=self.MARKDOWN_EXTENSIONS, extension_configs=self.EXTENSION_CONFIGS, output_format="html5"
         )
 
-        expected_output = '<p>Test Swift:</p>\n<pre><code class="swift">print(&quot;Test&quot;)\n</code></pre>'
+        expected_output = '<p>Test Swift:</p>\n<pre><code class="language-swift">print(&quot;Test&quot;)\n</code></pre>'
 
         self.assertEqual(html, expected_output)
 
@@ -180,7 +176,7 @@ class IncludeExtensionTest(unittest.TestCase):
 
         expected_output = (
             "<p>Test JAVA:</p>\n"
-            '<pre><code class="java">public class TestJava{\n\n'
+            '<pre><code class="language-java">public class TestJava{\n\n'
             "    public static void main(String[] args) {\n"
             "        System.out.println(&quot;Test&quot;);\n"
             "    }\n\n"
@@ -199,7 +195,7 @@ class IncludeExtensionTest(unittest.TestCase):
 
         expected_output = (
             "<p>Test C++:</p>\n"
-            '<pre><code class="cpp">#include &lt;iostream&gt;\n\n'
+            '<pre><code class="language-cpp">#include &lt;iostream&gt;\n\n'
             "using namespace std;\n\n"
             "int main()\n"
             "{\n"
