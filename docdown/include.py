@@ -133,7 +133,7 @@ class IncludeExtension(Extension):
                 md=md,
             ),
             "include",
-            31,  # after normalize_whitespace
+            29,  # before normalize_whitespace
         )
 
 
