@@ -84,7 +84,7 @@ class SequenceDiagramExtension(Extension):
                 md=md,
             ),
             "sequence",
-            31,  # after normalize_whitespace
+            29,  # after normalize_whitespace
         )
 
 

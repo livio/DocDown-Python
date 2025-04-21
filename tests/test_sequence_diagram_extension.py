@@ -18,6 +18,8 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
     Primarily integration tests for the SequenceDiagramExtension
     """
 
+    maxDiff = None
+
     EXTENSION_CONFIGS = {
         "docdown.sequence": {
             "media_url": "http://example.com/",
@@ -62,7 +64,7 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
             '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram</div>'
-            '<p class="t-default">\n\n'
+            '<p class="t-default">\n'
             "<p>Activate App</p>\n"
             '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
@@ -108,7 +110,7 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="./assets/ActivateAppSuccessfulResume.png" class="visual-link">'
             '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram</div>'
-            '<p class="t-default">\n\n'
+            '<p class="t-default">\n'
             "<p>Activate App</p>\n"
             '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
@@ -143,15 +145,15 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
             '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram 1</div>'
-            '<p class="t-default">\n\n<p>Activate App 1</p>\n</p></div>'
+            '<p class="t-default">\n<p>Activate App 1</p>\n</p></div>'
             '<div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span></div>'
             "</a></div>\n"
-            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">\n\n'
+            '<img class="visual-print-image" src="http://example.com/assets/ActivateAppSuccessfulResume.png">\n'
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
             '<div class="visual-link__body">'
-            '<div class="t-h6 visual-link__title">Activate App Sequence Diagram 2</div><p class="t-default">\n\n'
+            '<div class="t-h6 visual-link__title">Activate App Sequence Diagram 2</div><p class="t-default">\n'
             "<p>Activate App 2</p>\n</p></div>"
             '<div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span>'
@@ -190,7 +192,6 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<div class="visual-link-wrapper"><a href="#" data-src="http://example.com/../assets/img/user_registration.diagram"'
             ' class="visual-link"><div class="visual-link__body"><div class="t-h6 visual-link__title">UserRegistration</div>'
             '<p class="t-default">\n'
-            "\n"
             "<p>User Registration Diagram</p>\n"
             '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center"><span class="fc-theme">'
             'View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span></div></a></div>\n'
@@ -224,7 +225,7 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="//example.org/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
             '<div class="visual-link__body"><div class="t-h6 visual-link__title">Activate App Sequence Diagram</div>'
-            '<p class="t-default">\n\n'
+            '<p class="t-default">\n'
             "<p>Activate App</p>\n"
             '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
@@ -249,7 +250,7 @@ class SequenceDiagramExtensionTest(unittest.TestCase):
             '<div class="visual-link-wrapper">'
             '<a href="#" data-src="http://example.com/assets/ActivateAppSuccessfulResume.png" class="visual-link">'
             '<div class="visual-link__body"><div class="t-h6 visual-link__title">Sequence Diagram</div>'
-            '<p class="t-default">\n\n'
+            '<p class="t-default">\n'
             "<p>Activate App</p>\n"
             '</p></div><div class="visual-link__link fx-wrapper fx-s-between fx-a-center">'
             '<span class="fc-theme">View Diagram</span><span class="icon">{% svg "standard/icon-visual" %}</span>'
