@@ -1,13 +1,39 @@
+import re
+import xml.etree.ElementTree as etree
+
 from markdown.extensions import Extension
 from markdown.inlinepatterns import LINK_RE, LinkInlineProcessor
 
 
 class DocDownLinkInlineProcessor(LinkInlineProcessor):
-    def __init__(self, link_map=None, **kwargs):
+    def __init__(self, link_map=None, *args, **kwargs):
         self.link_map = link_map or {}
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
 
-    def sanitize_url(self, url):
+    def handleMatch(self, m: re.Match[str], data: str) -> tuple[etree.Element | None, int | None, int | None]:
+        """Return an `a` [`Element`][xml.etree.ElementTree.Element] or `(None, None, None)`."""
+        text, index, handled = self.getText(data, m.end(0))
+
+        if not handled:
+            return None, None, None
+
+        href, title, index, handled = self.getLink(data, index)
+        if not handled:
+            return None, None, None
+
+        href = self.link_map_url(href)
+
+        el = etree.Element("a")
+        el.text = text
+
+        el.set("href", href)
+
+        if title is not None:
+            el.set("title", title)
+
+        return el, m.start(0), index
+
+    def link_map_url(self, url):
         if "#" in url:
             uri, uri_hash = url.split("#", 1)
         else:
@@ -19,22 +45,23 @@ class DocDownLinkInlineProcessor(LinkInlineProcessor):
 
         if uri_hash:
             uri = "{}#{}".format(uri, uri_hash)
-        return super().sanitize_url(uri)
+
+        return uri
 
 
 class LinksExtension(Extension):
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         self.config = {
             "link_map": [{}, "Dict mapping source urls to target urls."],
         }
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md):
         link_map = self.getConfig("link_map")
         # unregister the default links inline processor
-        md.inlinePatterns.deregister("links", strict=False)
+        md.inlinePatterns.deregister("link", strict=True)
         # register the DocDown links inline processor
-        md.inlinePatterns.register(DocDownLinkInlineProcessor(link_map=link_map, pattern=LINK_RE, md=md), "links", 160)
+        md.inlinePatterns.register(DocDownLinkInlineProcessor(link_map=link_map, pattern=LINK_RE, md=md), "link", 160)
 
 
 def makeExtension(*args, **kwargs):
