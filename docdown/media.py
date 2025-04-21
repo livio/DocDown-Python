@@ -3,13 +3,13 @@ from markdown.treeprocessors import Treeprocessor
 
 
 class MediaTreeprocessor(Treeprocessor):
-    def __init__(self, media_url=None, **kwargs):
+    def __init__(self, media_url=None, *args, **kwargs):
         self.media_url = media_url
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
 
     def run(self, root):
-        image_tags = root.findall(".//img")
         if self.media_url is not None:
+            image_tags = root.findall(".//img")
             for image_tag in image_tags:
                 tag_src = image_tag.get("src")
                 if not tag_src.lower().startswith("http") and not tag_src.startswith("//"):
@@ -29,11 +29,11 @@ class MediaTreeprocessor(Treeprocessor):
 
 
 class MediaExtension(Extension):
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         self.config = {
             "media_url": [".", "Path or URL base for the media"],
         }
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md):
         """Add MediaTreeprocessor to the Markdown instance."""
@@ -43,7 +43,7 @@ class MediaExtension(Extension):
         md.treeprocessors.register(
             MediaTreeprocessor(media_url=media_url, md=md),
             "media",
-            21,  # after inline tree preprocessor
+            19,  # after inline tree preprocessor
         )
 
 
