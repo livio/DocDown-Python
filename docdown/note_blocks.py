@@ -125,7 +125,7 @@ class NoteExtension(Extension):
                 md=md,
             ),
             "note_blocks",
-            31,  # after normalize_whitespace
+            29,  # after normalize_whitespace
         )
 
 
