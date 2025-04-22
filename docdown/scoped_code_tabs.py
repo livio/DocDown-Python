@@ -10,10 +10,10 @@ import re
 from markdown.preprocessors import Preprocessor
 from markdown_fenced_code_tabs import CodeTabsExtension
 
+RE_FENCE_START = re.compile(r"^ *\|\~\s*$")  # start line, e.g., `   |~  `
+RE_FENCE_END = re.compile(r"^\s*\~\|\s*$")  # last non-blank line, e.g, '~|\n  \n\n'
 
 class ScopedCodeTabsPreprocessor(Preprocessor):
-    RE_FENCE_START = r"^ *\|\~\s*$"  # start line, e.g., `   |~  `
-    RE_FENCE_END = r"^\s*\~\|\s*$"  # last non-blank line, e.g, '~|\n  \n\n'
 
     def __init__(self, md, code_tabs_preprocessor):
         self.code_tabs_preprocessor = code_tabs_preprocessor
@@ -36,11 +36,11 @@ class ScopedCodeTabsPreprocessor(Preprocessor):
         in_tab = False
 
         for line in lines:
-            if re.search(self.RE_FENCE_START, line):
+            if re.search(RE_FENCE_START, line):
                 # Start block pattern, save line in case of no end fence
                 in_tab = True
                 starting_line = line
-            elif re.search(self.RE_FENCE_END, line):
+            elif re.search(RE_FENCE_END, line):
                 # End of code block, run through fenced code tabs pre-processor and reset code tab list
                 # Add <!-- SCOPED_TAB_BREAK--> content break to separate potentially subsequent tab groups
                 new_lines.append(tab_break_line)
