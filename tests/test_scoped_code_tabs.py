@@ -9,6 +9,8 @@ class ScopedCodeTabsExtensionTest(unittest.TestCase):
     Integration test with markdown for :class:`docdown.scoped_code_tabs.ScopedCodeTabsExtension`
     """
 
+    maxDiff = None
+
     MARKDOWN_EXTENSIONS = ["docdown.scoped_code_tabs"]
 
     def test_mixed_code_blocks(self):
@@ -86,7 +88,6 @@ codeblockinfo() {
 
         html = markdown.markdown(text, extensions=["docdown.scoped_code_tabs"], output_format="html5")
 
-        self.maxDiff = len(html) * 2
         self.assertEqual(html, expected_output)
 
     def test_custom_config_values(self):
@@ -110,7 +111,6 @@ def hello_world(greeting: str = 'World'):
             text, extensions=["docdown.scoped_code_tabs"], extension_configs=config, output_format="html5"
         )
 
-        self.maxDiff = len(html) * 2
         self.assertEqual(html, expected_output)
 
     def test_fenced_code_mixed_hilite_and_fenced_code(self):
@@ -205,7 +205,6 @@ print("Hello, World!")
 <span class="nt">&lt;/interface&gt;</span>
 </pre></div>"""
 
-        self.maxDiff = len(html) * 2
         self.assertEqual(html, expected_output)
 
     def test_subsequent_scoped_code_tabs(self):
@@ -254,5 +253,4 @@ func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
 
         html = markdown.markdown(text, extensions=self.MARKDOWN_EXTENSIONS, output_format="html5")
 
-        self.maxDiff = len(html) * 2
         self.assertEqual(html, expected_output)
