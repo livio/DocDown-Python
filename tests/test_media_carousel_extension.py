@@ -5,9 +5,11 @@ test_media_carousels_extension
 Tests for `docdown.media_carousels` module.
 """
 
-import markdown
 import unittest
-from docdown.media_carousels import BEFORE_CAROUSEL_HTML, AFTER_CAROUSEL_HTML
+
+import markdown
+
+from docdown.media_carousels import AFTER_CAROUSEL_HTML, BEFORE_CAROUSEL_HTML
 
 
 class MediaCarouselExtensionTest(unittest.TestCase):
@@ -15,13 +17,13 @@ class MediaCarouselExtensionTest(unittest.TestCase):
     Integration test with markdown for :class:`docdown.media_carousels.MediaCarouselExtension`
     """
 
-    MARKDOWN_EXTENSIONS = ["docdown.media_carousels"]
+    MARKDOWN_EXTENSIONS = ["docdown.media_carousels", "markdown.extensions.legacy_attrs"]
     CAROUSEL_OPEN_FENCE = "[carousel!]"
     CAROUSEL_CLOSE_FENCE = "[!carousel]"
     PREVIEW_CLASS = "small-preview"
 
     base_image_string = "!["
-    maxDiff = 1000
+    maxDiff = None
 
     def test_empty_string(self):
         text = ""
