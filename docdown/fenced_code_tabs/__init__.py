@@ -93,7 +93,7 @@ class CodeTabsPreprocessor(Preprocessor):
                     if param_m:
                         if param_m.group(param):
                             kwargs[param] = param_m.group(param)
-                        elif (not param_m.group(param) is None) and param in PARAM_DEFAULTS:
+                        elif (param_m.group(param) is not None) and param in PARAM_DEFAULTS:
                             kwargs[param] = PARAM_DEFAULTS[param]
                         else:
                             raise Exception("{} needs an argument within \n{}".format(param, first_line))
@@ -172,10 +172,7 @@ class CodeTabsPreprocessor(Preprocessor):
             config=self.config, headers=group.get_headers(), contents=group.get_contents(), group_id=group.get_id()
         )
 
-        if sys.version_info > (3, 0):
-            return minify(group_html, remove_empty_space=True, remove_comments=True)
-        else:
-            return minify(group_html.decode("utf-8"), remove_empty_space=True, remove_comments=True)
+        return minify(group_html, remove_empty_space=True, remove_comments=True)
 
     def _highlite_code(self, lang, code, options):
         if self.codehilite_config:
