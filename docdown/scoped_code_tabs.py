@@ -7,28 +7,24 @@ docdown.scoped_code_tabs Markdown extension module
 
 import re
 
-from markdown.preprocessors import Preprocessor
-from markdown_fenced_code_tabs import CodeTabsExtension
+from docdown.fenced_code_tabs import CodeTabsExtension, CodeTabsPreprocessor, util
 
 RE_FENCE_START = re.compile(r"^ *\|\~\s*$")  # start line, e.g., `   |~  `
 RE_FENCE_END = re.compile(r"^\s*\~\|\s*$")  # last non-blank line, e.g, '~|\n  \n\n'
 
-class ScopedCodeTabsPreprocessor(Preprocessor):
 
-    def __init__(self, md, code_tabs_preprocessor):
-        self.code_tabs_preprocessor = code_tabs_preprocessor
-        super().__init__(md)
-
+class ScopedCodeTabsPreprocessor(CodeTabsPreprocessor):
     def pre_run_code_tab_preprocessor(self, lines):
         """
         Mark the code block for code tab pre-processing but hold off on rendering the tabs
             until all are processed so that the HTML tab group indexing will work properly in
             a global context
         """
-        self.code_tabs_preprocessor.codehilite_config = self.code_tabs_preprocessor._get_codehilite_config()
-        return self.code_tabs_preprocessor._parse_code_blocks("\n".join(lines))
+        return self._parse_code_blocks("\n".join(lines))
 
     def run(self, lines):
+        self.codehilite_config = self._get_codehilite_config()
+
         new_lines = []
         fenced_code_tab = []
         tab_break_line = "<!-- SCOPED_TAB_BREAK-->"
@@ -59,15 +55,11 @@ class ScopedCodeTabsPreprocessor(Preprocessor):
             new_lines += [starting_line] + fenced_code_tab
 
         # Finally, run the whole thing through the code tabs rendering function
-        return [
-            line
-            for line in self.code_tabs_preprocessor._render_code_tabs("\n".join(new_lines)).split("\n")
-            if line != tab_break_line
-        ]
+        return [line for line in self._render_code_tabs("\n".join(new_lines)).split("\n") if line != tab_break_line]
 
 
 class ScopedCodeTabExtension(CodeTabsExtension):
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
             A Markdown extension that serves to scope where Fenced Code Tabs are rendered by way of |~ ... ~| fences.
 
@@ -94,30 +86,18 @@ class ScopedCodeTabExtension(CodeTabsExtension):
         }
         ```
         """
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md):
-        # The parent class will replace the fenced_code_block preprocessor in its extendMarkdown.
-        #   In order for this to be truly a scoped extension, we need to replace it back with the base
-        #   if one exists, or remove it entirely.
-        if "fenced_code_block" in md.preprocessors:
-            base_fenced_code_preprocessor = md.preprocessors.get("fenced_code_block")
-            super().extendMarkdown(md)
+        self.setConfig("single_block_as_tab", util.to_bool(self.getConfig("single_block_as_tab")))
 
-            code_tabs_preprocessor = md.preprocessors["fenced_code_block"]
-            md.preprocessors["fenced_code_block"] = base_fenced_code_preprocessor
-        else:
-            super().extendMarkdown(md)
-            code_tabs_preprocessor = md.preprocessors["fenced_code_block"]
-            del md.preprocessors["fenced_code_block"]
+        template_file = self.getConfig("template")
+        template_file_name = self._get_template_file_name(template_file)
+        self.setConfig("template", template_file_name)
 
         md.registerExtension(self)
 
-        md.preprocessors.register(
-            ScopedCodeTabsPreprocessor(md=md, code_tabs_preprocessor=code_tabs_preprocessor),
-            "scoped_code_tabs",
-            31,  # after normalize_whitespace
-        )
+        md.preprocessors.register(ScopedCodeTabsPreprocessor(md, self.getConfigs()), "scoped_code_tabs", 26)
 
 
 def makeExtension(*args, **kwargs):
