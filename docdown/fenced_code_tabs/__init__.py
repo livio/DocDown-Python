@@ -14,10 +14,7 @@ Copyright (c) 2024-present [elmah.io](https://github.com/elmahio).
 License: [MIT](https://opensource.org/licenses/MIT)
 """
 
-from __future__ import absolute_import, unicode_literals
-
 import re
-import sys
 from collections import OrderedDict as odict
 from collections import deque
 from time import time
@@ -65,12 +62,12 @@ class CodeTabsPreprocessor(Preprocessor):
 
         self._setup_placeholder()
 
-        super(CodeTabsPreprocessor, self).__init__(md)
+        super().__init__(md)
 
     def _setup_placeholder(self):
         current_time = time()
         self.tab_placeholder = "<!-- {0}__code_tab__{{0}} -->".format(current_time)
-        self.tab_placeholder_regex = re.compile("<!-- {0}__code_tab__([0-9]+) -->".format(current_time))
+        self.tab_placeholder_regex = re.compile("<!-- {}__code_tab__([0-9]+) -->".format(current_time))
 
     def _get_codehilite_config(self):
         for ext in self.md.registeredExtensions:
@@ -208,7 +205,7 @@ class CodeTabsExtension(Extension):
             ],
         }
 
-        super(CodeTabsExtension, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def _get_template_file_name(self, name):
         template = "default"

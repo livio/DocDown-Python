@@ -17,7 +17,7 @@ from collections import deque
 from . import util
 
 
-class TabItem(object):
+class TabItem:
     def __init__(self, title, lang, code):
         self.title = title
         self.lang = lang
@@ -33,7 +33,7 @@ class TabItem(object):
         return self.code
 
 
-class TabGroup(object):
+class TabGroup:
     GROUP_ID = "tab-group-{}"
     # group-0
     TAB_ID = "{}-{}_{}"

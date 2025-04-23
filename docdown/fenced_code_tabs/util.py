@@ -36,7 +36,7 @@ def filter_content(content):
 
     try:
         string_block = string_block.decode("ascii", "remove")
-    except:
+    except Exception:
         string_block = content
 
     return string_block
