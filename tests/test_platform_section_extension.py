@@ -25,7 +25,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         }
 
     def test_section_does_not_match(self):
-        text = "@![asdf]\n" "some content\nnot shown\n\n" "!@"
+        text = "@![asdf]\nsome content\nnot shown\n\n!@"
 
         html = markdown.markdown(
             text,
@@ -37,7 +37,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         self.assertEqual(expected_output, html)
 
     def test_section_does_match(self):
-        text = "@![asdf]\n" "some content\nshown\n\n" "!@ \n"
+        text = "@![asdf]\nsome content\nshown\n\n!@ \n"
 
         html = markdown.markdown(
             text,
@@ -49,7 +49,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         self.assertEqual(expected_output, html)
 
     def test_section_markdown_case_insensitive(self):
-        text = "@![ASDF]\n" "some content\nshown\n\n" "!@\n"
+        text = "@![ASDF]\nsome content\nshown\n\n!@\n"
 
         html = markdown.markdown(
             text,
@@ -61,7 +61,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         self.assertEqual(expected_output, html)
 
     def test_section_config_case_insensitive(self):
-        text = "@![asdf]\n" "some content\nshown\n\n" "!@ \n"
+        text = "@![asdf]\nsome content\nshown\n\n!@ \n"
 
         html = markdown.markdown(
             text,
@@ -73,7 +73,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         self.assertEqual(expected_output, html)
 
     def test_multiple_platforms_section(self):
-        text = "@![asdf,QwErTy]\n" "some content\nshown\n\n" "!@\n"
+        text = "@![asdf,QwErTy]\nsome content\nshown\n\n!@\n"
 
         html = markdown.markdown(
             text,
@@ -85,7 +85,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         self.assertEqual(expected_output, html)
 
     def test_platform_sections_with_spaces(self):
-        text = "@![asdf, qwerty]\n" "some content\nshown\n\n" "!@\n"
+        text = "@![asdf, qwerty]\nsome content\nshown\n\n!@\n"
 
         html = markdown.markdown(
             text,
@@ -116,9 +116,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         self.assertEqual(expected_output, html)
 
     def test_multiple_sections(self):
-        text = (
-            "@![asdf,QwErTy]\n" "some content\nnot shown\n\n" "!@\n" "\n" "@![zxcv]\n" "some content\nshown\n\n" "!@\n"
-        )
+        text = "@![asdf,QwErTy]\nsome content\nnot shown\n\n!@\n\n@![zxcv]\nsome content\nshown\n\n!@\n"
 
         html = markdown.markdown(
             text,
@@ -130,7 +128,7 @@ class PlatformSectionExtensionTest(unittest.TestCase):
         self.assertEqual(expected_output, html)
 
     def test_section_with_code_snippet(self):
-        text = "@![Android]\n" "some Android content shown\n\n" "``` java\n" 'String java = "asdf";\n' "```\n" "!@\n"
+        text = '@![Android]\nsome Android content shown\n\n``` java\nString java = "asdf";\n```\n!@\n'
 
         html = markdown.markdown(
             text,
