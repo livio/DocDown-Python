@@ -10,7 +10,7 @@ class DocDownLinkInlineProcessor(LinkInlineProcessor):
         self.link_map = link_map or {}
         super().__init__(*args, **kwargs)
 
-    def handleMatch(self, m: re.Match[str], data: str) -> tuple[etree.Element | None, int | None, int | None]:
+    def handleMatch(self, m: re.Match[str], data: str) -> tuple[etree.Element | None, int | None, int | None]:  # type: ignore
         """Return an `a` [`Element`][xml.etree.ElementTree.Element] or `(None, None, None)`."""
         text, index, handled = self.getText(data, m.end(0))
 

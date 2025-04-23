@@ -2,7 +2,7 @@
 Adapter to use pystache to render a mustache template
 """
 
-import pystache
+import pystache  # type: ignore
 
 
 class PystacheAdapter:

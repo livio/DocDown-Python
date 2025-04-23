@@ -18,8 +18,9 @@ import re
 from collections import OrderedDict as odict
 from collections import deque
 from time import time
+from typing import Any
 
-from htmlmin import minify
+from htmlmin import minify  # type: ignore
 from jinja2 import Environment, FileSystemLoader
 from markdown.extensions import Extension
 from markdown.extensions.codehilite import CodeHilite, CodeHiliteExtension, parse_hl_lines
@@ -48,6 +49,8 @@ PARAM_REGEXES = odict(
         ("fct_label", re.compile(r"""fct_label=(?P<quot>"|')(?P<fct_label>.*?)(?P=quot)""")),
     )
 )
+
+PARAM_DEFAULTS: dict[Any, Any] = {}
 
 
 class CodeTabsPreprocessor(Preprocessor):
