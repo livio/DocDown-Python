@@ -35,6 +35,9 @@ Homepage = "https://github.com/livio/DocDown-Python"
 Issues = "https://github.com/livio/DocDown-Python/issues"
 Changelog = "https://github.com/livio/DocDown-Python/blob/master/HISTORY.rst"
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
