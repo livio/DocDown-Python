@@ -1,20 +1,16 @@
-# -*- coding: utf-8 -*-
-
 """
 Adapter to use pystache to render a mustache template
 """
 
-from __future__ import absolute_import, unicode_literals, print_function
-
-import pystache
+import pystache  # type: ignore
 
 
-class PystacheAdapter(object):
+class PystacheAdapter:
     """
     Adapter for NoteBlockPreprocessor to render mustache templates using pystache
     """
 
-    def render(self, template='', context=None, *args, **kwargs):
+    def render(self, template="", context=None, *args, **kwargs):
         if context is None:
             context = {}
 

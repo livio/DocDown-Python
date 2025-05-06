@@ -9,14 +9,7 @@ A scoped code tab is delimited by an opening ``|~`` fence and closing ``~|`` fen
 are defined as typical code blocks, using backticks, with the opening backtick fence specifying the code language contained
 within the block.
 
-The configuration for rendering the tabs is as directly defined by the `markdown_fenced_code_tabs`_ extension.
-
-
-=============
-Dependencies
-=============
-The ``docdown.scoped_code_tabs`` extension requires the third-party extension `markdown_fenced_code_tabs`_ in order to process
-the tabulated fenced code blocks.
+The configuration for rendering the tabs is as directly defined by the `fenced_code_tabs` extension.
 
 ==============
 Configuration
@@ -27,8 +20,8 @@ single_block_as_tab
 active_class
     The CSS class to apply to the active tab. Default: ``active``
 template
-    Which template to use to render code tabs. One of: [``default``, ``bootstrap3``, ``bootstrap4``]. Default: ``default``
-    Please see the *-template.html files in the `markdown_fenced_code_tabs`_ extension.
+    Which template to use to render code tabs. One of: [``default``, ``bootstrap3``, ``bootstrap4``, ``bootstrap5``]. Default: ``default``
+    Please see the *-template.html files in the `fenced_code_tabs` extension.
 
 
 =======

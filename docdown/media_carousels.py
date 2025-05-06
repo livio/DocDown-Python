@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
-
 """
 media_carousels
 ----------------------------------
 
 docdown.media_carousels Markdown extension module
 """
-from __future__ import absolute_import, unicode_literals, print_function
 
 from markdown.extensions import Extension
 from markdown.postprocessors import Postprocessor
@@ -22,6 +19,7 @@ AFTER_CAROUSEL_HTML = """</div>
 </div>
 </div>
 </div>"""
+
 
 class MediaCarouselPostprocessor(Postprocessor):
     """
@@ -58,15 +56,15 @@ class MediaCarouselPostprocessor(Postprocessor):
         CAROUSEL_END = "[!carousel]"
         split_text = text.split(CAROUSEL_START, maxsplit=1)
 
-        result_text = ''
+        result_text = ""
 
         counter = 0
         while len(split_text) == 2:
             before_carousel, carousel_start = split_text
 
             # Remove any added wrapper paragraph tags, only if closing carousel present
-            if CAROUSEL_END in carousel_start and before_carousel.endswith('<p>'):
-                before_carousel = before_carousel[:len(before_carousel) - 3]
+            if CAROUSEL_END in carousel_start and before_carousel.endswith("<p>"):
+                before_carousel = before_carousel[: len(before_carousel) - 3]
             # Add before carousel to result
             result_text += before_carousel
 
@@ -81,10 +79,10 @@ class MediaCarouselPostprocessor(Postprocessor):
                 counter += 1
 
                 # Find all img tags
-                images = carousel.split('<img ')
+                images = carousel.split("<img ")
                 result_text += images[0]
                 for img in images[1:]:
-                    new_text = ''
+                    new_text = ""
                     if 'class="' in img:
                         # Already has a class, make small-preview the first
                         new_text = img.replace('class="', 'class="small-preview ')
@@ -97,7 +95,7 @@ class MediaCarouselPostprocessor(Postprocessor):
                 result_text += AFTER_CAROUSEL_HTML
 
             # Remove any added wrapper paragraph tags
-            if split_carousel[-1].startswith('</p>'):
+            if split_carousel[-1].startswith("</p>"):
                 split_carousel[-1] = split_carousel[-1][4:]
 
             # split the last element in the result of splitting on CAROUSEL_END to update split_text
@@ -108,12 +106,15 @@ class MediaCarouselPostprocessor(Postprocessor):
 
 
 class MediaCarouselExtension(Extension):
-
-    def extendMarkdown(self, md, md_globals):
-        """ Add MediaCarouselPostprocessor to the Markdown instance. """
+    def extendMarkdown(self, md):
+        """Add MediaCarouselPostprocessor to the Markdown instance."""
         md.registerExtension(self)
-        md.postprocessors.add('media_carousels',
-                             MediaCarouselPostprocessor(md), '>amp_substitute')
+
+        md.postprocessors.register(
+            MediaCarouselPostprocessor(md=md),
+            "media_carousels",
+            21,  # after amp_substitute
+        )
 
 
 def makeExtension(*args, **kwargs):

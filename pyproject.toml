@@ -1,0 +1,109 @@
+[project]
+name = "docdown"
+version = "0.5.0"
+description = "DocDown is a Markdown extension for source code documentation."
+keywords = ['docdown', 'markdown', 'documentation']
+readme = "README.rst"
+authors = [
+    { name = "Justin Michalicek" },
+    { name = "Jason Emerick" },
+    { name = "Erin Kirby" },
+    { name = "A. Lloyd Flanagan" },
+    { name = "Dave MacNamara" },
+]
+license = "BSD-3-Clause"
+license-files = ["LICEN[CS]E.*"]
+classifiers = [
+    'Development Status :: 2 - Pre-Alpha',
+    'Intended Audience :: Developers',
+    'Natural Language :: English',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+]
+requires-python = ">=3.11"
+dependencies = [
+    "htmlmin2>=0.1.13",
+    "jinja2>=3.1.6",
+    "Markdown",
+    "pygments>=2.19.1",
+    "pystache",
+]
+
+[project.urls]
+Homepage = "https://github.com/livio/DocDown-Python"
+Issues = "https://github.com/livio/DocDown-Python/issues"
+Changelog = "https://github.com/livio/DocDown-Python/blob/master/HISTORY.rst"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+    "pyupgrade>=3.19.1",
+    "ruff>=0.11.6",
+    "tox>=4.25.0",
+    "types-markdown>=3.8.0.20250415",
+]
+
+
+[tool.ruff]
+# Same as Black.
+line-length = 120
+# Assume Python 3.13.
+target-version = "py313"
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".github",
+    ".hg",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "build",
+    "dist",
+    "migrations",
+    "node_modules",
+    "static",
+]
+
+[tool.tox]
+requires = ["tox>=4"]
+env_list = ["lint", "type", "3.13", "3.12", "3.11"]
+
+[tool.tox.env_run_base]
+description = "run unit tests"
+deps = ["pytest>=8", "pytest-sugar"]
+commands = [
+    [
+        "pytest",
+        { replace = "posargs", default = [
+            "tests",
+        ], extend = true },
+    ],
+]
+
+[tool.tox.env.lint]
+description = "run linters"
+skip_install = true
+deps = ["ruff"]
+commands = [
+    ["ruff", "check"],
+    ["ruff", "format", "--check"],
+]
+
+[tool.tox.env.type]
+description = "run type checks"
+deps = ["mypy", "types-Markdown"]
+commands = [
+    ["mypy", "docdown"],
+]
